@@ -4,15 +4,16 @@
   <meta charset="UTF-8" />
   <title>THE INDEX: PRESCRIPT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="For it is the will of the city.">
+  <link href="https://fonts.googleapis.com" rel="stylesheet">
+
   <style>
-    /* สไตล์แบบ Project Moon: ดำ-ขาว-น้ำเงินเรืองแสง */
+    
     html, body { 
       margin: 0; 
       height: 100%; 
       background-color: black; 
       color: white;
-      font-family: 'Courier New', Courier, monospace; /* ใช้ฟอนต์เครื่องพิมพ์ดีดให้ดูขลัง */
+      font-family: 'VT323', monospace; 
       display: flex;
       justify-content: center;
       align-items: center;
@@ -21,46 +22,33 @@
 
     #container {
       text-align: center;
-      padding: 20px;
-      max-width: 80%;
-    }
-
-    .logo {
-      width: 180px;
-      height: auto;
-      margin-bottom: 30px;
-      filter: drop-shadow(0 0 10px rgba(66, 105, 184, 0.5));
+      padding: 30px; 
+      width: 90%;  
+      max-width: 600px;
+      box-sizing: border-box;
     }
 
     #prescript {
-      font-size: 24px;
-      line-height: 1.5;
-      text-shadow: 0 0 10px #fff, 0 0 20px #4269b8;
-      animation: flicker 0.1s infinite alternate;
-      min-height: 100px;
+      font-size: 32px;
+      line-height: 1.2;
+      text-shadow: 0 0 8px #fff, 0 0 20px #4269b8;
+      word-wrap: break-word;
+      white-space: normal;
+      min-height: 120px;
     }
 
+     
     @keyframes flicker {
       0% { opacity: 0.9; }
       100% { opacity: 1; }
     }
-
-    .typewriter {
-      overflow: hidden;
-      border-right: .15em solid orange;
-      white-space: normal;
-      margin: 0 auto;
-      letter-spacing: .15em;
-    }
+    #container { animation: flicker 0.15s infinite alternate; }
   </style>
 </head>
 
 <body>
   <div id="container">
-    <!-- หากคุณมีไฟล์โลโก้ใน GitHub ให้แก้ชื่อไฟล์ตรง src -->
-    <img src="index_new.png" alt="THE INDEX" class="logo" onerror="this.style.display='none'">
-    
-    <div id="prescript">...RECEIVING WILL...</div>
+    <div id="prescript">...CONNECTING TO THE WILL...</div>
   </div>
 
   <script>
@@ -93,25 +81,18 @@
         "Do not sleep until you have recited the Will in your mind.",
         "The Index demands your absolute silence until dawn."
       ],
-      anytime: [ // คำสั่งทั่วไป (ใส่เพิ่มได้ไม่จำกัด)
-        "Walk 44 steps then turn left.", "The Will is absolute.", "Execute the order.",
-        "Touch every red wall you pass on your way home.", "Do not use stairs for 1 hour.",
-        "Carry a small stone in your left pocket until sunset.", "Nod twice at a stranger.",
-        "Touch your chin whenever you hear a loud noise.", "Wear something black today.",
-        "Trace an invisible hexagon on your palm.", "Avoid all cracks in the pavement.",
-        "Blink 12 times rapidly when looking at the sky.", "Do not use your thumb for 5 mins.",
-        "Count the windows on the next building you see.", "Tap your desk 5 times now.",
-        "Silence your voice for the next 3 minutes.", "Adjust your collar three times.",
-        "Look at your shadow and say nothing.", "The Weaver is watching.", "Obey.",
-        "Hold your breath when crossing a threshold.", "Smile at the third person you see.",
-        "Keep your phone screen down for 20 minutes.", "Place a coin under a stone.",
-        "Touch a wooden surface right now.", "Check the time and add the digits.",
-        "Walk backwards for 10 steps after leaving a room.", "Hum a low tone while walking.",
-        "The City breathes through you.", "Do not resist the flow of the ink.",
-        "Type your next message without using emojis.", "Count to 33 before answering.",
-        "Tie and untie your laces twice.", "Rearrange your keys by size.",
-        "If you see a black car, take 3 deep breaths.", "Point at the moon if visible.",
-        "The Proxy has noted your location.", "Acknowledge the thread.", "Keep still."
+      anytime: 
+        "Walk 44 steps then turn left.",
+        "Blink 12 times rapidly when looking at the sky.",
+        "The Will of the City demands your absolute silence.",
+        "The Index sees all; fix a loose thread on your clothing.",
+        "Do not use any stairs for the next 2 hours.",
+        "Walk backwards for 10 steps after leaving any door.",
+        "If you see a black car, take 3 deep breaths.",
+        "Touch every red wall you pass on your way home.",
+        "Carry a small stone in your left pocket until sunset.",
+        "Trace an invisible hexagon on your palm right now.",
+        "The Proxy has noted your location. Keep moving."
       ]
     };
 
@@ -120,7 +101,6 @@
       const hour = now.getHours();
       let pool = [...prescriptData.anytime];
 
-      // รวม Pool ตามช่วงเวลา
       if (hour >= 6 && hour < 12) pool.push(...prescriptData.morning);
       else if (hour >= 12 && hour < 18) pool.push(...prescriptData.afternoon);
       else if (hour >= 18 && hour < 24) pool.push(...prescriptData.evening);
@@ -129,23 +109,22 @@
       const randomIndex = Math.floor(Math.random() * pool.length);
       const display = document.getElementById('prescript');
       
-      // เอฟเฟกต์การพิมพ์ (Typewriter effect)
       let text = pool[randomIndex];
       display.innerText = "";
       let i = 0;
+      
+    
       function type() {
         if (i < text.length) {
           display.innerText += text.charAt(i);
           i++;
-          setTimeout(type, 50);
+          setTimeout(type, 40); 
         }
       }
       type();
     }
 
-    // ทำงานทันทีที่โหลด
     window.onload = generate;
   </script>
 </body>
 </html>
-
