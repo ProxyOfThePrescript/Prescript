@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>THE INDEX: PRESCRIPT</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="For it is the will of the city.">
+  <style>
+    /* สไตล์แบบ Project Moon: ดำ-ขาว-น้ำเงินเรืองแสง */
+    html, body { 
+      margin: 0; 
+      height: 100%; 
+      background-color: black; 
+      color: white;
+      font-family: 'Courier New', Courier, monospace; /* ใช้ฟอนต์เครื่องพิมพ์ดีดให้ดูขลัง */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #container {
+      text-align: center;
+      padding: 20px;
+      max-width: 80%;
+    }
+
+    .logo {
+      width: 180px;
+      height: auto;
+      margin-bottom: 30px;
+      filter: drop-shadow(0 0 10px rgba(66, 105, 184, 0.5));
+    }
+
+    #prescript {
+      font-size: 24px;
+      line-height: 1.5;
+      text-shadow: 0 0 10px #fff, 0 0 20px #4269b8;
+      animation: flicker 0.1s infinite alternate;
+      min-height: 100px;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 0.9; }
+      100% { opacity: 1; }
+    }
+
+    .typewriter {
+      overflow: hidden;
+      border-right: .15em solid orange;
+      white-space: normal;
+      margin: 0 auto;
+      letter-spacing: .15em;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <!-- หากคุณมีไฟล์โลโก้ใน GitHub ให้แก้ชื่อไฟล์ตรง src -->
+    <img src="index_new.png" alt="THE INDEX" class="logo" onerror="this.style.display='none'">
+    
+    <div id="prescript">...RECEIVING WILL...</div>
+  </div>
+
+  <script>
+    const prescriptData = {
+      morning: [ // 06:00 - 11:59
+        "Drink exactly three sips of water before your first meal.",
+        "Greet the first sunbeam you see with a silent nod.",
+        "Walk exactly 100 steps toward the East before starting your day.",
+        "Do not speak for the first 10 minutes after exiting your home.",
+        "Arrange your morning utensils in a straight line pointing North."
+      ],
+      afternoon: [ // 12:00 - 17:59
+        "Find the tallest shadow in the street and stand in it for 1 minute.",
+        "Touch a metallic surface every time you hear a bird chirp.",
+        "Do not use your right hand to open any doors this afternoon.",
+        "Count the number of blue cars you see in the next 10 minutes.",
+        "Eat your next meal without looking at any digital screens."
+      ],
+      evening: [ // 18:00 - 23:59
+        "Whisper 'The Will' to the first star you see tonight.",
+        "Walk only on the shadows of buildings while returning home.",
+        "Do not look at any mirrors until the clock strikes midnight.",
+        "Light a small flame or look at a candle for 30 seconds.",
+        "Place your shoes pointing toward the door before you sleep."
+      ],
+      night: [ // 00:00 - 05:59
+        "Sit in total darkness for 3 minutes without moving.",
+        "Listen to the silence of the City for 60 seconds.",
+        "Cover all reflective surfaces in your room with a cloth.",
+        "Do not sleep until you have recited the Will in your mind.",
+        "The Index demands your absolute silence until dawn."
+      ],
+      anytime: [ // คำสั่งทั่วไป (ใส่เพิ่มได้ไม่จำกัด)
+        "Walk 44 steps then turn left.", "The Will is absolute.", "Execute the order.",
+        "Touch every red wall you pass on your way home.", "Do not use stairs for 1 hour.",
+        "Carry a small stone in your left pocket until sunset.", "Nod twice at a stranger.",
+        "Touch your chin whenever you hear a loud noise.", "Wear something black today.",
+        "Trace an invisible hexagon on your palm.", "Avoid all cracks in the pavement.",
+        "Blink 12 times rapidly when looking at the sky.", "Do not use your thumb for 5 mins.",
+        "Count the windows on the next building you see.", "Tap your desk 5 times now.",
+        "Silence your voice for the next 3 minutes.", "Adjust your collar three times.",
+        "Look at your shadow and say nothing.", "The Weaver is watching.", "Obey.",
+        "Hold your breath when crossing a threshold.", "Smile at the third person you see.",
+        "Keep your phone screen down for 20 minutes.", "Place a coin under a stone.",
+        "Touch a wooden surface right now.", "Check the time and add the digits.",
+        "Walk backwards for 10 steps after leaving a room.", "Hum a low tone while walking.",
+        "The City breathes through you.", "Do not resist the flow of the ink.",
+        "Type your next message without using emojis.", "Count to 33 before answering.",
+        "Tie and untie your laces twice.", "Rearrange your keys by size.",
+        "If you see a black car, take 3 deep breaths.", "Point at the moon if visible.",
+        "The Proxy has noted your location.", "Acknowledge the thread.", "Keep still."
+      ]
+    };
+
+    function generate() {
+      const now = new Date();
+      const hour = now.getHours();
+      let pool = [...prescriptData.anytime];
+
+      // รวม Pool ตามช่วงเวลา
+      if (hour >= 6 && hour < 12) pool.push(...prescriptData.morning);
+      else if (hour >= 12 && hour < 18) pool.push(...prescriptData.afternoon);
+      else if (hour >= 18 && hour < 24) pool.push(...prescriptData.evening);
+      else pool.push(...prescriptData.night);
+
+      const randomIndex = Math.floor(Math.random() * pool.length);
+      const display = document.getElementById('prescript');
+      
+      // เอฟเฟกต์การพิมพ์ (Typewriter effect)
+      let text = pool[randomIndex];
+      display.innerText = "";
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          display.innerText += text.charAt(i);
+          i++;
+          setTimeout(type, 50);
+        }
+      }
+      type();
+    }
+
+    // ทำงานทันทีที่โหลด
+    window.onload = generate;
+  </script>
+</body>
+</html>
+
