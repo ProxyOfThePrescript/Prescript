@@ -193,7 +193,10 @@ function generatePrescript() {
   let where = getRand(dictionary.where);
 
   
-  const finalStr = `${act} ${who}, ${when}, ${topic}, ${where}`.replace(/N/g, () => getN());
+  let finalStr = `${act} ${who}, ${when}, ${topic}, ${where}`;
+while (finalStr.includes("N")) {
+    finalStr = finalStr.replace("N", getN());
+}
   return finalStr.toUpperCase();
 }
 
