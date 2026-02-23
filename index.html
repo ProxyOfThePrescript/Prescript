@@ -8,14 +8,14 @@
 
   <style>
     :root {
-      --index-cyan: #00f2ff; /* Pure Neon Cyan */
+      --index-cyan: #00f2ff;
     }
 
     html, body { 
       margin: 0; 
       height: 100%; 
       background-color: #030303; 
-      color: var(--index-cyan); /* Standardizes all text to cyan */
+      color: var(--index-cyan);
       font-family: 'VT323', monospace; 
       display: flex;
       justify-content: center;
@@ -55,22 +55,19 @@
       text-shadow: 0 0 10px var(--index-cyan);
     }
 
-    /* Clean Logo Styling - No Pulse, No Outer Glow */
     #logo {
       width: 220px;
       height: auto;
       margin-bottom: 30px;
       opacity: 0.95;
-      /* Image is rendered as-is for a cleaner look */
     }
 
-    #prescript {
+    #prescript-text {
       font-size: 44px;
       line-height: 1.2;
       min-height: 160px;
       word-wrap: break-word;
       text-transform: uppercase;
-      /* Glowing text effect */
       text-shadow: 0 0 12px var(--index-cyan), 0 0 25px rgba(0, 242, 255, 0.3);
     }
 
@@ -87,7 +84,6 @@
 
     @keyframes blink { 50% { opacity: 0; } }
 
-    /* Subtle screen vibration */
     @keyframes steady-glitch {
       0% { transform: translate(0); }
       25% { transform: translate(-0.5px, 0.5px); }
@@ -102,54 +98,58 @@
 <body>
   <div id="container">
     <div id="header">TRANSMISSION_ESTABLISHED_WITH_THE_WILL</div>
-    
     <img id="logo" src="index_logo.png" alt="THE INDEX">
-
-    <div id="prescript">READING_THE_WILL...</div>
+    <div id="prescript-text">READING_THE_WILL...</div>
   </div>
 
   <script>
-    // Prescript Database
     const prescriptData = {
-      morning: [
-        "Drink exactly three sips of water before your first meal.",
-        "Greet the first sunbeam you see with a silent nod.",
-        "Walk exactly 100 steps toward the East before starting your day.",
-        "Do not speak for the first 10 minutes after exiting your home.",
-        "Arrange your morning utensils in a straight line pointing North."
-      ],
-      afternoon: [
-        "Find the tallest shadow in the street and stand in it for 1 minute.",
-        "Touch a metallic surface every time you hear a bird chirp.",
-        "Do not use your right hand to open any doors this afternoon.",
-        "Count the number of blue cars you see in the next 10 minutes.",
-        "Eat your next meal without looking at any digital screens."
-      ],
-      evening: [
-        "Whisper 'The Will' to the first star you see tonight.",
-        "Walk only on the shadows of buildings while returning home.",
-        "Do not look at any mirrors until the clock strikes midnight.",
-        "Light a small flame or look at a candle for 30 seconds.",
-        "Place your shoes pointing toward the door before you sleep."
-      ],
-      night: [
-        "Sit in total darkness for 3 minutes without moving.",
-        "Listen to the silence of the City for 60 seconds.",
-        "Cover all reflective surfaces in your room with a cloth.",
-        "Do not sleep until you have recited the Will in your mind.",
-        "The Index demands your absolute silence until dawn."
-      ],
-      anytime: [
-        "Walk 44 steps then turn left. Do not look back.",
-        "Blink 12 times rapidly when looking at the sky.",
-        "The Will of the City demands your absolute silence.",
-        "The Index sees all; fix a loose thread on your clothing.",
-        "Do not use any stairs for the next 2 hours.",
-        "Walk backwards for 10 steps after leaving any door.",
-        "If you see a black car, take 3 deep breaths.",
-        "Touch every red wall you pass on your way home.",
-        "Carry a small stone in your left pocket until sunset.",
-        "Trace an invisible hexagon on your palm right now.",
-        "The Proxy has noted your location. Keep moving.",
-        "Leave a single coin on a windowsill you do not own.",
-        "Stare at a blank
+      morning: ["Drink exactly three sips of water before your first meal.", "Greet the first sunbeam you see with a silent nod.", "Walk 100 steps toward the East.", "No speaking for 10 minutes after leaving home.", "Arrange utensils in a line pointing North."],
+      afternoon: ["Stand in the tallest shadow you find for 1 minute.", "Touch metal every time you hear a bird chirp.", "Do not use your right hand to open any doors.", "Count the number of blue cars you see.", "Eat without looking at any digital screens."],
+      evening: ["Whisper 'The Will' to the first star you see.", "Walk only on shadows while returning home.", "Do not look at mirrors until midnight.", "Look at a candle flame for 30 seconds.", "Place shoes pointing toward the door."],
+      night: ["Sit in total darkness for 3 minutes without moving.", "Listen to the silence of the City for 60 seconds.", "Cover all mirrors with a black cloth.", "Recite the Will in your mind before sleeping.", "Absolute silence until dawn."],
+      anytime: ["Walk 44 steps then turn left.", "Blink 12 times rapidly when looking at the sky.", "Absolute silence is demanded.", "Fix a loose thread on your clothing.", "No stairs for the next 2 hours.", "Walk backwards for 10 steps after leaving a door.", "If you see a black car, take 3 deep breaths.", "Touch every red wall you pass.", "Carry a stone in your left pocket until sunset.", "Trace an invisible hexagon on your palm.", "The Proxy has noted your location.", "Leave a coin on a windowsill you do not own.", "Stare at a blank wall for two minutes.", "Do not use your thumb for the next hour.", "The Will demands you burn a single page of a book.", "Tear a piece of cloth into four equal pieces.", "Nod three times before answering a question."]
+    };
+
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?/0123456789';
+    const displayElement = document.getElementById('prescript-text');
+
+    function cycleText(targetText) {
+      let iterations = 0;
+      const interval = setInterval(() => {
+        displayElement.innerHTML = targetText
+          .split("")
+          .map((char, index) => {
+            if (index < iterations) return targetText[index];
+            return characters[Math.floor(Math.random() * characters.length)];
+          })
+          .join("") + '<span class="cursor"></span>';
+
+        if (iterations >= targetText.length) clearInterval(interval);
+        iterations += 1/3; 
+      }, 40); 
+    }
+
+    function generate() {
+      const now = new Date();
+      const hour = now.getHours();
+      let pool = [...prescriptData.anytime];
+
+      if (hour >= 6 && hour < 12) pool.push(...prescriptData.morning);
+      else if (hour >= 12 && hour < 18) pool.push(...prescriptData.afternoon);
+      else if (hour >= 18 && hour < 24) pool.push(...prescriptData.evening);
+      else pool.push(...prescriptData.night);
+
+      const randomPrescript = pool[Math.floor(Math.random() * pool.length)].toUpperCase();
+      
+      // The Reveal
+      setTimeout(() => {
+        cycleText(randomPrescript);
+      }, 1000);
+    }
+
+    // This ensures the script triggers correctly
+    window.addEventListener('load', generate);
+  </script>
+</body>
+</html>
