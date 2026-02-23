@@ -281,7 +281,7 @@ function scrambleAndReset() {
   let iterations = 0;
 setTimeout(()=>{
 document.body.classList.remove("secret-mode");
-}
+};
   
   const interval = setInterval(() => {
     displayElement.innerHTML = clearLabel.split("").map((char, index) => {
