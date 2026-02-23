@@ -31,7 +31,7 @@
     }
 
     #container {
-      text-align: center; padding: 40px; width: 90%; max-width: 800px;
+      text-align: center; padding: 40px; width: 95%; max-width: 900px;
       position: relative; z-index: 10;
     }
 
@@ -41,20 +41,21 @@
     }
 
     #logo {
-      width: 120px; height: auto; margin-bottom: 20px;
+      width: 100px; height: auto; margin-bottom: 20px;
       opacity: 0.8;
     }
     
     #prescript-text { 
-      font-size: 24px; line-height: 1.6; min-height: 180px; 
-      text-shadow: 0 0 5px var(--current-theme); 
+      font-size: 22px; line-height: 1.5; min-height: 200px; 
+      text-shadow: 0 0 8px var(--current-theme); 
       font-weight: 500;
       transition: color 0.5s ease;
+      display: flex; flex-direction: column; justify-content: center;
     }
 
     #action-btn {
       margin-top: 30px;
-      padding: 12px 30px;
+      padding: 12px 35px;
       background: transparent;
       border: 1px solid var(--current-theme);
       color: var(--current-theme);
@@ -80,7 +81,7 @@
     }
 
     .cursor {
-      display: inline-block; width: 12px; height: 22px;
+      display: inline-block; width: 10px; height: 20px;
       background-color: var(--current-theme); margin-left: 5px;
       vertical-align: middle; animation: blink 0.5s step-end infinite;
     }
@@ -92,18 +93,95 @@
 <body>
   <div id="container">
     <div id="header">THE WILL OF THE CITY</div>
-    <img id="logo" src="index_logo.png" alt="THE INDEX LOGO">
-    <div id="prescript-text">...Waiting for input...</div>
-    <button id="action-btn">Click to Receive</button>
+    <img id="logo" src="index_logo.png" alt="INDEX">
+    <div id="prescript-text">...SYNCHRONIZING WITH THE INDEX...</div>
+    <button id="action-btn">Receive</button>
   </div>
 
   <script>
     const dictionary = {
-      action: ["Talk to", "Hand a coin to", "Whisper to", "Follow", "Nod at", "Blink at", "Point toward", "Avoid", "Touch the shoulder of", "Trace a circle near"],
-      who: ["a man in a dark coat", "the first woman you see", "a stranger with a hat", "a child playing alone", "someone leaning against a wall", "a person looking at their phone", "the nearest Proxy", "a shopkeeper", "someone walking quickly", "a man with glasses"],
-      when: ["when the clock strikes 3", "during the start of the evening", "after the sun goes down", "when you hear a bird chirp", "as soon as you see a red car", "while the streetlights flicker", "exactly 10 minutes from now", "when the wind picks up", "at the moment of sunset"],
-      topic: ["about your oldest memory", "regarding the Will of the City", "about a secret you kept", "about the color of the sky", "regarding your current debt", "about a dream you had", "concerning the Index", "about things that don't matter", "regarding your next move"],
-      where: ["near the nearest drainage pipe.", "inside a quiet hallway.", "at the center of the intersection.", "under the shadow of a tall building.", "while standing on one leg.", "without making any eye contact.", "and then walk away immediately.", "until the transition is complete."]
+      action: [
+        "Whisper to", "Nod at", "Avoid", "Touch the shoulder of", "Hand a coin to", "Follow", "Point toward", "Bow before", "Mimic the stride of", "Deliver a letter to", "Whistle for", "Stare intently at", "Place a stone near", "Scream at", "Tear a page for", "Pour water near", "Trace a circle for", "Wave at", "Block the path of", "Blink rapidly at", "Shadow", "Offer a seat to", "Lean toward", "Drop a button near", "Salute", "Trace a line toward", "Wink at", "Clap for", "Show a photo to", "Give a flower to", "Turn your back to", "Kneel before", "Hold the hand of", "Tug the sleeve of", "Throw a pebble at", "Kick the shadow of", "Write a name for", "Read aloud to", "Hand a key to", "Brush the coat of", "Adjust the collar of", "Offer an umbrella to", "Point a finger at", "Snap your fingers for", "Hum a melody to", "Close the eyes of", "Pass a note to", "Check the pulse of", "Measure the height of", "Draw a symbol for", "Hand a red cloth to", "Tie the laces of", "Give a book to", "Lend a pen to", "Show a map to", "Offer a drink to", "Shield the eyes of", "Clean the shoes of", "Hand a mask to", "Pat the head of", "Grip the arm of", "Lean your head on", "Cough near", "Sneeze toward", "Hand a mirror to", "Show a watch to", "Point at the feet of", "Give a ring to", "Hand a tool to", "Whisper a number to", "Wait for"
+      ],
+      who: [
+        "a man in a dark coat", "the first woman you see", "a stranger with a hat", "a child playing alone", "someone leaning against a wall", "a person on their phone", "the nearest Proxy", "a shopkeeper", "someone walking quickly", "a man with glasses", "a person with a blue bag", "someone wearing a mask", "a group of three", "the person to your left", "a courier in a hurry", "a stray animal", "a person with a limp", "someone in a yellow shirt", "a woman with a suitcase", "a man carrying a box", "the person behind you", "someone with wet shoes", "a person with a red scarf", "the third person you pass", "a maintenance worker", "someone looking at the sky", "a person eating alone", "a stranger with a cane", "the tallest person nearby", "someone with white hair", "a person wearing gloves", "a merchant", "a person with a scar", "someone holding a leash", "the next person to sneeze", "a person with a badge", "someone wearing a cape", "a man in a uniform", "a person with a guitar", "someone carrying a lantern", "a person with a backpack", "the person in front of you", "someone with a loud voice", "a person looking for something", "someone with a stained shirt", "the oldest person in sight", "a person with a notebook", "someone sitting on a bench", "a person with a camera", "someone wearing a ring", "a person with messy hair", "someone with a briefcase", "the next person to laugh", "a person with a bandage", "someone with a hidden face", "a person with a silver watch", "someone holding a coin", "a person with a blue umbrella", "the person nearest to the light", "someone with a key", "a person with a heavy coat", "someone with a whistle", "a person with a badge", "the person to your right", "someone with a bottle", "a person with a hat", "someone with a long shadow", "a person with a gold tooth", "someone with a brush", "a person with a sign", "a Messenger"
+      ],
+      when: [
+        "when the clock strikes 3", "during the sunset", "after the sun goes down", "when a bird chirps", "as a red car passes", "while streetlights flicker", "exactly 10 minutes from now", "when the wind picks up", "at the moment of sunset", "while a train passes", "when someone laughs", "at the first sign of rain", "when you feel a chill", "once the music stops", "before the hour ends", "after the third chime", "when a door slams", "the moment a dog barks", "after three people pass", "when the light turns green", "as a siren sounds", "when you see a yellow sign", "when a shadow moves", "when you hear a whistle", "after the next cough", "when someone calls a name", "the moment you smell rust", "when a light turns off", "before you cross the street", "when you see a cat", "at the start of a song", "when a window opens", "after a bell rings", "when you see a cloud", "at the next intersection", "when you hear a shout", "as the wind dies down", "when you see a star", "after a car honks", "when you see a leaf fall", "at the next corner", "when you hear a whisper", "after a child cries", "when you see a flash", "at the next shop", "when you see a shadow", "after a bird flies away", "when you see a poster", "at the next bridge", "when you hear a drum", "after a match strikes", "when you see a smoke", "at the next alley", "when you hear a splash", "after a sigh", "when you see a crack", "at the next gate", "when you hear a click", "after a pause", "when you see a glint", "at the next lamp", "when you hear a hum", "after a step", "when you see a mark", "at the next door", "when you hear a thud", "after a blink", "when you see a line", "at the next wall", "when you hear a snap", "immediately"
+      ],
+      topic: [
+        "about your oldest memory", "regarding the Will of the City", "about a secret you kept", "about the color of the sky", "regarding your current debt", "about a dream you had", "concerning the Index", "about things that don't matter", "regarding your next move", "concerning the price of ink", "about the concept of time", "regarding the scent of iron", "about the history of the City", "concerning the stars above", "regarding a lost object", "about the meaning of silence", "concerning the weight of a soul", "regarding a broken promise", "about the taste of metal", "concerning a hidden door", "regarding a childhood pet", "about a silent room", "concerning the shape of a shadow", "regarding a secret wish", "about the sound of rain", "concerning the price of gold", "regarding a lost key", "about the depth of a well", "concerning a flickering flame", "regarding a cold breeze", "about the texture of stone", "concerning a red string", "regarding a locked box", "about the smell of old paper", "concerning a distant shore", "regarding a heavy heart", "about the path not taken", "concerning a secret map", "regarding a white feather", "about the warmth of a fire", "concerning a silver needle", "regarding a hollow sound", "about the edge of a blade", "concerning a forgotten song", "regarding a blue thread", "about the reach of a hand", "concerning a dark alley", "regarding a bright light", "about the flow of a river", "concerning a still lake", "regarding a high mountain", "about the roots of a tree", "concerning a single leaf", "regarding a drop of ink", "about the beat of a drum", "concerning a sharp corner", "regarding a smooth surface", "about the weight of a word", "concerning a long wait", "regarding a short breath", "about the turn of a page", "concerning a broken glass", "regarding a sharp pain", "about a soft touch", "concerning a loud noise", "regarding a low hum", "about a bright flash", "concerning a deep shadow", "regarding a thin line", "about a wide gap", "regarding everything"
+      ],
+      where: [
+        "near a drainage pipe.", "inside a quiet hallway.", "at a busy intersection.", "under a tall building.", "while standing on one leg.", "without making eye contact.", "and then walk away.", "near a neon sign.", "at the District edge.", "while holding your breath.", "near a park bench.", "inside an elevator.", "under a rusted bridge.", "at the Nest entrance.", "near a stack of crates.", "while tracing a pattern.", "near a telephone.", "at the bottom of stairs.", "beside a fire hydrant.", "under a balcony.", "near a mailbox.", "at a bus stop.", "beside a statue.", "near a sewer grate.", "until it is over.", "at a street corner.", "near a trash can.", "beside a street lamp.", "at a crosswalk.", "near a store window.", "beside a tree.", "at a fountain.", "near a wall.", "beside a fence.", "at a gate.", "near a vent.", "beside a pillar.", "at a porch.", "near a dock.", "beside a rail.", "at a tunnel.", "near a clock.", "beside a sign.", "at a kiosk.", "near a booth.", "beside a bench.", "at a square.", "near a monument.", "beside a plaque.", "at a tower.", "near a ruin.", "beside a lot.", "at a park.", "near a pond.", "beside a bush.", "at a garden.", "near a path.", "beside a trail.", "at a bridge.", "near a creek.", "beside a river.", "at a bank.", "near a slope.", "beside a hill.", "at a peak.", "near a cliff.", "beside a cave.", "at a hole.", "near a crack.", "beside a gap.", "immediately."
+      ]
+    };
+
+    const displayElement = document.getElementById('prescript-text');
+    const actionBtn = document.getElementById('action-btn');
+    const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let isClearState = false;
+
+    function generatePrescript() {
+      if (Math.random() < 0.05) {
+        document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
+        return "CRITICAL: THE WILL IS COMPROMISED. DO NOT MOVE. WAIT FOR FURTHER INSTRUCTION.";
+      }
+      document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
+      const d = dictionary;
+      const res = [d.action, d.who, d.when, d.topic, d.where].map(list => list[Math.floor(Math.random() * list.length)]);
+      return res.join(" ");
+    }
+
+    function decodeText(text, callback) {
+      let iterations = 0;
+      const interval = setInterval(() => {
+        displayElement.innerHTML = text.split("").map((char, index) => {
+          if (index < iterations) return text[index];
+          return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+        }).join("") + '<span class="cursor"></span>';
+
+        if (iterations >= text.length) {
+          clearInterval(interval);
+          if(callback) callback();
+        }
+        iterations += 1.5; 
+      }, 15); 
+    }
+
+    function scrambleAndClear() {
+      const clearText = "_CLEAR._";
+      let iterations = 0;
+      const interval = setInterval(() => {
+        displayElement.innerHTML = clearText.split("").map((char, index) => {
+          if (index < iterations) return clearText[index];
+          return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+        }).join("") + '<span class="cursor"></span>';
+
+        if (iterations >= clearText.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            const nextWill = generatePrescript();
+            decodeText(nextWill);
+          }, 500);
+        }
+        iterations += 0.6;
+      }, 30);
+    }
+
+    actionBtn.addEventListener('click', () => {
+      if (!isClearState) {
+        const finalWill = generatePrescript();
+        decodeText(finalWill);
+        actionBtn.innerText = "Clear";
+        isClearState = true;
+      } else {
+        scrambleAndClear();
+      }
+    });
+  </script>
+</body>
+</html>
     };
 
     const displayElement = document.getElementById('prescript-text');
