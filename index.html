@@ -132,11 +132,14 @@
       topic: ["about your oldest memory", "about something unfinished", "regarding a silent agreement", "about an old mistake", "regarding an unspoken rule", "about the weight of choice", "regarding a hidden motive", "about a passing thought", "regarding a forgotten detail", "about a distant memory", "regarding a silent warning", "about a faded photograph", "regarding an unseen path", "about a closed door", "regarding an open question", "about a quiet regret", "regarding a subtle shift", "about an overlooked sign", "regarding a lingering doubt", "about a recent change", "regarding a hidden truth", "about the shape of fear", "regarding a lost opportunity", "about a silent promise", "regarding an old rumor", "about a subtle glance", "regarding an unknown face", "about a distant voice", "regarding a faint memory", "about a cold evening", "regarding a shifting shadow", "about a hidden pattern", "regarding a sealed envelope", "about a quiet street", "regarding a narrow escape", "about a missed signal", "regarding an unexpected pause", "about a small detail", "regarding a blurred line", "about a strange coincidence", "regarding a silent corridor", "regarding the Will of the City", "about a secret you kept", "about the color of the sky", "regarding your current debt", "about a dream you had", "concerning the Index", "about things that don't matter", "regarding your next move", "concerning the price of ink", "about the concept of time", "regarding the scent of iron", "about the history of the City", "concerning the stars above", "regarding a lost object", "about the meaning of silence", "concerning the weight of a soul", "regarding a broken promise", "about the taste of metal", "concerning a hidden door", "regarding a childhood pet", "about a silent room", "concerning the shape of a shadow", "regarding a secret wish", "about the sound of rain", "concerning the price of gold", "regarding a lost key", "about the depth of a well", "concerning a flickering flame", "regarding a cold breeze", "about the texture of stone", "concerning a red string", "regarding a locked box", "about the smell of old paper", "concerning a distant shore", "regarding a heavy heart", "about the path not taken", "concerning a secret map", "regarding a white feather", "about the warmth of a fire", "concerning a silver needle", "regarding a hollow sound", "about the edge of a blade", "concerning a forgotten song", "regarding a blue thread", "about the reach of a hand", "concerning a dark alley", "regarding a bright light", "about the flow of a river", "concerning a still lake", "regarding a high mountain", "about the roots of a tree", "concerning a single leaf", "regarding a drop of ink", "about the beat of a drum", "concerning a sharp corner", "regarding a smooth surface", "about the weight of a word", "concerning a long wait", "regarding a short breath", "about the turn of a page", "concerning a broken glass", "regarding a sharp pain", "about a soft touch", "concerning a loud noise", "regarding a low hum", "about a bright flash", "concerning a deep shadow", "regarding a thin line", "about a wide gap", "regarding everything"],
       where: ["near a drainage pipe.", "near the outer wall.", "beside the open gate.", "under the dim light.", "near the narrow path.", "at the far corner.", "beside the entrance.", "near the shadowed area.", "at the edge of the room.", "beside the waiting area.", "near the outer boundary.", "at the silent crossing.", "beside the broken step.", "near the tall structure.", "at the narrow bridge.", "beside the quiet street.", "near the empty space.", "at the dim corridor.", "beside the iron railing.", "near the stone wall.", "at the quiet platform.", "beside the flickering light.", "near the old structure.", "at the hidden entrance.", "beside the narrow stair.", "near the side passage.", "at the shaded corner.", "beside the quiet bench.", "near the distant corner.", "at the edge of sight.", "beside the still water.", "near the central path.", "at the silent gate.", "beside the worn steps.", "near the crossing line.", "at the outer edge.", "beside the waiting platform.", "near the shadowed wall.", "at the distant end.", "beside the narrow hall.", "near the dim arch.", "inside a quiet hallway.", "at a busy intersection.", "under a tall building.", "while standing on one leg.", "without making eye contact.", "and then walk away.", "near a neon sign.", "at the District edge.", "while holding your breath.", "near a park bench.", "inside an elevator.", "under a rusted bridge.", "at the Nest entrance.", "near a stack of crates.", "while tracing a pattern.", "near a telephone.", "at the bottom of stairs.", "beside a fire hydrant.", "under a balcony.", "near a mailbox.", "at a bus stop.", "beside a statue.", "near a sewer grate.", "until it is over.", "at a street corner.", "near a trash can.", "beside a street lamp.", "at a crosswalk.", "near a store window.", "beside a tree.", "at a fountain.", "near a wall.", "beside a fence.", "at a gate.", "near a vent.", "beside a pillar.", "at a porch.", "near a dock.", "beside a rail.", "at a tunnel.", "near a clock.", "beside a sign.", "at a kiosk.", "near a booth.", "beside a bench.", "at a square.", "near a monument.", "beside a plaque.", "at a tower.", "near a ruin.", "beside a lot.", "at a park.", "near a pond.", "beside a bush.", "at a garden.", "near a path.", "beside a trail.", "at a bridge.", "near a creek.", "beside a river.", "at a bank.", "near a slope.", "beside a hill.", "at a peak.", "near a cliff.", "beside a cave.", "at a hole.", "near a crack.", "beside a gap.", "immediately."]
     };
-    Audio('limbus_index_beeper.mp3');
+    
+    const displayElement = document.getElementById('prescript-text'); // Remove 'const' from the ID string
+const receiveSound = new Audio('limbus_index_beeper.mp3');
 const clearSound = new Audio('indexbeep_notification.mp3');
-    const displayElement = document.getElementById('prescript-text');
-    const actionBtn = document.getElementById('action-btn');
-    const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+const actionBtn = document.getElementById('action-btn');
+const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+
+
     
     let isClearState = false;
     let isProcessing = false;
@@ -212,20 +215,21 @@ const clearSound = new Audio('indexbeep_notification.mp3');
   if (isProcessing) return;
 
   if (!isClearState) {
-    // PLAY RECEIVE SOUND HERE
-    receiveSound.play(); 
-    
+    // 1. Play receive sound (the limbus_index_beeper)
+    receiveSound.play().catch(e => console.log("Audio blocked by browser"));
+
+    // 2. Generate and show Prescript
     const finalWill = generatePrescript();
     decodeText(finalWill);
   } else {
-    // PLAY CLEAR SOUND HERE
-    clearSound.play(); 
-    
+    // 1. Play clear sound (the indexbeep_notification)
+    clearSound.play().catch(e => console.log("Audio blocked by browser"));
+
+    // 2. Reset the interface
     scrambleAndReset();
   }
 });
 
-    });
   </script>
 </body>
 </html>
