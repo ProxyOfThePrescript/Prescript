@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>THE INDEX: PRESCRIPT</title>
+  <title>THE INDEX: PIXEL_WILL</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 
@@ -17,13 +17,11 @@
       margin: 0; height: 100%; 
       background-color: #020202; 
       color: var(--current-theme);
-      /* Font switched here */
       font-family: 'Pixelify Sans', sans-serif; 
       display: flex; justify-content: center; align-items: center;
       overflow: hidden; transition: color 1.5s ease;
     }
 
-    /* CRT SCANLINES */
     body::before {
       content: " "; display: block; position: absolute;
       top: 0; left: 0; bottom: 0; right: 0;
@@ -38,19 +36,12 @@
     }
 
     #header { 
-      font-size: 14px; 
-      letter-spacing: 3px; margin-bottom: 20px; opacity: 0.7; 
+      font-size: 14px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.7; 
       text-shadow: 0 0 8px var(--current-theme); 
-    }
-
-    #logo { 
-      width: 140px; 
-      height: auto; margin-bottom: 30px; opacity: 0.8; 
     }
     
     #prescript-text { 
-      font-size: 24px; /* Adjusted slightly for Pixelify Sans proportions */
-      line-height: 1.6; min-height: 180px; 
+      font-size: 24px; line-height: 1.6; min-height: 180px; 
       text-shadow: 0 0 10px var(--current-theme); 
       font-weight: 500;
     }
@@ -68,7 +59,6 @@
 <body>
   <div id="container">
     <div id="header">Transmission Established</div>
-    <img id="logo" src="index_logo.png" alt="THE INDEX">
     <div id="prescript-text">Decoding the Will...</div>
   </div>
 
@@ -81,24 +71,22 @@
       where: ["near the nearest drainage pipe.", "inside a quiet hallway.", "at the center of the intersection.", "under the shadow of a tall building.", "while standing on one leg.", "without making any eye contact.", "and then walk away immediately.", "until the transition is complete."]
     };
 
+    const displayElement = document.getElementById('prescript-text');
+
     function generatePrescript() {
       if (Math.random() < 0.10) {
         document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
         return "Critical: Do not speak to anyone until the sun rises tomorrow.";
       }
-
-      const a = dictionary.action[Math.floor(Math.random() * dictionary.action.length)];
-      const w = dictionary.who[Math.floor(Math.random() * dictionary.who.length)];
-      const t = dictionary.when[Math.floor(Math.random() * dictionary.when.length)];
-      const to = dictionary.topic[Math.floor(Math.random() * dictionary.topic.length)];
-      const wh = dictionary.where[Math.floor(Math.random() * dictionary.where.length)];
-
-      return `${a} ${w} ${t} ${to} ${wh}`;
+      document.documentElement.style.setProperty('--current-theme', 'var(--index-cyan)');
+      const d = dictionary;
+      const res = [d.action, d.who, d.when, d.topic, d.where].map(list => list[Math.floor(Math.random() * list.length)]);
+      return res.join(" ");
     }
 
     function decodeText(text) {
       let iterations = 0;
-      const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
       const interval = setInterval(() => {
         displayElement.innerHTML = text.split("").map((char, index) => {
           if (index < iterations) return text[index];
@@ -106,57 +94,14 @@
         }).join("") + '<span class="cursor"></span>';
 
         if (iterations >= text.length) clearInterval(interval);
-        iterations += 0.8; 
-      }, 20);
+        iterations += 1/3; 
+      }, 30);
     }
-
-    const displayElement = document.getElementById('prescript-text');
 
     window.onload = () => {
       const finalWill = generatePrescript();
       setTimeout(() => decodeText(finalWill), 800);
     };
-  </script>
-</body>
-</html>
-        if (iterations >= text.length) clearInterval(interval);
-        iterations += 0.8; // Faster decoding for longer text
-      }, 20);
-    }
-
-    const displayElement = document.getElementById('prescript-text');
-
-    window.onload = () => {
-      const finalWill = generatePrescript(); // No .toUpperCase() anymore
-      setTimeout(() => decodeText(finalWill), 800);
-    };
-  </script>
-</body>
-</html>
-      const ta = targets[Math.floor(Math.random() * targets.length)];
-      const m = methods[Math.floor(Math.random() * methods.length)];
-      const s = seals[Math.floor(Math.random() * seals.length)];
-      
-      return `${t} ${v} ${n} ${ta} ${m} ${s}`;
-    }
-
-    function cycleText(targetText) {
-      let iterations = 0;
-      const interval = setInterval(() => {
-        displayElement.innerHTML = targetText.split("").map((char, index) => {
-          if (index < iterations) return targetText[index];
-          return characters[Math.floor(Math.random() * characters.length)];
-        }).join("") + '<span class="cursor"></span>';
-
-        if (iterations >= targetText.length) clearInterval(interval);
-        iterations += 0.4; // Controlled speed for long sentences
-      }, 30); 
-    }
-
-    window.addEventListener('load', () => {
-      const finalWill = generate().toUpperCase();
-      setTimeout(() => cycleText(finalWill), 1200);
-    });
   </script>
 </body>
 </html>
