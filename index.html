@@ -127,24 +127,39 @@
   <script>
     window.onerror = function(msg, url, line) { alert("Error: " + msg + "\nLine: " + line); };
     
-    const dictionary = {
-      action: ["Whisper to", "Stand still before", "Walk in circles around", "Count slowly near", "Tap the shoulder of", "Step directly behind", "Move ahead of", "Signal silently to", "Turn slowly toward", "Step lightly past", "Stand guard over", "Wait beside", "Observe from afar", "Speak softly to", "Murmur toward", "Write a symbol beside", "Draw near to", "Step away from", "Lower your gaze before", "Raise your hand to", "Hold eye contact with", "Pass closely by", "Stand opposite", "Mirror the posture of", "Adjust your pace for", "Match the steps of", "Stand directly in front of", "Circle carefully around", "Walk three steps behind", "Stand beneath", "Remain beside", "Pause near", "Stop abruptly before", "Take a step toward", "Shift closer to", "Bow your head to", "Offer silence to", "Extend your hand to", "Retract your hand from", "Move cautiously around", "Stand partially behind", "Lean slightly toward", "Wait silently for", "Count to five near", "Trace a mark near", "Turn sharply toward", "Face directly toward", "Stand within arm’s reach of", "Slow your steps near", "Speed up past", "Walk parallel to", "Stand back from", "Move quietly past", "Take position near", "Stand motionless before", "Step into the path of", "Shift to the left of", "Shift to the right of", "Stand just behind", "Stand just ahead of", "Glance briefly at", "Hold your breath near", "Exhale slowly near", "Remain unmoving beside", "Lower your shoulders before", "Raise your chin toward", "Watch carefully for", "Approach steadily", "Stand at the side of", "Wait patiently for", "Stand under the shadow of", "Pause directly beside", "Step carefully toward", "Move deliberately toward", "Stand squarely before", "Place yourself beside", "Remain close to", "Stand at equal distance from", "Keep pace with", "Fall one step behind", "Nod at", "Avoid", "Touch the shoulder of", "Hand a coin to", "Follow", "Point toward", "Bow before", "Mimic the stride of", "Deliver a letter to", "Whistle for", "Stare intently at", "Place a stone near", "Scream at", "Tear a page for", "Pour water near", "Trace a circle for", "Wave at", "Block the path of", "Blink rapidly at", "Shadow", "Offer a seat to", "Lean toward", "Drop a button near", "Salute", "Trace a line toward", "Wink at", "Clap for", "Show a photo to", "Give a flower to", "Turn your back to", "Kneel before", "Hold the hand of", "Tug the sleeve of", "Throw a pebble at", "Kick the shadow of", "Write a name for", "Read aloud to", "Hand a key to", "Brush the coat of", "Adjust the collar of", "Offer an umbrella to", "Point a finger at", "Snap your fingers for", "Hum a melody to", "Close the eyes of", "Pass a note to", "Check the pulse of", "Measure the height of", "Draw a symbol for", "Hand a red cloth to", "Tie the laces of", "Give a book to", "Lend a pen to", "Show a map to", "Offer a drink to", "Shield the eyes of", "Clean the shoes of", "Hand a mask to", "Pat the head of", "Grip the arm of", "Lean your head on", "Cough near", "Sneeze toward", "Hand a mirror to", "Show a watch to", "Point at the feet of", "Give a ring to", "Hand a tool to", "Whisper a number to", "Wait for"],
-      who: ["a man in a dark coat", "a person in a gray coat", "someone with tired eyes", "a quiet observer", "a person standing alone", "someone near the entrance", "a passerby with headphones", "a person with crossed arms", "someone looking downward", "a distracted pedestrian", "a person reading something", "someone adjusting their sleeve", "a person with a dark umbrella", "someone glancing around", "a person near the curb", "someone standing under a sign", "a person by the doorway", "someone near the stairs", "a person with folded hands", "someone checking the time", "a person near the railing", "someone carrying groceries", "a person walking slowly", "someone standing at the corner", "a person near the light post", "someone with restless hands", "a person near the window", "someone standing near a vehicle", "a person near the exit", "someone wearing dark shoes", "a person adjusting their glasses", "someone holding a paper", "a person near the wall", "someone walking against the flow", "a person near a doorway", "someone standing in shadow", "a person near a bench", "someone looking over their shoulder", "a person near a staircase", "someone shifting their weight", "a person near the counter", "someone with a distant stare", "a person near the street", "someone standing near a sign", "a person holding something small", "someone near the edge", "a person near the center of the room", "someone standing near a pillar", "a person walking briskly", "someone hesitating", "a person standing near the entrance", "someone with a neutral expression", "a person with slow steps", "someone near a corner", "a person facing away", "someone near a crossing", "a person near a shop", "someone standing quietly", "a person waiting alone", "someone with steady posture", "a person near a gate", "someone adjusting their collar", "a person near a stairwell", "someone near a passage", "a person near a platform", "someone near the wall", "a person watching traffic", "someone near a storefront", "a person near a hallway", "someone in plain clothing", "a person near a pillar", "someone standing still", "a person near the edge of the street", "someone looking ahead", "a person near a corner light", "someone near a signpost", "a person near the path", "someone near a narrow passage", "a person near a lamp", "the first woman you see", "a stranger with a hat", "a child playing alone", "someone leaning against a wall", "a person on their phone", "the nearest Proxy", "a shopkeeper", "someone walking quickly", "a man with glasses", "a person with a blue bag", "someone wearing a mask", "a group of three", "the person to your left", "a courier in a hurry", "a stray animal", "a person with a limp", "someone in a yellow shirt", "a woman with a suitcase", "a man carrying a box", "the person behind you", "someone with wet shoes", "a person with a red scarf", "the third person you pass", "a maintenance worker", "someone looking at the sky", "a person eating alone", "a stranger with a cane", "the tallest person nearby", "someone with white hair", "a person wearing gloves", "a merchant", "a person with a scar", "someone holding a leash", "the next person to sneeze", "a person with a badge", "someone wearing a cape", "a man in a uniform", "a person with a guitar", "someone carrying a lantern", "a person with a backpack", "the person in front of you", "someone with a loud voice", "a person looking for something", "someone with a stained shirt", "the oldest person in sight", "a person with a notebook", "someone sitting on a bench", "a person with a camera", "someone wearing a ring", "a person with messy hair", "someone with a briefcase", "the next person to laugh", "a person with a bandage", "someone with a hidden face", "a person with a silver watch", "someone holding a coin", "a person with a blue umbrella", "the person nearest to the light", "someone with a key", "a person with a heavy coat", "someone with a whistle", "a person with a badge", "the person to your right", "someone with a bottle", "a person with a hat", "someone with a long shadow", "a person with a gold tooth", "someone with a brush", "a person with a sign", "a Messenger"],
-      when: ["when the clock strikes 3", "after a long silence", "before anyone notices", "when the air feels heavy", "when footsteps echo", "after a brief pause", "when the lights dim", "after someone clears their throat", "when a shadow crosses your path", "after the next passing glance", "when the moment feels right", "before the next sound", "when everything seems still", "after the next movement", "when the noise fades", "as the air shifts", "before the next blink", "after a brief distraction", "when you feel uncertain", "after a subtle change", "when someone turns away", "before the next breath", "after a sudden silence", "when tension rises", "as the atmosphere changes", "when the crowd thins", "after a faint sound", "before attention shifts", "when the mood darkens", "after someone hesitates", "when a presence is felt", "before the next step", "after the next glance", "when the wind slows", "after a flicker of light", "when a distant sound fades", "before a door opens", "after a slight movement", "when something feels off", "before the next voice", "after a soft echo", "during the sunset", "after the sun goes down", "when a bird chirps", "as a red car passes", "while streetlights flicker", "exactly 10 minutes from now", "when the wind picks up", "at the moment of sunset", "while a train passes", "when someone laughs", "at the first sign of rain", "when you feel a chill", "once the music stops", "before the hour ends", "after the third chime", "when a door slams", "the moment a dog barks", "after three people pass", "when the light turns green", "as a siren sounds", "when you see a yellow sign", "when a shadow moves", "when you hear a whistle", "after the next cough", "when someone calls a name", "the moment you smell rust", "when a light turns off", "before you cross the street", "when you see a cat", "at the start of a song", "when a window opens", "after a bell rings", "when you see a cloud", "at the next intersection", "when you hear a shout", "as the wind dies down", "when you see a star", "after a car honks", "when you see a leaf fall", "at the next corner", "when you hear a whisper", "after a child cries", "when you see a flash", "at the next shop", "when you see a shadow", "after a bird flies away", "when you see a poster", "at the next bridge", "when you hear a drum", "after a match strikes", "when you see a smoke", "at the next alley", "when you hear a splash", "after a sigh", "when you see a crack", "at the next gate", "when you hear a click", "after a pause", "when you see a glint", "at the next lamp", "when you hear a hum", "after a step", "when you see a mark", "at the next door", "when you hear a thud", "after a blink", "when you see a line", "at the next wall", "when you hear a snap", "immediately"],
-      topic: ["about your oldest memory", "about something unfinished", "regarding a silent agreement", "about an old mistake", "regarding an unspoken rule", "about the weight of choice", "regarding a hidden motive", "about a passing thought", "regarding a forgotten detail", "about a distant memory", "regarding a silent warning", "about a faded photograph", "regarding an unseen path", "about a closed door", "regarding an open question", "about a quiet regret", "regarding a subtle shift", "about an overlooked sign", "regarding a lingering doubt", "about a recent change", "regarding a hidden truth", "about the shape of fear", "regarding a lost opportunity", "about a silent promise", "regarding an old rumor", "about a subtle glance", "regarding an unknown face", "about a distant voice", "regarding a faint memory", "about a cold evening", "regarding a shifting shadow", "about a hidden pattern", "regarding a sealed envelope", "about a quiet street", "regarding a narrow escape", "about a missed signal", "regarding an unexpected pause", "about a small detail", "regarding a blurred line", "about a strange coincidence", "regarding a silent corridor", "regarding the Will of the City", "about a secret you kept", "about the color of the sky", "regarding your current debt", "about a dream you had", "concerning the Index", "about things that don't matter", "regarding your next move", "concerning the price of ink", "about the concept of time", "regarding the scent of iron", "about the history of the City", "concerning the stars above", "regarding a lost object", "about the meaning of silence", "concerning the weight of a soul", "regarding a broken promise", "about the taste of metal", "concerning a hidden door", "regarding a childhood pet", "about a silent room", "concerning the shape of a shadow", "regarding a secret wish", "about the sound of rain", "concerning the price of gold", "regarding a lost key", "about the depth of a well", "concerning a flickering flame", "regarding a cold breeze", "about the texture of stone", "concerning a red string", "regarding a locked box", "about the smell of old paper", "concerning a distant shore", "regarding a heavy heart", "about the path not taken", "concerning a secret map", "regarding a white feather", "about the warmth of a fire", "concerning a silver needle", "regarding a hollow sound", "about the edge of a blade", "concerning a forgotten song", "regarding a blue thread", "about the reach of a hand", "concerning a dark alley", "regarding a bright light", "about the flow of a river", "concerning a still lake", "regarding a high mountain", "about the roots of a tree", "concerning a single leaf", "regarding a drop of ink", "about the beat of a drum", "concerning a sharp corner", "regarding a smooth surface", "about the weight of a word", "concerning a long wait", "regarding a short breath", "about the turn of a page", "concerning a broken glass", "regarding a sharp pain", "about a soft touch", "concerning a loud noise", "regarding a low hum", "about a bright flash", "concerning a deep shadow", "regarding a thin line", "about a wide gap", "regarding everything"],
-      where: ["near a drainage pipe.", "near the outer wall.", "beside the open gate.", "under the dim light.", "near the narrow path.", "at the far corner.", "beside the entrance.", "near the shadowed area.", "at the edge of the room.", "beside the waiting area.", "near the outer boundary.", "at the silent crossing.", "beside the broken step.", "near the tall structure.", "at the narrow bridge.", "beside the quiet street.", "near the empty space.", "at the dim corridor.", "beside the iron railing.", "near the stone wall.", "at the quiet platform.", "beside the flickering light.", "near the old structure.", "at the hidden entrance.", "beside the narrow stair.", "near the side passage.", "at the shaded corner.", "beside the quiet bench.", "near the distant corner.", "at the edge of sight.", "beside the still water.", "near the central path.", "at the silent gate.", "beside the worn steps.", "near the crossing line.", "at the outer edge.", "beside the waiting platform.", "near the shadowed wall.", "at the distant end.", "beside the narrow hall.", "near the dim arch.", "inside a quiet hallway.", "at a busy intersection.", "under a tall building.", "while standing on one leg.", "without making eye contact.", "and then walk away.", "near a neon sign.", "at the District edge.", "while holding your breath.", "near a park bench.", "inside an elevator.", "under a rusted bridge.", "at the Nest entrance.", "near a stack of crates.", "while tracing a pattern.", "near a telephone.", "at the bottom of stairs.", "beside a fire hydrant.", "under a balcony.", "near a mailbox.", "at a bus stop.", "beside a statue.", "near a sewer grate.", "until it is over.", "at a street corner.", "near a trash can.", "beside a street lamp.", "at a crosswalk.", "near a store window.", "beside a tree.", "at a fountain.", "near a wall.", "beside a fence.", "at a gate.", "near a vent.", "beside a pillar.", "at a porch.", "near a dock.", "beside a rail.", "at a tunnel.", "near a clock.", "beside a sign.", "at a kiosk.", "near a booth.", "beside a bench.", "at a square.", "near a monument.", "beside a plaque.", "at a tower.", "near a ruin.", "beside a lot.", "at a park.", "near a pond.", "beside a bush.", "at a garden.", "near a path.", "beside a trail.", "at a bridge.", "near a creek.", "beside a river.", "at a bank.", "near a slope.", "beside a hill.", "at a peak.", "near a cliff.", "beside a cave.", "at a hole.", "near a crack.", "beside a gap.", "immediately."]
-    };
-    
-    
+const sub_dict = {
+  verbs: ["Nod to", "Tap", "Trace a line near", "Stand behind", "Mirror the posture of", "Whisper to", "Circle", "Point toward", "Shield the eyes of", "Adjust the collar of", "Sigh near", "Place a hand on", "Shift weight toward", "Ignore", "Bow to", "Block the path of", "Mimic the stride of", "Wave at", "Wait beside", "Grip the wrist of", "Lower your gaze for", "Touch the shoulder of", "Hand a coin to", "Offer a seat to", "Lean toward", "Snap your fingers for", "Hum to", "Check the watch of", "Steady the arm of", "Step into the shadow of", "Flick a finger toward", "Clench your fist near", "Measure the distance to", "Inhale the scent of", "Mimic the blink rate of", "Adjust the glasses of", "Brush the sleeve of", "Trace a symbol near", "Count the heartbeats of", "Exhale toward", "Align your shadow with", "Pivot away from", "Maintain a fixed gaze on", "Mimic the breathing of", "Tap the rhythm of a song for", "Place a dry leaf near", "Offer a silent prayer for", "Inspect the footwear of", "Shadow the movements of", "Cover your heart before", "Wipe a smudge near", "Point a toe toward", "Tilt your head at", "Lock joints near", "Tremble slightly before", "Reach toward", "Retract your presence from", "Stand at an angle to", "Observe the reflection of", "Mouth a word to"],
+  details: ["the left side of", "the shadow of", "the reflection of", "the personal space of", "the footprint of", "the luggage of", "the silhouette of", "the cold surface near", "the path ahead of", "the direct line of sight of", "the digital screen of", "the right shoulder of", "the outstretched hand of", "the wet shoes of", "the worn bag of", "the glasses of", "the keychain of", "the belt of", "the ring finger of", "the mask of", "the notebook of", "the pocket of", "the hair of", "the sleeve of", "the wrist of", "the neck of", "the ear of", "the hem of the coat of", "the buckle of", "the laces of", "the screen of", "the shadow cast by", "the ventilation of", "the buttons of", "the collarbones of", "the watch-face of", "the dominant hand of", "the zipper of", "the scarf-knot of", "the thumb-nail of", "the briefcase handle of", "the lapel of", "the spine of the book held by", "the shadow of the head of", "the reflection in the eye of"],
+  traits: ["wearing denim", "holding a phone", "with tired eyes", "carrying a heavy bag", "wearing white shoes", "with a red garment", "looking at the sky", "checking the time", "with crossed arms", "leaning against a wall", "walking briskly", "with messy hair", "wearing a scarf", "holding a drink", "with a visible scar", "wearing spectacles", "carrying a book", "with a lanyard", "wearing a hat", "holding an umbrella", "with a backpack", "looking lost", "with a bandage", "wearing gloves", "holding a key", "with a briefcase", "in a uniform", "with a cane", "wearing a ring", "holding a map", "with a mask", "wearing a watch", "carrying a paper bag", "with blue accessories", "wearing a dark coat", "with headphones", "with a silver piercing", "wearing mismatched socks", "holding a receipt", "with a faint scent of smoke", "carrying a shopping bag", "with polished shoes", "wearing a badge", "looking at their reflection", "with a leather wallet", "holding a coin", "wearing a striped shirt", "with a noticeable limp", "looking at a wristwatch", "holding a folded newspaper"],
+  triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "you hear a metallic clink", "the wind shifts", "you feel a chill", "a phone rings", "someone coughs", "a child speaks", "a shadow stretches", "a light flickers", "you hear footsteps", "the temperature drops", "you smell ozone", "you smell coffee", "a siren fades", "a dog barks", "a train passes", "someone calls a name", "a window opens", "a light turns green", "you see a red sign", "a leaf falls", "you blink N times", "you count N heartbeats", "you see a star", "a match is struck", "a bell rings", "a camera flashes", "you hear a distant shout", "the air feels damp", "you see a yellow object", "the crowd thins", "you hear the sound of a closing book", "a stranger makes eye contact", "a coin hits the ground", "you see a reflection of light", "a screen goes dark", "a siren blares", "you hear a whistle", "a shadow crosses your path", "the sun is obscured", "you hear a snippet of music"],
+  subjects: ["the price of ink", "a forgotten debt", "the weight of the City", "a dream about water", "the scent of old paper", "a silent agreement", "the shape of a shadow", "a missed opportunity", "the color of the sky", "a secret wish", "the taste of iron", "a flickering flame", "the path not taken", "a cold breeze", "the texture of stone", "a hidden door", "the sound of rain", "a lost key", "a heavy heart", "the roots of a tree", "a drop of ink", "a sharp corner", "the turn of a page", "a broken glass", "a soft touch", "a low hum", "a bright flash", "a thin line", "a wide gap", "the concept of time", "the price of gold", "a silver needle", "a name spoken in haste", "the geometry of the district", "the ink on your palm", "a debt paid in lead", "the arrangement of the stars", "a whisper in the dark", "the number of steps taken", "the pattern of the pavement", "a face in the crowd", "the silence between breaths"],
+  durations: ["for N seconds", "for N breaths", "until the target moves N steps", "until you see the color red N times", "for N minutes", "until the next N sounds of metal", "for the duration of N heartbeats", "until N shadows pass", "until a door opens N times", "for a count of N", "until you feel a breeze N times", "until the light shifts N times", "while maintaining N steps of distance"],
+  deadlines: ["within N minutes", "before the sun shifts N degrees", "before you leave the district", "within the next N hours", "before the next N bells", "within N steps", "before you cross N streets", "before you speak N words", "within the next N breaths", "before the temperature changes", "within N blocks of your current location"]
+};
 
+const dictionary = { action: [], who: [], when: [], topic: [], where: [] };
 
-    
-    let isClearState = false;
-    let isProcessing = false;
+// Generate 5,625 phrases (75x75)
+for (let i = 0; i < 75; i++) {
+  for (let j = 0; j < 75; j++) {
+    const act = sub_dict.verbs[i % sub_dict.verbs.length];
+    const det = sub_dict.details[j % sub_dict.details.length];
+    const dur = sub_dict.durations[(i + j) % sub_dict.durations.length];
+    const dead = sub_dict.deadlines[i % sub_dict.deadlines.length];
+
+    dictionary.action.push(`${act} ${det} ${dur}, ${dead},`);
+    dictionary.who.push(`a person ${sub_dict.traits[i % sub_dict.traits.length]} who is also ${sub_dict.traits[j % sub_dict.traits.length]}`);
+    dictionary.when.push(`exactly after ${sub_dict.triggers[i % sub_dict.triggers.length]} and ${sub_dict.triggers[j % sub_dict.triggers.length]}`);
+    dictionary.topic.push(`regarding ${sub_dict.subjects[i % sub_dict.subjects.length]} and ${sub_dict.subjects[j % sub_dict.subjects.length]}`);
+    dictionary.where.push(`at a distance of N steps from the ${sub_dict.details[j % sub_dict.details.length]} of the target.`);
+  }
+}
+
+let isClearState = false;
+let isProcessing = false;
 const displayElement = document.getElementById('prescript-text');
 const receiveSound = new Audio('limbus_index_beeper.mp3');
 const clearSound = new Audio('indexbeep_notification.mp3');
-// Add the theme music here
 const themeMusic = new Audio('Children_of_the_City.mp3');
 themeMusic.loop = true;
 themeMusic.volume = 0.7; 
@@ -152,79 +167,88 @@ themeMusic.volume = 0.7;
 const actionBtn = document.getElementById('action-btn');
 const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
 
-    function generatePrescript() {
-      if (Math.random() < 0.0005) {
+
+function generatePrescript() {
+  // Chance for secret modes
+  if (Math.random() < 0.0005) {
     document.documentElement.style.setProperty('--current-theme', '#8b00ff');
     document.body.classList.add("secret-mode");
     return "/// SIGNAL INTERCEPTED /// YOU WERE NOT MEANT TO SEE THIS ///";
-      }
-      if (Math.random() < 0.02) {
-        document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-        return "CRITICAL: THE WILL IS COMPROMISED. DO NOT MOVE. WAIT FOR FURTHER INSTRUCTION.";
-      }
-      document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
-      const d = dictionary;
-      const res = [d.action, d.who, d.when, d.topic, d.where].map(list => list[Math.floor(Math.random() * list.length)]);
-      return res.join(" ");
-    }
-
-    function decodeText(text) {
-      isProcessing = true;
-      actionBtn.disabled = true;
-      let iterations = 0;
-      
-      const interval = setInterval(() => {
-        displayElement.innerHTML = text.split("").map((char, index) => {
-          if (index < iterations) return text[index];
-          return fullCharset[Math.floor(Math.random() * fullCharset.length)];
-        }).join("") + '<span class="cursor"></span>';
-
-        if (iterations >= text.length) {
-          clearInterval(interval);
-          isProcessing = false;
-          actionBtn.disabled = false;
-          actionBtn.innerText = "Clear";
-          isClearState = true;
-        }
-        iterations += 0.4; 
-      }, 6); 
-    } 
-
-    function scrambleAndReset() {
-      isProcessing = true;
-      actionBtn.disabled = true;
-      const clearLabel = "_CLEAR._";
-      let iterations = 0;
-
-      const interval = setInterval(() => {
-        displayElement.innerHTML = clearLabel.split("").map((char, index) => {
-          if (index < iterations) return clearLabel[index];
-          return fullCharset[Math.floor(Math.random() * fullCharset.length)];
-        }).join("");
-
-        if (iterations >= clearLabel.length) {
-          clearInterval(interval);
-          
-        
-          setTimeout(() => {
-            displayElement.innerHTML = "...WAITING FOR SYNCHRONIZATION...";
-            document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
-            actionBtn.innerText = "Receive";
-            isClearState = false;
-            isProcessing = false;
-            actionBtn.disabled = false;
-          }, 800);
-        }
-        iterations += 0.6;
-      }, 15);
-    }
-
-    actionBtn.addEventListener("click", () => {
-  
-  if (themeMusic.paused) {
-    themeMusic.play().catch(e => console.log("Music blocked by browser"));
+  }
+  if (Math.random() < 0.02) {
+    document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
+    return "CRITICAL: THE WILL IS COMPROMISED. DO NOT MOVE. WAIT FOR FURTHER INSTRUCTION.";
   }
 
+  // Normal mode
+  document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
+  const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const getN = () => Math.floor(Math.random() * 272) + 1;
+
+  let act = getRand(dictionary.action);
+  let who = getRand(dictionary.who);
+  let when = getRand(dictionary.when);
+  let topic = getRand(dictionary.topic);
+  let where = getRand(dictionary.where);
+
+  
+  const finalStr = `${act} ${who}, ${when}, ${topic}, ${where}`.replace(/N/g, () => getN());
+  return finalStr.toUpperCase();
+}
+
+function decodeText(text) {
+  isProcessing = true;
+  actionBtn.disabled = true;
+  let iterations = 0;
+  
+  const interval = setInterval(() => {
+    displayElement.innerHTML = text.split("").map((char, index) => {
+      if (index < iterations) return text[index];
+      return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+    }).join("") + '<span class="cursor"></span>';
+
+    if (iterations >= text.length) {
+      clearInterval(interval);
+      isProcessing = false;
+      actionBtn.disabled = false;
+      actionBtn.innerText = "Clear";
+      isClearState = true;
+    }
+    iterations += 0.4; 
+  }, 6); 
+} 
+
+function scrambleAndReset() {
+  isProcessing = true;
+  actionBtn.disabled = true;
+  const clearLabel = "_CLEAR._";
+  let iterations = 0;
+
+  const interval = setInterval(() => {
+    displayElement.innerHTML = clearLabel.split("").map((char, index) => {
+      if (index < iterations) return clearLabel[index];
+      return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+    }).join("");
+
+    if (iterations >= clearLabel.length) {
+      clearInterval(interval);
+      setTimeout(() => {
+        displayElement.innerHTML = "...WAITING FOR SYNCHRONIZATION...";
+        document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
+        actionBtn.innerText = "Receive";
+        isClearState = false;
+        isProcessing = false;
+        actionBtn.disabled = false;
+      }, 800);
+    }
+    iterations += 0.6;
+  }, 15);
+}
+
+actionBtn.addEventListener("click", () => {
+  if (themeMusic.paused) {
+    themeMusic.play().catch(e => console.log("Music blocked"));
+  }
   if (isProcessing) return;
 
   if (!isClearState) {
