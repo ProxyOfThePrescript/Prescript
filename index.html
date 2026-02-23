@@ -8,9 +8,9 @@
 
   <style>
     :root {
-      --index-cyan: #00f2ff;
-      --index-red: #ff003c;
-      --current-theme: var(--index-cyan);
+      --index-blue: #a0eaff;
+      --index-red: #ff3b3b;
+      --current-theme: var(--index-blue);
     }
 
     html, body { 
@@ -19,14 +19,14 @@
       color: var(--current-theme);
       font-family: 'Pixelify Sans', sans-serif; 
       display: flex; justify-content: center; align-items: center;
-      overflow: hidden; transition: color 1.5s ease;
+      overflow: hidden; transition: color 0.5s ease;
     }
 
     body::before {
       content: " "; display: block; position: absolute;
       top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), 
-                  linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
       z-index: 100; background-size: 100% 4px, 4px 100%; pointer-events: none;
     }
 
@@ -36,21 +36,47 @@
     }
 
     #header { 
-      font-size: 14px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.7; 
-      text-shadow: 0 0 8px var(--current-theme); 
+      font-size: 14px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.6; 
+      text-shadow: 0 0 5px var(--current-theme); 
     }
 
-    /* RE-ADDED LOGO STYLING */
     #logo {
       width: 120px; height: auto; margin-bottom: 20px;
-      filter: drop-shadow(0 0 5px var(--current-theme));
-      opacity: 0.9;
+      opacity: 0.8;
     }
     
     #prescript-text { 
       font-size: 24px; line-height: 1.6; min-height: 180px; 
-      text-shadow: 0 0 10px var(--current-theme); 
+      text-shadow: 0 0 5px var(--current-theme); 
       font-weight: 500;
+      transition: color 0.5s ease;
+    }
+
+    #action-btn {
+      margin-top: 30px;
+      padding: 12px 30px;
+      background: transparent;
+      border: 1px solid var(--current-theme);
+      color: var(--current-theme);
+      font-family: 'Pixelify Sans', sans-serif;
+      font-size: 18px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      animation: pulse 2.5s infinite;
+    }
+
+    #action-btn:hover {
+      background: var(--current-theme);
+      color: #020202;
+      box-shadow: 0 0 20px var(--current-theme);
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      50% { opacity: 1; }
+      100% { opacity: 0.3; }
     }
 
     .cursor {
@@ -65,9 +91,10 @@
 
 <body>
   <div id="container">
-    <div id="header">Prescript</div>
+    <div id="header">THE WILL OF THE CITY</div>
     <img id="logo" src="index_logo.png" alt="THE INDEX LOGO">
-    <div id="prescript-text">For it is the Will of the City...</div>
+    <div id="prescript-text">...Waiting for input...</div>
+    <button id="action-btn">Click to Receive</button>
   </div>
 
   <script>
@@ -80,42 +107,70 @@
     };
 
     const displayElement = document.getElementById('prescript-text');
+    const actionBtn = document.getElementById('action-btn');
+    // Updated characters to include lowercase
+    const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let isClearState = false;
 
     function generatePrescript() {
       if (Math.random() < 0.10) {
         document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
         return "CRITICAL: DO NOT ATTEMPT TO INTERPRET THE WILL. CEASE ALL MOVEMENT.";
       }
-      document.documentElement.style.setProperty('--current-theme', 'var(--index-cyan)');
+      document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
       const d = dictionary;
       const res = [d.action, d.who, d.when, d.topic, d.where].map(list => list[Math.floor(Math.random() * list.length)]);
       return res.join(" ");
     }
 
-    function decodeText(text) {
+    function decodeText(text, callback) {
       let iterations = 0;
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
-      
-      // Changed speed from 30ms to 20ms for faster flicker
       const interval = setInterval(() => {
         displayElement.innerHTML = text.split("").map((char, index) => {
           if (index < iterations) return text[index];
-          return characters[Math.floor(Math.random() * characters.length)];
+          // Using lowercase + uppercase + symbols for scrambling
+          return fullCharset[Math.floor(Math.random() * fullCharset.length)];
         }).join("") + '<span class="cursor"></span>';
 
-        if (iterations >= text.length) clearInterval(interval);
-        
-        // Changed speed from 1/3 (0.33) to 0.8 for much faster reveal
+        if (iterations >= text.length) {
+          clearInterval(interval);
+          if(callback) callback();
+        }
         iterations += 0.8; 
       }, 20); 
     }
 
-    window.onload = () => {
-      const finalWill = generatePrescript();
-      // Reduced delay from 800ms to 400ms so it feels snappier
-      setTimeout(() => decodeText(finalWill), 400);
-    };
+    function scrambleAndClear() {
+      const clearText = "_CLEAR._";
+      let iterations = 0;
+      
+      const interval = setInterval(() => {
+        displayElement.innerHTML = clearText.split("").map((char, index) => {
+          if (index < iterations) return clearText[index];
+          return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+        }).join("") + '<span class="cursor"></span>';
+
+        if (iterations >= clearText.length) {
+          clearInterval(interval);
+          setTimeout(() => {
+            const nextWill = generatePrescript();
+            decodeText(nextWill);
+          }, 1000);
+        }
+        iterations += 0.3;
+      }, 50);
+    }
+
+    actionBtn.addEventListener('click', () => {
+      if (!isClearState) {
+        const finalWill = generatePrescript();
+        decodeText(finalWill);
+        actionBtn.innerText = "Clear";
+        isClearState = true;
+      } else {
+        scrambleAndClear();
+      }
+    });
   </script>
 </body>
-</html>
 </html>
