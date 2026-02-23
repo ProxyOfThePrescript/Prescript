@@ -34,7 +34,7 @@
   animation: screenFlicker 0.08s infinite;
 }
 
-.secret-mode #display {
+.secret-mode #prescript-text {
   animation: textGlitch 0.15s infinite alternate;
   text-shadow:
     2px 0 #ff00ff,
@@ -145,6 +145,7 @@
     document.documentElement.style.setProperty('--current-theme', '#8b00ff');
     document.body.classList.add("secret-mode");
     return "/// SIGNAL INTERCEPTED /// YOU WERE NOT MEANT TO SEE THIS ///";
+      }
       if (Math.random() < 0.02) {
         document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
         return "CRITICAL: THE WILL IS COMPROMISED. DO NOT MOVE. WAIT FOR FURTHER INSTRUCTION.";
