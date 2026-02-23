@@ -229,21 +229,39 @@ function decodeText(text) {
 }
 
 function startDeadline(text) {
+  // 1. Find the first number
   const match = text.match(/\d+/);
-  let seconds = match ? parseInt(match[0]) : 60;
+  let baseValue = match ? parseInt(match[0]) : 60;
   
+  // 2. Determine the multiplier based on the text
+  let totalSeconds = baseValue;
+  
+  if (text.includes("MINUTES")) {
+    totalSeconds = baseValue * 60;
+  } else if (text.includes("HOURS")) {
+    totalSeconds = baseValue * 3600;
+  }
+  // If it's "breaths" or "seconds", it stays as baseValue (1:1)
+
   const timerDisplay = document.getElementById('timer-display');
   
   countdownInterval = setInterval(() => {
-    seconds--;
-    timerDisplay.innerText = `[ TIME REMAINING: ${seconds}S ]`;
+    totalSeconds--;
+    
+    // 3. Format the display so it looks like a real clock (MM:SS)
+    let displayMins = Math.floor(totalSeconds / 60);
+    let displaySecs = totalSeconds % 60;
+    let formattedTime = `${displayMins}:${displaySecs < 10 ? '0' : ''}${displaySecs}`;
+    
+    timerDisplay.innerText = `[ TIME REMAINING: ${formattedTime} ]`;
 
-    if (seconds <= 0) {
+    if (totalSeconds <= 0) {
       clearInterval(countdownInterval);
       triggerViolation();
     }
   }, 1000);
 }
+
 
 function triggerViolation() {
   document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
