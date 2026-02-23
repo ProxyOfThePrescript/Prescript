@@ -8,15 +8,14 @@
 
   <style>
     :root {
-      --index-cyan: #00f2ff;
-      --index-red: #ff003c;
+      --index-cyan: #00f2ff; /* Pure Neon Cyan */
     }
 
     html, body { 
       margin: 0; 
       height: 100%; 
       background-color: #030303; 
-      color: var(--index-cyan); /* Sets all text to Neon Cyan */
+      color: var(--index-cyan); /* Standardizes all text to cyan */
       font-family: 'VT323', monospace; 
       display: flex;
       justify-content: center;
@@ -24,14 +23,14 @@
       overflow: hidden;
     }
 
-    /* CRT Scanline & Grain Overlay */
+    /* CRT Overlay */
     body::before {
       content: " ";
       display: block;
       position: absolute;
       top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                  linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
       z-index: 10;
       background-size: 100% 3px, 3px 100%;
       pointer-events: none;
@@ -49,67 +48,68 @@
     }
 
     #header {
-      font-size: 20px;
-      letter-spacing: 6px;
-      margin-bottom: 20px;
-      text-shadow: 0 0 8px var(--index-cyan); /* Neon Glow for Header */
+      font-size: 18px;
+      letter-spacing: 5px;
+      margin-bottom: 25px;
       opacity: 0.8;
+      text-shadow: 0 0 10px var(--index-cyan);
     }
 
-    /* Clean Logo - No Glow/Pulse */
+    /* Clean Logo Styling - No Pulse, No Outer Glow */
     #logo {
-      width: 200px;
+      width: 220px;
       height: auto;
-      margin-bottom: 25px;
-      opacity: 0.9;
-      /* Image stays flat now */
+      margin-bottom: 30px;
+      opacity: 0.95;
+      /* Image is rendered as-is for a cleaner look */
     }
 
     #prescript {
-      font-size: 42px;
-      line-height: 1.1;
-      min-height: 150px;
+      font-size: 44px;
+      line-height: 1.2;
+      min-height: 160px;
       word-wrap: break-word;
       text-transform: uppercase;
-      /* Intense Neon Text Shadow */
-      text-shadow: 0 0 10px var(--index-cyan), 0 0 20px rgba(0, 242, 255, 0.4);
+      /* Glowing text effect */
+      text-shadow: 0 0 12px var(--index-cyan), 0 0 25px rgba(0, 242, 255, 0.3);
     }
 
     .cursor {
       display: inline-block;
-      width: 20px;
-      height: 40px;
+      width: 18px;
+      height: 38px;
       background-color: var(--index-cyan);
       margin-left: 10px;
       vertical-align: middle;
       animation: blink 0.4s step-end infinite;
-      box-shadow: 0 0 12px var(--index-cyan);
+      box-shadow: 0 0 15px var(--index-cyan);
     }
 
     @keyframes blink { 50% { opacity: 0; } }
 
-    @keyframes glitch {
+    /* Subtle screen vibration */
+    @keyframes steady-glitch {
       0% { transform: translate(0); }
-      20% { transform: translate(-1px, 1px); }
-      40% { transform: translate(-1px, -1px); }
-      60% { transform: translate(1px, 1px); }
+      25% { transform: translate(-0.5px, 0.5px); }
+      50% { transform: translate(0.5px, -0.5px); }
+      75% { transform: translate(-0.5px, -0.5px); }
       100% { transform: translate(0); }
     }
-    #container { animation: glitch 2s linear infinite; }
+    #container { animation: steady-glitch 4s linear infinite; }
   </style>
-
 </head>
 
 <body>
   <div id="container">
-    <div id="header">RECEIVING_TRANSMISSION_FROM_THE_INDEX</div>
+    <div id="header">TRANSMISSION_ESTABLISHED_WITH_THE_WILL</div>
     
     <img id="logo" src="index_logo.png" alt="THE INDEX">
 
-    <div id="prescript">INITIALIZING_DECODER...</div>
+    <div id="prescript">READING_THE_WILL...</div>
   </div>
 
   <script>
+    // Prescript Database
     const prescriptData = {
       morning: [
         "Drink exactly three sips of water before your first meal.",
@@ -151,54 +151,5 @@
         "Carry a small stone in your left pocket until sunset.",
         "Trace an invisible hexagon on your palm right now.",
         "The Proxy has noted your location. Keep moving.",
-        "Cut a single strand of hair and leave it on a public bench.",
-        "If you hear a bell, close your eyes for five seconds.",
-        "Speak to no one whose name starts with a vowel.",
-        "Touch the ground with your forehead before entering your room.",
-        "The Will demands you burn a single page of a book.",
-        "The Index requires you to point at the moon for ten seconds.",
-        "Do not look at your own reflection in water.",
-        "Offer a silent apology to the next machine you use.",
-        "Hum a low frequency for 30 seconds upon entering your home."
-      ]
-    };
-
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=[]{}|;:,.<>?/0123456789';
-    const displayElement = document.getElementById('prescript');
-
-    function cycleText(targetText) {
-      let iterations = 0;
-      const interval = setInterval(() => {
-        displayElement.innerHTML = targetText
-          .split("")
-          .map((char, index) => {
-            if (index < iterations) return targetText[index];
-            return characters[Math.floor(Math.random() * characters.length)];
-          })
-          .join("") + '<span class="cursor"></span>';
-
-        if (iterations >= targetText.length) clearInterval(interval);
-        iterations += 1/3; // Controls decoding speed
-      }, 40); 
-    }
-
-    function generate() {
-      const now = new Date();
-      const hour = now.getHours();
-      let pool = [...prescriptData.anytime];
-
-      if (hour >= 6 && hour < 12) pool.push(...prescriptData.morning);
-      else if (hour >= 12 && hour < 18) pool.push(...prescriptData.afternoon);
-      else if (hour >= 18 && hour < 24) pool.push(...prescriptData.evening);
-      else pool.push(...prescriptData.night);
-
-      const randomPrescript = pool[Math.floor(Math.random() * pool.length)].toUpperCase();
-      
-      // Short delay before decoding for effect
-      setTimeout(() => cycleText(randomPrescript), 800);
-    }
-
-    window.onload = generate;
-  </script>
-</body>
-</html>
+        "Leave a single coin on a windowsill you do not own.",
+        "Stare at a blank
