@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>THE INDEX: TERMINAL_READOUT</title>
+  <title>THE INDEX: PRESCRIPT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -17,7 +17,8 @@
       margin: 0; height: 100%; 
       background-color: #020202; 
       color: var(--current-theme);
-      font-family: 'VT323', monospace; 
+      /* Font switched here */
+      font-family: 'Pixelify Sans', sans-serif; 
       display: flex; justify-content: center; align-items: center;
       overflow: hidden; transition: color 1.5s ease;
     }
@@ -37,25 +38,25 @@
     }
 
     #header { 
-      font-size: 16px; /* Smaller Header */
-      letter-spacing: 4px; margin-bottom: 20px; opacity: 0.7; 
+      font-size: 14px; 
+      letter-spacing: 3px; margin-bottom: 20px; opacity: 0.7; 
       text-shadow: 0 0 8px var(--current-theme); 
     }
 
     #logo { 
-      width: 150px; /* Scaled down logo */
+      width: 140px; 
       height: auto; margin-bottom: 30px; opacity: 0.8; 
     }
     
     #prescript-text { 
-      font-size: 28px; /* Smaller, more readable text */
-      line-height: 1.5; min-height: 180px; 
+      font-size: 24px; /* Adjusted slightly for Pixelify Sans proportions */
+      line-height: 1.6; min-height: 180px; 
       text-shadow: 0 0 10px var(--current-theme); 
-      letter-spacing: 1px;
+      font-weight: 500;
     }
 
     .cursor {
-      display: inline-block; width: 10px; height: 24px;
+      display: inline-block; width: 12px; height: 22px;
       background-color: var(--current-theme); margin-left: 5px;
       vertical-align: middle; animation: blink 0.5s step-end infinite;
     }
@@ -68,7 +69,7 @@
   <div id="container">
     <div id="header">Transmission Established</div>
     <img id="logo" src="index_logo.png" alt="THE INDEX">
-    <div id="prescript-text">Connecting to the Will...</div>
+    <div id="prescript-text">Decoding the Will...</div>
   </div>
 
   <script>
@@ -104,6 +105,20 @@
           return characters[Math.floor(Math.random() * characters.length)];
         }).join("") + '<span class="cursor"></span>';
 
+        if (iterations >= text.length) clearInterval(interval);
+        iterations += 0.8; 
+      }, 20);
+    }
+
+    const displayElement = document.getElementById('prescript-text');
+
+    window.onload = () => {
+      const finalWill = generatePrescript();
+      setTimeout(() => decodeText(finalWill), 800);
+    };
+  </script>
+</body>
+</html>
         if (iterations >= text.length) clearInterval(interval);
         iterations += 0.8; // Faster decoding for longer text
       }, 20);
