@@ -73,7 +73,7 @@
       width: 250px; height: auto; margin-bottom: 20px;
       opacity: 0.8;
     }
-    
+      
     #prescript-text { 
       font-size: 22px; line-height: 1.5; min-height: 200px; 
       text-shadow: 0 0 8px var(--current-theme); 
@@ -120,6 +120,7 @@
   <div id="container">
     <div id="header">THE WILL OF THE CITY</div>
     <img id="logo" src="index_logo.png" alt="INDEX">
+    <div id="timer-display" style="font-family: monospace; color: var(--index-red); font-size: 1.5rem; margin-bottom: 10px; min-height: 1.5rem;"></div>
     <div id="prescript-text">...WAITING FOR SYNCHRONIZATION...</div>
     <button id="action-btn">Receive</button>
   </div>
@@ -196,11 +197,15 @@ function generatePrescript() {
   return finalStr.toUpperCase();
 }
 
+let countdownInterval;
+
 function decodeText(text) {
   isProcessing = true;
   actionBtn.disabled = true;
+  document.getElementById('timer-display').innerText = ""; // Clear old timer
+  clearInterval(countdownInterval); // Stop any previous countdown
+
   let iterations = 0;
-  
   const interval = setInterval(() => {
     displayElement.innerHTML = text.split("").map((char, index) => {
       if (index < iterations) return text[index];
@@ -213,10 +218,40 @@ function decodeText(text) {
       actionBtn.disabled = false;
       actionBtn.innerText = "Clear";
       isClearState = true;
+      
+      // Start the timer ONLY if it's a normal Prescript (not secret/compromised)
+      if (text.includes("WITHIN") || text.includes("BEFORE")) {
+        startDeadline(text);
+      }
     }
-    iterations += 0.4; 
-  }, 6); 
-} 
+    iterations += 0.4;
+  }, 6);
+}
+
+function startDeadline(text) {
+  const match = text.match(/\d+/);
+  let seconds = match ? parseInt(match[0]) : 60;
+  
+  const timerDisplay = document.getElementById('timer-display');
+  
+  countdownInterval = setInterval(() => {
+    seconds--;
+    timerDisplay.innerText = `[ TIME REMAINING: ${seconds}S ]`;
+
+    if (seconds <= 0) {
+      clearInterval(countdownInterval);
+      triggerViolation();
+    }
+  }, 1000);
+}
+
+function triggerViolation() {
+  document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
+  displayElement.innerHTML = "<span style='color: white; background: red;'> !!! VIOLATION DETECTED !!! </span><br><br>THE WILL HAS BEEN IGNORED. THE NEAREST PROXY HAS BEEN SENT TO YOUR LOCATION.";
+  document.getElementById('timer-display').innerText = "DISCIPLINARY ACTION PENDING";
+  
+  
+}
 
 function scrambleAndReset() {
   isProcessing = true;
@@ -236,6 +271,9 @@ document.body.classList.remove("secret-mode");
     if (iterations >= clearLabel.length) {
       clearInterval(interval);
       setTimeout(() => {
+        clearInterval(countdownInterval); 
+document.getElementById('timer-display').innerText = "";
+        
         displayElement.innerHTML = "...WAITING FOR SYNCHRONIZATION...";
         document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
         actionBtn.innerText = "Receive";
