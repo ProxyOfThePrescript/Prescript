@@ -16,7 +16,7 @@
       margin: 0; 
       height: 100%; 
       background-color: #030303; 
-      color: white;
+      color: var(--index-cyan); /* Sets all text to Neon Cyan */
       font-family: 'VT323', monospace; 
       display: flex;
       justify-content: center;
@@ -51,25 +51,18 @@
     #header {
       font-size: 20px;
       letter-spacing: 6px;
-      color: var(--index-cyan);
       margin-bottom: 20px;
-      text-shadow: 2px 0 var(--index-red), -2px 0 #00f;
-      opacity: 0.7;
+      text-shadow: 0 0 8px var(--index-cyan); /* Neon Glow for Header */
+      opacity: 0.8;
     }
 
-    /* The Logo Styling */
+    /* Clean Logo - No Glow/Pulse */
     #logo {
-      width: 200px; /* Adjust size as needed */
+      width: 200px;
       height: auto;
       margin-bottom: 25px;
-      opacity: 0.7;
-      filter: drop-shadow(0 0 10px var(--index-cyan)) brightness(1.2);
-      animation: pulse 2s infinite alternate;
-    }
-
-    @keyframes pulse {
-      from { transform: scale(1); opacity: 0.5; }
-      to { transform: scale(1.05); opacity: 0.9; }
+      opacity: 0.9;
+      /* Image stays flat now */
     }
 
     #prescript {
@@ -78,7 +71,8 @@
       min-height: 150px;
       word-wrap: break-word;
       text-transform: uppercase;
-      text-shadow: 3px 0 rgba(255,0,60,0.6), -3px 0 rgba(0,242,255,0.6);
+      /* Intense Neon Text Shadow */
+      text-shadow: 0 0 10px var(--index-cyan), 0 0 20px rgba(0, 242, 255, 0.4);
     }
 
     .cursor {
@@ -89,7 +83,7 @@
       margin-left: 10px;
       vertical-align: middle;
       animation: blink 0.4s step-end infinite;
-      box-shadow: 0 0 10px var(--index-cyan);
+      box-shadow: 0 0 12px var(--index-cyan);
     }
 
     @keyframes blink { 50% { opacity: 0; } }
@@ -101,8 +95,9 @@
       60% { transform: translate(1px, 1px); }
       100% { transform: translate(0); }
     }
-    #container { animation: glitch 1.5s linear infinite; }
+    #container { animation: glitch 2s linear infinite; }
   </style>
+
 </head>
 
 <body>
