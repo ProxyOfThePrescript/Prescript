@@ -141,16 +141,17 @@
   const logContainer = document.getElementById('prescript-log');
   const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
 
-  function generatePrescript() {
-    const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-    const getN = () => Math.floor(Math.random() * 50) + 1;
+function generatePrescript() {
+  const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+  const getN = () => Math.floor(Math.random() * 75) + 1;
 
-    // FIX 5: Better sentence structure
-    let finalStr = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, a person ${getRand(sub_dict.traits)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
-    
-    while (finalStr.includes("N")) { finalStr = finalStr.replace("N", getN()); }
-    return finalStr.toUpperCase();
-  }
+  
+  let finalStr = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
+  
+  while (finalStr.includes("N")) { finalStr = finalStr.replace("N", getN()); }
+  return finalStr.toUpperCase();
+}
+
 
   function decodeText(text) {
     isProcessing = true;
