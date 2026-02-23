@@ -133,16 +133,22 @@
       where: ["near a drainage pipe.", "near the outer wall.", "beside the open gate.", "under the dim light.", "near the narrow path.", "at the far corner.", "beside the entrance.", "near the shadowed area.", "at the edge of the room.", "beside the waiting area.", "near the outer boundary.", "at the silent crossing.", "beside the broken step.", "near the tall structure.", "at the narrow bridge.", "beside the quiet street.", "near the empty space.", "at the dim corridor.", "beside the iron railing.", "near the stone wall.", "at the quiet platform.", "beside the flickering light.", "near the old structure.", "at the hidden entrance.", "beside the narrow stair.", "near the side passage.", "at the shaded corner.", "beside the quiet bench.", "near the distant corner.", "at the edge of sight.", "beside the still water.", "near the central path.", "at the silent gate.", "beside the worn steps.", "near the crossing line.", "at the outer edge.", "beside the waiting platform.", "near the shadowed wall.", "at the distant end.", "beside the narrow hall.", "near the dim arch.", "inside a quiet hallway.", "at a busy intersection.", "under a tall building.", "while standing on one leg.", "without making eye contact.", "and then walk away.", "near a neon sign.", "at the District edge.", "while holding your breath.", "near a park bench.", "inside an elevator.", "under a rusted bridge.", "at the Nest entrance.", "near a stack of crates.", "while tracing a pattern.", "near a telephone.", "at the bottom of stairs.", "beside a fire hydrant.", "under a balcony.", "near a mailbox.", "at a bus stop.", "beside a statue.", "near a sewer grate.", "until it is over.", "at a street corner.", "near a trash can.", "beside a street lamp.", "at a crosswalk.", "near a store window.", "beside a tree.", "at a fountain.", "near a wall.", "beside a fence.", "at a gate.", "near a vent.", "beside a pillar.", "at a porch.", "near a dock.", "beside a rail.", "at a tunnel.", "near a clock.", "beside a sign.", "at a kiosk.", "near a booth.", "beside a bench.", "at a square.", "near a monument.", "beside a plaque.", "at a tower.", "near a ruin.", "beside a lot.", "at a park.", "near a pond.", "beside a bush.", "at a garden.", "near a path.", "beside a trail.", "at a bridge.", "near a creek.", "beside a river.", "at a bank.", "near a slope.", "beside a hill.", "at a peak.", "near a cliff.", "beside a cave.", "at a hole.", "near a crack.", "beside a gap.", "immediately."]
     };
     
-    const displayElement = document.getElementById('prescript-text'); // Remove 'const' from the ID string
-const receiveSound = new Audio('limbus_index_beeper.mp3');
-const clearSound = new Audio('indexbeep_notification.mp3');
-const actionBtn = document.getElementById('action-btn');
-const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    
 
 
     
     let isClearState = false;
-    let isProcessing = false;
+    let isProcessingconst displayElement = document.getElementById('prescript-text');
+const receiveSound = new Audio('limbus_index_beeper.mp3');
+const clearSound = new Audio('indexbeep_notification.mp3');
+// Add the theme music here
+const themeMusic = new Audio('Children_of_the_City.mp3');
+themeMusic.loop = true;
+themeMusic.volume = 0.3; 
+
+const actionBtn = document.getElementById('action-btn');
+const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+ = false;
 
     function generatePrescript() {
       if (Math.random() < 0.0005) {
@@ -197,7 +203,7 @@ const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456
         if (iterations >= clearLabel.length) {
           clearInterval(interval);
           
-          // Wait briefly, then reset the UI to Receive state
+        
           setTimeout(() => {
             displayElement.innerHTML = "...WAITING FOR SYNCHRONIZATION...";
             document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
@@ -212,23 +218,23 @@ const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456
     }
 
     actionBtn.addEventListener("click", () => {
+  
+  if (themeMusic.paused) {
+    themeMusic.play().catch(e => console.log("Music blocked by browser"));
+  }
+
   if (isProcessing) return;
 
   if (!isClearState) {
-    // 1. Play receive sound (the limbus_index_beeper)
-    receiveSound.play().catch(e => console.log("Audio blocked by browser"));
-
-    // 2. Generate and show Prescript
+    receiveSound.play().catch(e => console.log("Audio blocked"));
     const finalWill = generatePrescript();
     decodeText(finalWill);
   } else {
-    // 1. Play clear sound (the indexbeep_notification)
-    clearSound.play().catch(e => console.log("Audio blocked by browser"));
-
-    // 2. Reset the interface
+    clearSound.play().catch(e => console.log("Audio blocked"));
     scrambleAndReset();
   }
 });
+
 
   </script>
 </body>
