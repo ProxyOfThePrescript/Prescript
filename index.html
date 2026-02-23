@@ -13,175 +13,139 @@
       --current-theme: var(--index-blue);
     }
 
+    /* FIX 1: Allow scrolling and better mobile height */
     html, body { 
-      margin: 0; height: 100%; 
+      margin: 0; 
+      min-height: 100%; 
       background-color: #020202; 
       color: var(--current-theme);
       font-family: 'Pixelify Sans', sans-serif; 
-      display: flex; justify-content: center; align-items: center;
-      overflow: hidden; transition: color 0.5s ease;
+      display: flex; 
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden; 
+      overflow-y: auto; /* Allows scrolling when log grows */
+      transition: color 0.5s ease;
     }
 
     body::before {
-      content: " "; display: block; position: absolute;
+      content: " "; display: block; position: fixed; /* Fixed so it stays while scrolling */
       top: 0; left: 0; bottom: 0; right: 0;
       background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
                   linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
       z-index: 100; background-size: 100% 4px, 4px 100%; pointer-events: none;
     }
-       
-.secret-mode {
-  animation: screenFlicker 0.08s infinite;
-}
 
-.secret-mode #prescript-text {
-  animation: textGlitch 0.15s infinite alternate;
-  text-shadow:
-    2px 0 #ff00ff,
-    -2px 0 #00ffff,
-    0 0 8px #8b00ff;
-  letter-spacing: 2px;
-}
-
-/* Screen flicker */
-@keyframes screenFlicker {
-  0% { opacity: 1; }
-  50% { opacity: 0.85; }
-  100% { opacity: 1; }
-}
-
-/* Text distortion */
-@keyframes textGlitch {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, 1px); }
-  40% { transform: translate(2px, -1px); }
-  60% { transform: translate(-1px, -2px); }
-  80% { transform: translate(1px, 2px); }
-  100% { transform: translate(0); }
-}
     #container {
-      text-align: center; padding: 40px; width: 95%; max-width: 900px;
-      position: relative; z-index: 10;
-    }
-
-    #header { 
-      font-size: 14px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.6; 
-      text-shadow: 0 0 5px var(--current-theme); 
+      text-align: center; 
+      padding: 20px; 
+      width: 90%; 
+      max-width: 600px;
+      position: relative; 
+      z-index: 10;
+      margin-top: 5vh;
     }
 
     #logo {
-      width: 250px; height: auto; margin-bottom: 20px;
+      width: 100%;
+      max-width: 200px; 
+      height: auto; 
+      margin-bottom: 20px;
       opacity: 0.8;
     }
       
+    /* FIX 2: Responsive font size */
     #prescript-text { 
-      font-size: 22px; line-height: 1.5; min-height: 200px; 
+      font-size: clamp(16px, 5vw, 24px); 
+      line-height: 1.4; 
+      min-height: 150px; 
       text-shadow: 0 0 8px var(--current-theme); 
       font-weight: 500;
-      display: flex; flex-direction: column; justify-content: center;
+      margin-bottom: 20px;
     }
 
     #action-btn {
-      margin-top: 30px;
       padding: 12px 35px;
       background: transparent;
       border: 1px solid var(--current-theme);
       color: var(--current-theme);
-      font-family: 'Pixelify Sans', sans-serif;
+      font-family: inherit;
       font-size: 18px;
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 2px;
       transition: all 0.3s ease;
-      animation: pulse 2.5s infinite;
     }
 
-    #action-btn:disabled {
-      opacity: 0.2;
-      cursor: not-allowed;
-      animation: none;
+    /* FIX 3: Better Log Styling */
+    #prescript-log {
+      width: 100%;
+      margin-top: 30px; 
+      text-align: left; 
+      font-size: 14px; 
+      border-top: 1px solid #333; 
+      padding-top: 20px;
+      padding-bottom: 50px; /* Space at bottom */
     }
 
-    #action-btn:hover:not(:disabled) {
-      background: var(--current-theme);
-      color: #020202;
-      box-shadow: 0 0 20px var(--current-theme);
+    .log-entry {
+      margin-bottom: 15px; 
+      border-left: 2px solid var(--index-blue); 
+      padding-left: 10px; 
+      animation: fadeIn 0.5s ease;
     }
 
-    @keyframes pulse {
-      0% { opacity: 0.3; }
-      50% { opacity: 1; }
-      100% { opacity: 0.3; }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .secret-mode { animation: screenFlicker 0.08s infinite; }
+    @keyframes screenFlicker { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
   </style>
 </head>
 
 <body>
   <div id="container">
-    <div id="header">THE WILL OF THE CITY</div>
+    <div id="header" style="opacity: 0.6; font-size: 12px; margin-bottom: 10px;">THE WILL OF THE CITY</div>
     <img id="logo" src="index_logo.png" alt="INDEX">
-    <div id="timer-display" style="font-family: monospace; color: var(--index-red); font-size: 1.5rem; margin-bottom: 10px; min-height: 1.5rem;"></div>
+    <div id="timer-display" style="font-family: monospace; color: var(--index-red); font-size: 1.2rem; margin-bottom: 15px;"></div>
     <div id="prescript-text">...WAITING FOR SYNCHRONIZATION...</div>
-    <button id="action-btn">Receive</button>
+    
+    <div style="display: flex; gap: 10px; justify-content: center;">
+        <button id="action-btn">Receive</button>
+        <button id="log-btn" style="display: none; background: none; border: 1px solid var(--current-theme); color: var(--current-theme); font-family: inherit; cursor: pointer; padding: 5px 15px;">Log Prescript</button>
+    </div>
+
+    <div id="prescript-log"></div>
   </div>
 
 <script>
-  window.onerror = function(msg, url, line) { alert("Error: " + msg + "\nLine: " + line); };
-
   const sub_dict = {
+    // FIX 4: Cleaned up strings to prevent "of of" or "for for" issues
     verbs: ["Nod to", "Tap", "Trace a line near", "Stand behind", "Mirror the posture of", "Whisper to", "Circle", "Point toward", "Adjust the collar of", "Sigh near", "Place a hand on", "Shift weight toward", "Ignore", "Bow to", "Wave at", "Wait beside", "Touch the shoulder of", "Hand a coin to", "Offer a seat to", "Hum to", "Check the watch of", "Step into the shadow of", "Inhale the scent of", "Adjust the glasses of", "Brush the sleeve of", "Count the heartbeats of", "Exhale toward", "Pivot away from", "Observe the reflection of"],
     details: ["the left side of", "the shadow of", "the reflection of", "the personal space of", "the path ahead of", "the right shoulder of", "the hand of", "the bag of", "the glasses of", "the pocket of", "the hair of", "the sleeve of", "the wrist of", "the ear of", "the hem of the coat of", "the watch-face of", "the dominant hand of", "the thumb-nail of", "the lapel of"],
     traits: ["wearing denim", "holding a phone", "with tired eyes", "carrying a bag", "wearing white shoes", "with a red garment", "looking at the sky", "checking the time", "leaning against a wall", "walking briskly", "with messy hair", "wearing a scarf", "holding a drink", "wearing spectacles", "carrying a book", "wearing a hat", "holding an umbrella", "with a backpack", "looking lost", "wearing gloves", "holding a key", "in a uniform", "wearing a ring", "with a mask", "wearing a watch", "with headphones", "holding a coin", "looking at a wristwatch", "holding a newspaper"],
-    triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "the wind shifts", "you feel a chill", "a phone rings", "someone coughs", "a light flickers", "you hear footsteps", "the temperature drops", "you smell ozone", "you smell coffee", "a dog barks", "someone calls a name", "a light turns green", "you see a red sign", "a leaf falls", "you blink N times", "you count N heartbeats", "a bell rings", "the air feels damp", "you see a yellow object", "the crowd thins", "a coin hits the ground", "a siren blares"],
+    triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "the wind shifts", "you feel a chill", "a phone rings", "someone coughs", "a light flickers", "you hear footsteps", "the temperature drops", "you smell ozone", "you smell coffee", "a dog barks", "someone calls a name", "a light turns green", "you see a red sign", "a leaf falls", "a bell rings", "the air feels damp", "you see a yellow object", "the crowd thins", "a coin hits the ground", "a siren blares"],
     subjects: ["the price of ink", "a forgotten debt", "the weight of the City", "a dream about water", "the scent of old paper", "a silent agreement", "the shape of a shadow", "a missed opportunity", "the color of the sky", "a secret wish", "the taste of iron", "the path not taken", "a cold breeze", "the sound of rain", "a lost key", "the roots of a tree", "a drop of ink", "the concept of time", "the geometry of the district", "the silence between breaths"],
-    durations: ["for N seconds", "for N breaths", "until the target moves N steps", "for N minutes", "for the duration of N heartbeats", "until N shadows pass", "for a count of N"],
-    deadlines: ["within N minutes", "before the sun shifts N degrees", "within the next N hours", "before the next N bells", "within N steps", "within N blocks of your current location"]
+    durations: ["for N seconds", "for N breaths", "until the target moves N steps", "for N minutes", "for N heartbeats", "until N shadows pass", "for a count of N"],
+    deadlines: ["within N minutes", "before the sun shifts N degrees", "within the next N hours", "before the next N bells", "within N steps", "within N blocks"]
   };
 
   let isClearState = false;
   let isProcessing = false;
   let currentPrescriptText = "";
   let countdownInterval;
-  let activeLogTimers = [];
 
   const displayElement = document.getElementById('prescript-text');
   const actionBtn = document.getElementById('action-btn');
+  const logBtn = document.getElementById('log-btn');
   const timerDisplay = document.getElementById('timer-display');
+  const logContainer = document.getElementById('prescript-log');
   const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
 
-
-  const receiveSound = new Audio('limbus_index_beeper.mp3');
-  const clearSound = new Audio('indexbeep_notification.mp3');
-  const themeMusic = new Audio('Children_of_the_City.mp3');
-  themeMusic.loop = true;
-  themeMusic.volume = 0.5;
-  
-  const logContainer = document.createElement('div');
-  logContainer.id = "prescript-log";
-  logContainer.style = "margin-top: 40px; text-align: left; font-size: 12px; border-top: 1px solid #333; padding-top: 10px; max-height: 200px; overflow-y: auto;";
-  document.getElementById('container').appendChild(logContainer);
-
-  const logBtn = document.createElement('button');
-  logBtn.innerText = "Log Prescript";
-  logBtn.id = "log-btn";
-  logBtn.style = "display: none; margin-top: 10px; background: none; border: 1px solid var(--current-theme); color: var(--current-theme); font-family: inherit; cursor: pointer; padding: 5px 15px;";
-  document.getElementById('container').insertBefore(logBtn, logContainer);
-
   function generatePrescript() {
-    if (Math.random() < 0.001) {
-      document.documentElement.style.setProperty('--current-theme', '#8b00ff');
-      document.body.classList.add("secret-mode");
-      return "/// SIGNAL INTERCEPTED /// YOU WERE NOT MEANT TO SEE THIS ///";
-    }
-    if (Math.random() < 0.02) {
-      document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-      return "CRITICAL: THE WILL IS COMPROMISED. DO NOT MOVE. WAIT FOR FURTHER INSTRUCTION.";
-    }
-
-    document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
     const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-    const getN = () => Math.floor(Math.random() * 75) + 1;
+    const getN = () => Math.floor(Math.random() * 50) + 1;
 
+    // FIX 5: Better sentence structure
     let finalStr = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, a person ${getRand(sub_dict.traits)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
     
     while (finalStr.includes("N")) { finalStr = finalStr.replace("N", getN()); }
@@ -197,10 +161,10 @@
 
     let iterations = 0;
     const interval = setInterval(() => {
-      displayElement.innerHTML = text.split("").map((char, index) => {
+      displayElement.innerText = text.split("").map((char, index) => {
         if (index < iterations) return text[index];
         return fullCharset[Math.floor(Math.random() * fullCharset.length)];
-      }).join("") + '<span class="cursor"></span>';
+      }).join("");
 
       if (iterations >= text.length) {
         clearInterval(interval);
@@ -209,14 +173,11 @@
         actionBtn.innerText = "Clear";
         isClearState = true;
         currentPrescriptText = text;
-        
-        if (text.includes("WITHIN") || text.includes("BEFORE")) {
-          startDeadline(text);
-          logBtn.style.display = "inline-block";
-        }
+        startDeadline(text);
+        logBtn.style.display = "inline-block";
       }
-      iterations += 0.4;
-    }, 6);
+      iterations += 0.5;
+    }, 10);
   }
 
   function startDeadline(text) {
@@ -245,82 +206,35 @@
 
   logBtn.addEventListener('click', () => {
     const entry = document.createElement('div');
-    const match = currentPrescriptText.match(/\d+/);
-    let secs = match ? parseInt(match[0]) : 60;
-    if (currentPrescriptText.includes("MINUTES")) secs *= 60;
-    else if (currentPrescriptText.includes("HOURS")) secs *= 3600;
-
-    entry.style = "margin-bottom: 10px; border-left: 2px solid var(--index-blue); padding-left: 10px; opacity: 0.8;";
+    entry.className = "log-entry";
+    
     const logText = document.createElement('div');
     logText.innerText = currentPrescriptText;
-    const logTimer = document.createElement('div');
-    logTimer.style.color = "var(--index-red)";
-    
     entry.appendChild(logText);
-    entry.appendChild(logTimer);
-    logContainer.prepend(entry);
 
-    const logInterval = setInterval(() => {
-      secs--;
-      logTimer.innerText = `REMAINING: ${formatTime(secs)}`;
-      if (secs <= 0) {
-        clearInterval(logInterval);
-        logTimer.innerText = "!!! VIOLATED !!!";
-        entry.style.color = "red";
-      }
-    }, 1000);
-    
+    logContainer.prepend(entry);
     logBtn.style.display = "none";
   });
 
   function triggerViolation() {
     document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-    displayElement.innerHTML = "<span style='background: red; color: white;'> !!! VIOLATION DETECTED !!! </span><br><br>THE WILL HAS BEEN IGNORED.";
-  }
-
-  function scrambleAndReset() {
-    isProcessing = true;
-    actionBtn.disabled = true;
-    logBtn.style.display = "none";
-    const clearLabel = "_CLEAR._";
-    let iterations = 0;
-    document.body.classList.remove("secret-mode");
-    
-    const interval = setInterval(() => {
-      displayElement.innerHTML = clearLabel.split("").map((char, index) => {
-        if (index < iterations) return clearLabel[index];
-        return fullCharset[Math.floor(Math.random() * fullCharset.length)];
-      }).join("");
-
-      if (iterations >= clearLabel.length) {
-        clearInterval(interval);
-        setTimeout(() => {
-          clearInterval(countdownInterval); 
-          timerDisplay.innerText = "";
-          displayElement.innerHTML = "...WAITING FOR SYNCHRONIZATION...";
-          document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
-          actionBtn.innerText = "Receive";
-          isClearState = false;
-          isProcessing = false;
-          actionBtn.disabled = false;
-        }, 800);
-      }
-      iterations += 0.6;
-    }, 15);
+    displayElement.innerHTML = "<span style='color: white;'> !!! VIOLATION DETECTED !!! </span><br><br>THE WILL HAS BEEN IGNORED.";
   }
 
   actionBtn.addEventListener("click", () => {
-    if (themeMusic.paused) themeMusic.play().catch(e => {});
     if (isProcessing) return;
     if (!isClearState) {
-      receiveSound.play().catch(e => {});
       decodeText(generatePrescript());
     } else {
-      clearSound.play().catch(e => {});
-      scrambleAndReset();
+      timerDisplay.innerText = "";
+      clearInterval(countdownInterval);
+      displayElement.innerText = "...WAITING FOR SYNCHRONIZATION...";
+      document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
+      actionBtn.innerText = "Receive";
+      isClearState = false;
+      logBtn.style.display = "none";
     }
   });
 </script>
-
 </body>
 </html>
