@@ -41,7 +41,7 @@
     }
 
     #logo {
-      width: 300px; height: auto; margin-bottom: 20px;
+      width: 200px; height: auto; margin-bottom: 20px;
       opacity: 0.8;
     }
     
@@ -84,14 +84,6 @@
       50% { opacity: 1; }
       100% { opacity: 0.3; }
     }
-
-    .cursor {
-      display: inline-block; width: 10px; height: 20px;
-      background-color: var(--current-theme); margin-left: 5px;
-      vertical-align: middle; animation: blink 0.5s step-end infinite;
-    }
-
-    @keyframes blink { 50% { opacity: 0; } }
   </style>
 </head>
 
@@ -162,7 +154,7 @@
         displayElement.innerHTML = clearLabel.split("").map((char, index) => {
           if (index < iterations) return clearLabel[index];
           return fullCharset[Math.floor(Math.random() * fullCharset.length)];
-        }).join("") + '<span class="cursor"></span>';
+        }).join("");
 
         if (iterations >= clearLabel.length) {
           clearInterval(interval);
