@@ -29,7 +29,36 @@
                   linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
       z-index: 100; background-size: 100% 4px, 4px 100%; pointer-events: none;
     }
+       
+.secret-mode {
+  animation: screenFlicker 0.08s infinite;
+}
 
+.secret-mode #display {
+  animation: textGlitch 0.15s infinite alternate;
+  text-shadow:
+    2px 0 #ff00ff,
+    -2px 0 #00ffff,
+    0 0 8px #8b00ff;
+  letter-spacing: 2px;
+}
+
+/* Screen flicker */
+@keyframes screenFlicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.85; }
+  100% { opacity: 1; }
+}
+
+/* Text distortion */
+@keyframes textGlitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, -2px); }
+  80% { transform: translate(1px, 2px); }
+  100% { transform: translate(0); }
+}
     #container {
       text-align: center; padding: 40px; width: 95%; max-width: 900px;
       position: relative; z-index: 10;
@@ -112,7 +141,11 @@
     let isProcessing = false;
 
     function generatePrescript() {
-      if (Math.random() < 0.05) {
+      if (Math.random() < 0.0005) {
+    document.documentElement.style.setProperty('--current-theme', '#8b00ff');
+    document.body.classList.add("secret-mode");
+    return "/// SIGNAL INTERCEPTED /// YOU WERE NOT MEANT TO SEE THIS ///";
+      if (Math.random() < 0.02) {
         document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
         return "CRITICAL: THE WILL IS COMPROMISED. DO NOT MOVE. WAIT FOR FURTHER INSTRUCTION.";
       }
