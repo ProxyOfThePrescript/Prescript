@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>THE INDEX: PIXEL_WILL</title>
+  <title>THE INDEX: PRESCRIPT</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 
@@ -39,6 +39,13 @@
       font-size: 14px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.7; 
       text-shadow: 0 0 8px var(--current-theme); 
     }
+
+    /* RE-ADDED LOGO STYLING */
+    #logo {
+      width: 120px; height: auto; margin-bottom: 20px;
+      filter: drop-shadow(0 0 5px var(--current-theme));
+      opacity: 0.9;
+    }
     
     #prescript-text { 
       font-size: 24px; line-height: 1.6; min-height: 180px; 
@@ -59,6 +66,7 @@
 <body>
   <div id="container">
     <div id="header">Transmission Established</div>
+    <img id="logo" src="index_logo.png" alt="THE INDEX LOGO">
     <div id="prescript-text">Decoding the Will...</div>
   </div>
 
@@ -76,7 +84,7 @@
     function generatePrescript() {
       if (Math.random() < 0.10) {
         document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-        return "Critical: Do not speak to anyone until the sun rises tomorrow.";
+        return "CRITICAL: DO NOT ATTEMPT TO INTERPRET THE WILL. CEASE ALL MOVEMENT.";
       }
       document.documentElement.style.setProperty('--current-theme', 'var(--index-cyan)');
       const d = dictionary;
@@ -87,6 +95,8 @@
     function decodeText(text) {
       let iterations = 0;
       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+      
+      // Changed speed from 30ms to 20ms for faster flicker
       const interval = setInterval(() => {
         displayElement.innerHTML = text.split("").map((char, index) => {
           if (index < iterations) return text[index];
@@ -94,14 +104,18 @@
         }).join("") + '<span class="cursor"></span>';
 
         if (iterations >= text.length) clearInterval(interval);
-        iterations += 1/3; 
-      }, 30);
+        
+        // Changed speed from 1/3 (0.33) to 0.8 for much faster reveal
+        iterations += 0.8; 
+      }, 20); 
     }
 
     window.onload = () => {
       const finalWill = generatePrescript();
-      setTimeout(() => decodeText(finalWill), 800);
+      // Reduced delay from 800ms to 400ms so it feels snappier
+      setTimeout(() => decodeText(finalWill), 400);
     };
   </script>
 </body>
+</html>
 </html>
