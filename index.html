@@ -125,205 +125,202 @@
     <button id="action-btn">Receive</button>
   </div>
 
-  <script>
-    window.onerror = function(msg, url, line) { alert("Error: " + msg + "\nLine: " + line); };
-    
-const sub_dict = {
-  verbs: ["nod to", "Tap", "Trace a line near", "Stand behind", "Mirror the posture of", "Whisper to", "Circle", "Point toward", "Shield the eyes of", "Adjust the collar of", "Sigh near", "Place a hand on", "Shift weight toward", "Ignore", "Bow to", "Block the path of", "Mimic the stride of", "Wave at", "Wait beside", "Grip the wrist of", "Lower your gaze for", "Touch the shoulder of", "Hand a coin to", "Offer a seat to", "Lean toward", "Snap your fingers for", "Hum to", "Check the watch of", "Steady the arm of", "Step into the shadow of", "Flick a finger toward", "Clench your fist near", "Measure the distance to", "Inhale the scent of", "Mimic the blink rate of", "Adjust the glasses of", "Brush the sleeve of", "Trace a symbol near", "Count the heartbeats of", "Exhale toward", "Align your shadow with", "Pivot away from", "Maintain a fixed gaze on", "Mimic the breathing of", "Tap the rhythm of a song for", "Place a dry leaf near", "Offer a silent prayer for", "Inspect the footwear of", "Shadow the movements of", "Cover your heart before", "Wipe a smudge near", "Point a toe toward", "Tilt your head at", "Lock joints near", "Tremble slightly before", "Reach toward", "Retract your presence from", "Stand at an angle to", "Observe the reflection of", "Mouth a word to"],
-  details: ["the left side of", "the shadow of", "the reflection of", "the personal space of", "the footprint of", "the luggage of", "the silhouette of", "the cold surface near", "the path ahead of", "the direct line of sight of", "the digital screen of", "the right shoulder of", "the outstretched hand of", "the wet shoes of", "the worn bag of", "the glasses of", "the keychain of", "the belt of", "the ring finger of", "the mask of", "the notebook of", "the pocket of", "the hair of", "the sleeve of", "the wrist of", "the neck of", "the ear of", "the hem of the coat of", "the buckle of", "the laces of", "the screen of", "the shadow cast by", "the ventilation of", "the buttons of", "the collarbones of", "the watch-face of", "the dominant hand of", "the zipper of", "the scarf-knot of", "the thumb-nail of", "the briefcase handle of", "the lapel of", "the spine of the book held by", "the shadow of the head of", "the reflection in the eye of"],
-  traits: ["wearing denim", "holding a phone", "with tired eyes", "carrying a heavy bag", "wearing white shoes", "with a red garment", "looking at the sky", "checking the time", "with crossed arms", "leaning against a wall", "walking briskly", "with messy hair", "wearing a scarf", "holding a drink", "with a visible scar", "wearing spectacles", "carrying a book", "with a lanyard", "wearing a hat", "holding an umbrella", "with a backpack", "looking lost", "with a bandage", "wearing gloves", "holding a key", "with a briefcase", "in a uniform", "with a cane", "wearing a ring", "holding a map", "with a mask", "wearing a watch", "carrying a paper bag", "with blue accessories", "wearing a dark coat", "with headphones", "with a silver piercing", "wearing mismatched socks", "holding a receipt", "with a faint scent of smoke", "carrying a shopping bag", "with polished shoes", "wearing a badge", "looking at their reflection", "with a leather wallet", "holding a coin", "wearing a striped shirt", "with a noticeable limp", "looking at a wristwatch", "holding a folded newspaper"],
-  triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "you hear a metallic clink", "the wind shifts", "you feel a chill", "a phone rings", "someone coughs", "a child speaks", "a shadow stretches", "a light flickers", "you hear footsteps", "the temperature drops", "you smell ozone", "you smell coffee", "a siren fades", "a dog barks", "a train passes", "someone calls a name", "a window opens", "a light turns green", "you see a red sign", "a leaf falls", "you blink N times", "you count N heartbeats", "you see a star", "a match is struck", "a bell rings", "a camera flashes", "you hear a distant shout", "the air feels damp", "you see a yellow object", "the crowd thins", "you hear the sound of a closing book", "a stranger makes eye contact", "a coin hits the ground", "you see a reflection of light", "a screen goes dark", "a siren blares", "you hear a whistle", "a shadow crosses your path", "the sun is obscured", "you hear a snippet of music"],
-  subjects: ["the price of ink", "a forgotten debt", "the weight of the City", "a dream about water", "the scent of old paper", "a silent agreement", "the shape of a shadow", "a missed opportunity", "the color of the sky", "a secret wish", "the taste of iron", "a flickering flame", "the path not taken", "a cold breeze", "the texture of stone", "a hidden door", "the sound of rain", "a lost key", "a heavy heart", "the roots of a tree", "a drop of ink", "a sharp corner", "the turn of a page", "a broken glass", "a soft touch", "a low hum", "a bright flash", "a thin line", "a wide gap", "the concept of time", "the price of gold", "a silver needle", "a name spoken in haste", "the geometry of the district", "the ink on your palm", "a debt paid in lead", "the arrangement of the stars", "a whisper in the dark", "the number of steps taken", "the pattern of the pavement", "a face in the crowd", "the silence between breaths"],
-  durations: ["for N seconds", "for N breaths", "until the target moves N steps", "until you see the color red N times", "for N minutes", "until the next N sounds of metal", "for the duration of N heartbeats", "until N shadows pass", "until a door opens N times", "for a count of N", "until you feel a breeze N times", "until the light shifts N times", "while maintaining N steps of distance"],
-  deadlines: ["within N minutes", "before the sun shifts N degrees", "before you leave the district", "within the next N hours", "before the next N bells", "within N steps", "before you cross N streets", "before you speak N words", "within the next N breaths", "before the temperature changes", "within N blocks of your current location"]
-};
+<script>
+  window.onerror = function(msg, url, line) { alert("Error: " + msg + "\nLine: " + line); };
 
-const dictionary = { action: [], who: [], when: [], topic: [], where: [] };
+  const sub_dict = {
+    verbs: ["Nod to", "Tap", "Trace a line near", "Stand behind", "Mirror the posture of", "Whisper to", "Circle", "Point toward", "Adjust the collar of", "Sigh near", "Place a hand on", "Shift weight toward", "Ignore", "Bow to", "Wave at", "Wait beside", "Touch the shoulder of", "Hand a coin to", "Offer a seat to", "Hum to", "Check the watch of", "Step into the shadow of", "Inhale the scent of", "Adjust the glasses of", "Brush the sleeve of", "Count the heartbeats of", "Exhale toward", "Pivot away from", "Observe the reflection of"],
+    details: ["the left side of", "the shadow of", "the reflection of", "the personal space of", "the path ahead of", "the right shoulder of", "the hand of", "the bag of", "the glasses of", "the pocket of", "the hair of", "the sleeve of", "the wrist of", "the ear of", "the hem of the coat of", "the watch-face of", "the dominant hand of", "the thumb-nail of", "the lapel of"],
+    traits: ["wearing denim", "holding a phone", "with tired eyes", "carrying a bag", "wearing white shoes", "with a red garment", "looking at the sky", "checking the time", "leaning against a wall", "walking briskly", "with messy hair", "wearing a scarf", "holding a drink", "wearing spectacles", "carrying a book", "wearing a hat", "holding an umbrella", "with a backpack", "looking lost", "wearing gloves", "holding a key", "in a uniform", "wearing a ring", "with a mask", "wearing a watch", "with headphones", "holding a coin", "looking at a wristwatch", "holding a newspaper"],
+    triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "the wind shifts", "you feel a chill", "a phone rings", "someone coughs", "a light flickers", "you hear footsteps", "the temperature drops", "you smell ozone", "you smell coffee", "a dog barks", "someone calls a name", "a light turns green", "you see a red sign", "a leaf falls", "you blink N times", "you count N heartbeats", "a bell rings", "the air feels damp", "you see a yellow object", "the crowd thins", "a coin hits the ground", "a siren blares"],
+    subjects: ["the price of ink", "a forgotten debt", "the weight of the City", "a dream about water", "the scent of old paper", "a silent agreement", "the shape of a shadow", "a missed opportunity", "the color of the sky", "a secret wish", "the taste of iron", "the path not taken", "a cold breeze", "the sound of rain", "a lost key", "the roots of a tree", "a drop of ink", "the concept of time", "the geometry of the district", "the silence between breaths"],
+    durations: ["for N seconds", "for N breaths", "until the target moves N steps", "for N minutes", "for the duration of N heartbeats", "until N shadows pass", "for a count of N"],
+    deadlines: ["within N minutes", "before the sun shifts N degrees", "within the next N hours", "before the next N bells", "within N steps", "within N blocks of your current location"]
+  };
 
-// Generate 5,625 phrases (75x75)
-for (let i = 0; i < 75; i++) {
-  for (let j = 0; j < 75; j++) {
-    const act = sub_dict.verbs[i % sub_dict.verbs.length];
-    const det = sub_dict.details[j % sub_dict.details.length];
-    const dur = sub_dict.durations[(i + j) % sub_dict.durations.length];
-    const dead = sub_dict.deadlines[i % sub_dict.deadlines.length];
+  let isClearState = false;
+  let isProcessing = false;
+  let currentPrescriptText = "";
+  let countdownInterval;
+  let activeLogTimers = [];
 
-    dictionary.action.push(`${act} ${det} ${dur}, ${dead},`);
-    dictionary.who.push(`a person ${sub_dict.traits[i % sub_dict.traits.length]} who is also ${sub_dict.traits[j % sub_dict.traits.length]}`);
-    dictionary.when.push(`exactly after ${sub_dict.triggers[i % sub_dict.triggers.length]} and ${sub_dict.triggers[j % sub_dict.triggers.length]}`);
-    dictionary.topic.push(`regarding ${sub_dict.subjects[i % sub_dict.subjects.length]} and ${sub_dict.subjects[j % sub_dict.subjects.length]}`);
-    dictionary.where.push(`at a distance of N steps from the ${sub_dict.details[j % sub_dict.details.length]} of the target.`);
-  }
-}
-
-let isClearState = false;
-let isProcessing = false;
-const displayElement = document.getElementById('prescript-text');
-const receiveSound = new Audio('limbus_index_beeper.mp3');
-const clearSound = new Audio('indexbeep_notification.mp3');
-const themeMusic = new Audio('Children_of_the_City.mp3');
-themeMusic.loop = true;
-themeMusic.volume = 0.7; 
-
-const actionBtn = document.getElementById('action-btn');
-const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-
-
-function generatePrescript() {
-  // Chance for secret modes
-  if (Math.random() < 0.0005) {
-    document.documentElement.style.setProperty('--current-theme', '#8b00ff');
-    document.body.classList.add("secret-mode");
-    return "/// SIGNAL INTERCEPTED /// YOU WERE NOT MEANT TO SEE THIS ///";
-  }
-  if (Math.random() < 0.02) {
-    document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-    return "CRITICAL: THE WILL IS COMPROMISED. DO NOT MOVE. WAIT FOR FURTHER INSTRUCTION.";
-  }
-
-  // Normal mode
-  document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
-  const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const getN = () => Math.floor(Math.random() * 272) + 1;
-
-  let act = getRand(dictionary.action);
-  let who = getRand(dictionary.who);
-  let when = getRand(dictionary.when);
-  let topic = getRand(dictionary.topic);
-  let where = getRand(dictionary.where);
-
-  
-  let finalStr = `${act} ${who}, ${when}, ${topic}, ${where}`;
-while (finalStr.includes("N")) {
-    finalStr = finalStr.replace("N", getN());
-}
-  return finalStr.toUpperCase();
-}
-
-let countdownInterval;
-
-function decodeText(text) {
-  isProcessing = true;
-  actionBtn.disabled = true;
-  document.getElementById('timer-display').innerText = ""; // Clear old timer
-  clearInterval(countdownInterval); // Stop any previous countdown
-
-  let iterations = 0;
-  const interval = setInterval(() => {
-    displayElement.innerHTML = text.split("").map((char, index) => {
-      if (index < iterations) return text[index];
-      return fullCharset[Math.floor(Math.random() * fullCharset.length)];
-    }).join("") + '<span class="cursor"></span>';
-
-    if (iterations >= text.length) {
-      clearInterval(interval);
-      isProcessing = false;
-      actionBtn.disabled = false;
-      actionBtn.innerText = "Clear";
-      isClearState = true;
-      
-      // Start the timer ONLY if it's a normal Prescript (not secret/compromised)
-      if (text.includes("WITHIN") || text.includes("BEFORE")) {
-        startDeadline(text);
-      }
-    }
-    iterations += 0.4;
-  }, 6);
-}
-
-function startDeadline(text) {
-  // 1. Find the first number
-  const match = text.match(/\d+/);
-  let baseValue = match ? parseInt(match[0]) : 60;
-  
-  // 2. Determine the multiplier based on the text
-  let totalSeconds = baseValue;
-  
-  if (text.includes("MINUTES")) {
-    totalSeconds = baseValue * 60;
-  } else if (text.includes("HOURS")) {
-    totalSeconds = baseValue * 3600;
-  }
-  // If it's "breaths" or "seconds", it stays as baseValue (1:1)
-
+  const displayElement = document.getElementById('prescript-text');
+  const actionBtn = document.getElementById('action-btn');
   const timerDisplay = document.getElementById('timer-display');
-  
-  countdownInterval = setInterval(() => {
-    totalSeconds--;
-    
-    // 3. Format the display so it looks like a real clock (MM:SS)
-    let displayMins = Math.floor(totalSeconds / 60);
-    let displaySecs = totalSeconds % 60;
-    let formattedTime = `${displayMins}:${displaySecs < 10 ? '0' : ''}${displaySecs}`;
-    
-    timerDisplay.innerText = `[ TIME REMAINING: ${formattedTime} ]`;
+  const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
 
-    if (totalSeconds <= 0) {
-      clearInterval(countdownInterval);
-      triggerViolation();
+
+  const receiveSound = new Audio('limbus_index_beeper.mp3');
+  const clearSound = new Audio('indexbeep_notification.mp3');
+  const themeMusic = new Audio('Children_of_the_City.mp3');
+  themeMusic.loop = true;
+  themeMusic.volume = 0.5;
+  
+  const logContainer = document.createElement('div');
+  logContainer.id = "prescript-log";
+  logContainer.style = "margin-top: 40px; text-align: left; font-size: 12px; border-top: 1px solid #333; padding-top: 10px; max-height: 200px; overflow-y: auto;";
+  document.getElementById('container').appendChild(logContainer);
+
+  const logBtn = document.createElement('button');
+  logBtn.innerText = "Log Prescript";
+  logBtn.id = "log-btn";
+  logBtn.style = "display: none; margin-top: 10px; background: none; border: 1px solid var(--current-theme); color: var(--current-theme); font-family: inherit; cursor: pointer; padding: 5px 15px;";
+  document.getElementById('container').insertBefore(logBtn, logContainer);
+
+  function generatePrescript() {
+    if (Math.random() < 0.001) {
+      document.documentElement.style.setProperty('--current-theme', '#8b00ff');
+      document.body.classList.add("secret-mode");
+      return "/// SIGNAL INTERCEPTED /// YOU WERE NOT MEANT TO SEE THIS ///";
     }
-  }, 1000);
-}
+    if (Math.random() < 0.02) {
+      document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
+      return "CRITICAL: THE WILL IS COMPROMISED. DO NOT MOVE. WAIT FOR FURTHER INSTRUCTION.";
+    }
 
+    document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
+    const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    const getN = () => Math.floor(Math.random() * 75) + 1;
 
-function triggerViolation() {
-  document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-  displayElement.innerHTML = "<span style='color: white; background: red;'> !!! VIOLATION DETECTED !!! </span><br><br>THE WILL HAS BEEN IGNORED. THE NEAREST PROXY HAS BEEN SENT TO YOUR LOCATION.";
-  document.getElementById('timer-display').innerText = "DISCIPLINARY ACTION PENDING";
-  
-  
-}
+    let finalStr = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, a person ${getRand(sub_dict.traits)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
+    
+    while (finalStr.includes("N")) { finalStr = finalStr.replace("N", getN()); }
+    return finalStr.toUpperCase();
+  }
 
-function scrambleAndReset() {
-  isProcessing = true;
-  actionBtn.disabled = true;
-  const clearLabel = "_CLEAR._";
-  let iterations = 0;
+  function decodeText(text) {
+    isProcessing = true;
+    actionBtn.disabled = true;
+    logBtn.style.display = "none";
+    timerDisplay.innerText = "";
+    clearInterval(countdownInterval);
 
-  // Immediately remove secret mode effects when starting the reset
-  document.body.classList.remove("secret-mode");
-  
-  const interval = setInterval(() => {
-    displayElement.innerHTML = clearLabel.split("").map((char, index) => {
-      if (index < iterations) return clearLabel[index];
-      return fullCharset[Math.floor(Math.random() * fullCharset.length)];
-    }).join("");
+    let iterations = 0;
+    const interval = setInterval(() => {
+      displayElement.innerHTML = text.split("").map((char, index) => {
+        if (index < iterations) return text[index];
+        return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+      }).join("") + '<span class="cursor"></span>';
 
-    if (iterations >= clearLabel.length) {
-      clearInterval(interval);
-      setTimeout(() => {
-        clearInterval(countdownInterval); 
-        document.getElementById('timer-display').innerText = "";
-        
-        displayElement.innerHTML = "...WAITING FOR SYNCHRONIZATION...";
-        document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
-        actionBtn.innerText = "Receive";
-        isClearState = false;
+      if (iterations >= text.length) {
+        clearInterval(interval);
         isProcessing = false;
         actionBtn.disabled = false;
-      }, 800);
+        actionBtn.innerText = "Clear";
+        isClearState = true;
+        currentPrescriptText = text;
+        
+        if (text.includes("WITHIN") || text.includes("BEFORE")) {
+          startDeadline(text);
+          logBtn.style.display = "inline-block";
+        }
+      }
+      iterations += 0.4;
+    }, 6);
+  }
+
+  function startDeadline(text) {
+    const match = text.match(/\d+/);
+    let totalSeconds = match ? parseInt(match[0]) : 60;
+    if (text.includes("MINUTES")) totalSeconds *= 60;
+    else if (text.includes("HOURS")) totalSeconds *= 3600;
+
+    countdownInterval = setInterval(() => {
+      totalSeconds--;
+      timerDisplay.innerText = `[ TIME REMAINING: ${formatTime(totalSeconds)} ]`;
+      if (totalSeconds <= 0) {
+        clearInterval(countdownInterval);
+        triggerViolation();
+      }
+    }, 1000);
+  }
+
+  function formatTime(secs) {
+    if (secs <= 0) return "00:00";
+    let h = Math.floor(secs / 3600);
+    let m = Math.floor((secs % 3600) / 60);
+    let s = secs % 60;
+    return `${h > 0 ? h + ':' : ''}${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+  }
+
+  logBtn.addEventListener('click', () => {
+    const entry = document.createElement('div');
+    const match = currentPrescriptText.match(/\d+/);
+    let secs = match ? parseInt(match[0]) : 60;
+    if (currentPrescriptText.includes("MINUTES")) secs *= 60;
+    else if (currentPrescriptText.includes("HOURS")) secs *= 3600;
+
+    entry.style = "margin-bottom: 10px; border-left: 2px solid var(--index-blue); padding-left: 10px; opacity: 0.8;";
+    const logText = document.createElement('div');
+    logText.innerText = currentPrescriptText;
+    const logTimer = document.createElement('div');
+    logTimer.style.color = "var(--index-red)";
+    
+    entry.appendChild(logText);
+    entry.appendChild(logTimer);
+    logContainer.prepend(entry);
+
+    const logInterval = setInterval(() => {
+      secs--;
+      logTimer.innerText = `REMAINING: ${formatTime(secs)}`;
+      if (secs <= 0) {
+        clearInterval(logInterval);
+        logTimer.innerText = "!!! VIOLATED !!!";
+        entry.style.color = "red";
+      }
+    }, 1000);
+    
+    logBtn.style.display = "none";
+  });
+
+  function triggerViolation() {
+    document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
+    displayElement.innerHTML = "<span style='background: red; color: white;'> !!! VIOLATION DETECTED !!! </span><br><br>THE WILL HAS BEEN IGNORED.";
+  }
+
+  function scrambleAndReset() {
+    isProcessing = true;
+    actionBtn.disabled = true;
+    logBtn.style.display = "none";
+    const clearLabel = "_CLEAR._";
+    let iterations = 0;
+    document.body.classList.remove("secret-mode");
+    
+    const interval = setInterval(() => {
+      displayElement.innerHTML = clearLabel.split("").map((char, index) => {
+        if (index < iterations) return clearLabel[index];
+        return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+      }).join("");
+
+      if (iterations >= clearLabel.length) {
+        clearInterval(interval);
+        setTimeout(() => {
+          clearInterval(countdownInterval); 
+          timerDisplay.innerText = "";
+          displayElement.innerHTML = "...WAITING FOR SYNCHRONIZATION...";
+          document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
+          actionBtn.innerText = "Receive";
+          isClearState = false;
+          isProcessing = false;
+          actionBtn.disabled = false;
+        }, 800);
+      }
+      iterations += 0.6;
+    }, 15);
+  }
+
+  actionBtn.addEventListener("click", () => {
+    if (themeMusic.paused) themeMusic.play().catch(e => {});
+    if (isProcessing) return;
+    if (!isClearState) {
+      receiveSound.play().catch(e => {});
+      decodeText(generatePrescript());
+    } else {
+      clearSound.play().catch(e => {});
+      scrambleAndReset();
     }
-    iterations += 0.6;
-  }, 15);
-}
+  });
+</script>
 
-actionBtn.addEventListener("click", () => {
-  if (themeMusic.paused) {
-    themeMusic.play().catch(e => console.log("Music blocked"));
-  }
-  if (isProcessing) return;
-
-  if (!isClearState) {
-    receiveSound.play().catch(e => console.log("Audio blocked"));
-    const finalWill = generatePrescript();
-    decodeText(finalWill);
-  } else {
-    clearSound.play().catch(e => console.log("Audio blocked"));
-    scrambleAndReset();
-  }
-});
-
-
-  </script>
 </body>
 </html>
