@@ -50,7 +50,6 @@
 
     #action-btn {
       width: 200px; height: 60px;
-      /* Initial state is Blue background */
       background: var(--index-blue); 
       border: 1px solid var(--index-blue);
       color: #020202; 
@@ -58,6 +57,7 @@
       font-size: 18px; cursor: pointer; text-transform: uppercase;
       letter-spacing: 2px; transition: all 0.4s ease;
       box-shadow: 0 0 15px var(--index-blue);
+      font-style: normal; /* Ensure no italics */
     }
 
     #action-btn:hover:not(:disabled) {
@@ -66,7 +66,6 @@
       border-color: var(--current-theme);
     }
 
-    /* Red state for button when violated */
     .violated-btn {
       background: var(--index-red) !important;
       border-color: var(--index-red) !important;
@@ -101,7 +100,7 @@
     verbs: ["Nod to", "Tap", "Stand behind", "Wave at", "Smile at", "Point toward", "Walk past", "Sit near", "Look at", "Cough near", "Whisper to", "Hand a paper to", "Touch the shoulder of", "Check the watch of", "Bow to", "Hum to", "Sigh near", "Clap for", "Lean toward", "Ignore", "Wait for", "Whistle at", "Blink at", "Block the path of", "Circle", "Approach", "High-five", "Wink at", "Hold a door for", "Step over", "Lean against", "Gaze at", "Applaud", "Notice", "Greet"],
     details: ["the left side of", "the right side of", "the shadow of", "the reflection of", "the back of", "the path of", "the personal space of", "the bag of", "the phone of", "the shoes of", "the jacket of", "the hat of", "the bicycle of", "the umbrella of", "the glasses of", "the coffee cup of", "the groceries of", "the wristwatch of", "the dog of", "the headphones of", "the notebook of", "the keys of", "the wallet of", "the chair of", "the table of"],
     traits: ["wearing a blue shirt", "wearing glasses", "holding a phone", "carrying a backpack", "wearing sneakers", "with a red hat", "wearing a mask", "holding a coffee", "walking a dog", "looking at a map", "wearing a suit", "with messy hair", "holding an umbrella", "wearing a dress", "carrying a shopping bag", "with headphones on", "wearing a watch", "holding a book", "wearing a tie", "with a ponytail", "wearing denim jeans", "looking at the sky", "eating a snack", "sitting on a bench", "wearing a hoodie", "carrying a briefcase"],
-    triggers: ["a car horn honks", "a dog barks", "a phone rings", "someone sneezes", "a door closes", "a siren sounds", "the lights change", "a bird chirps", "someone laughs", "a bus stops", "a train passes", "it starts to rain", "a child yells", "someone drops something", "a bell rings", "the wind blows", "a cyclist passes", "a car starts", "music starts playing", "a store door opens", "the sun comes out", "a light flickers"],
+    triggers: ["a car horn honks", "a dog barks", "a phone rings", "someone sneezes", "a door closes", "a siren sounds", "the lights change", "a bird chirps", "someone laughs", "a bus stops", "a train passes", "it starts to rain", "a child yells", "someone drops something", "a bell rings", "the wind blows", "a cyclist passes", "a car starts", "music starts playing", "a store door opens", "the sun comes out", "a light flicker"],
     subjects: ["the weather", "a lost key", "the time", "a secret", "a forgotten name", "the price of bread", "a recent dream", "the color blue", "a late train", "the next stop", "a broken window", "the daily news", "a favorite song", "the street lights", "a heavy bag", "the cold air", "a noisy car", "the taste of coffee", "a missed call", "the shape of clouds", "the city lights"],
     durations: ["for N seconds", "for N minutes", "for N breaths", "for N blinks", "for N steps", "for N heartbeats", "until N cars pass", "until N people walk by"]
   };
@@ -136,19 +135,13 @@
       const secret = secrets[Math.floor(Math.random() * secrets.length)];
       return { text: secret.text, time: secret.time };
     }
-
     const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
     const getN = () => Math.floor(Math.random() * 65) + 1;
-    
     let s = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
-    
     while (s.includes("N")) { s = s.replace("N", getN()); }
-    
     const minSecs = 60;
     const maxSecs = 99 * 3600;
-    let randomTime = Math.floor(Math.random() * (maxSecs - minSecs + 1)) + minSecs;
-
-    return { text: s.toUpperCase(), time: randomTime };
+    return { text: s.toUpperCase(), time: Math.floor(Math.random() * (maxSecs - minSecs + 1)) + minSecs };
   }
 
   function decodeText(data) {
@@ -168,11 +161,13 @@
         clearInterval(interval);
         isProcessing = false;
         actionBtn.disabled = false;
-        actionBtn.innerText = "Clear";
+        // The Visual is _CLEAR._ but the font is upright
+        actionBtn.style.fontStyle = "normal";
+        actionBtn.innerText = "_CLEAR._"; 
         isClearState = true;
         startDeadline(data.time);
       }
-      iterations += 1; // Snappier reveal
+      iterations += 1;
     }, 15);
   }
 
@@ -204,7 +199,6 @@
     if (!isClearState) {
       decodeText(generatePrescript());
     } else {
-      // CLEAR ACTION WITH SCRAMBLE
       isProcessing = true;
       actionBtn.disabled = true;
       sfxClear.currentTime = 0;
@@ -220,7 +214,7 @@
 
         scrambleTicks++;
         if (scrambleTicks > 15) {
-          clearInterval(scrambleInterval);
+          clearInterval(scrambleInlterval);
           isProcessing = false;
           actionBtn.disabled = false;
           
