@@ -23,7 +23,6 @@
       transition: color 0.5s ease;
     }
 
-    /* Fixed background scanlines */
     body::before {
       content: " "; display: block; position: fixed;
       top: 0; left: 0; bottom: 0; right: 0;
@@ -42,6 +41,15 @@
       margin-bottom: 10px; opacity: 0.8;
     }
 
+    #timer-display {
+      font-family: 'Pixelify Sans', sans-serif;
+      color: var(--index-red);
+      font-size: 1.4rem;
+      min-height: 1.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 8px var(--index-red);
+    }
+
     #prescript-text { 
       font-size: clamp(16px, 4.5vw, 22px); 
       line-height: 1.5; min-height: 220px; 
@@ -51,7 +59,6 @@
       margin-bottom: 20px;
     }
 
-    /* Button Group and Styling */
     .button-group {
       display: flex; gap: 15px; justify-content: center;
       margin-top: 10px; flex-wrap: wrap;
@@ -73,11 +80,9 @@
 
     #action-btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
-    /* Fade Classes */
     .hidden { opacity: 0; pointer-events: none; visibility: hidden; transform: translateY(10px); }
     .visible { opacity: 1; pointer-events: auto; visibility: visible; transform: translateY(0); }
 
-    /* Log Section Styling */
     #prescript-log {
       margin-top: 40px; text-align: left; width: 100%;
       border-top: 1px solid #333; padding-top: 20px; padding-bottom: 100px;
@@ -86,18 +91,14 @@
     .log-entry {
       margin-bottom: 25px; border-left: 2px solid var(--index-blue); 
       padding-left: 15px; font-size: 13px; line-height: 1.4;
-      transition: all 0.5s ease;
     }
 
     .log-timer {
-      color: var(--index-red); font-family: monospace;
+      color: var(--index-red); font-family: 'Pixelify Sans', sans-serif;
       font-size: 14px; margin-top: 5px; font-weight: bold;
     }
 
     .violated { border-color: var(--index-red) !important; color: var(--index-red) !important; }
-
-    @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-    .pulsing { animation: pulse 2s infinite; }
   </style>
 </head>
 
@@ -105,7 +106,7 @@
   <div id="container">
     <div id="header" style="font-size: 12px; opacity: 0.6; letter-spacing: 3px; margin-bottom: 10px;">THE WILL OF THE CITY</div>
     <img id="logo" src="index_logo.png" alt="INDEX">
-    <div id="timer-display" style="font-family: monospace; color: var(--index-red); font-size: 1.2rem; min-height: 1.5rem; margin-bottom: 10px;"></div>
+    <div id="timer-display"></div>
     <div id="prescript-text">...WAITING FOR SYNCHRONIZATION...</div>
     
     <div class="button-group">
@@ -147,87 +148,115 @@
   }
 
   function generatePrescript() {
-  const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const getN = () => Math.floor(Math.random() * 65) + 1;
-  
-  // Structure: [Action] [Detail] [Trait] [Duration], [Deadline], [Trigger], [Subject], [Distance]
-  let s = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
-  
-  while (s.includes("N")) { s = s.replace("N", getN()); }
-  return s.toUpperCase();
-}
+    const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    const getN = () => Math.floor(Math.random() * 65) + 1;
+    let s = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
+    while (s.includes("N")) { s = s.replace("N", getN()); }
+    return s.toUpperCase();
+  }
 
-function getDeadlineSeconds(text) {
-  // Regex to find the number specifically appearing before "MINUTES", "HOURS", or "STEPS"
-  // This ensures "6 breaths" isn't picked up as the time limit.
-  const deadlineMatch = text.match(/(\d+)\s+(MINUTES|HOURS|STEPS|BLOCKS|DEGREES)/);
-  if (!deadlineMatch) return 60; // Default fallback
-
-  let value = parseInt(deadlineMatch[1]);
-  const unit = deadlineMatch[2];
-
-  if (unit === "MINUTES") return value * 60;
-  if (unit === "HOURS") return value * 3600;
-  return value * 10; // "Steps" or "Blocks" as an arbitrary 10s per unit
-}
-
-function startDeadline(text) {
-  let secs = getDeadlineSeconds(text);
-
-  countdownInterval = setInterval(() => {
-    secs--;
-    timerDisplay.innerText = `[ TIME REMAINING: ${formatTime(secs)} ]`;
-    if (secs <= 0) {
-      clearInterval(countdownInterval);
-      document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-      displayElement.innerHTML = "<span style='color: white; background: red; padding: 0 5px;'>!!! VIOLATION DETECTED !!!</span><br><br>THE WILL HAS BEEN IGNORED.";
-    }
-  }, 1000);
-}
-
-logBtn.addEventListener('click', () => {
-  const entry = document.createElement('div');
-  entry.className = "log-entry";
-  
-  let secs = getDeadlineSeconds(currentPrescriptText);
-
-  const t = document.createElement('div');
-  t.innerText = currentPrescriptText;
-  
-  const tm = document.createElement('div');
-  tm.className = "log-timer";
-  tm.innerText = `REMAINING: ${formatTime(secs)}`;
-  
-  entry.append(t, tm);
-  logContainer.prepend(entry);
-  logBtn.className = "hidden";
-
-  const logInterval = setInterval(() => {
-    secs--;
-    tm.innerText = `REMAINING: ${formatTime(secs)}`;
-    if (secs <= 0) {
-      clearInterval(logInterval);
-      tm.innerText = "!!! VIOLATED !!!";
-      entry.classList.add("violated");
-    }
-  }, 1000);
-});
-
-actionBtn.addEventListener("click", () => {
-  if (isProcessing) return;
-  if (!isClearState) {
-    decodeText(generatePrescript());
-  } else {
+  function decodeText(text) {
+    isProcessing = true;
+    actionBtn.disabled = true;
+    logBtn.className = "hidden";
     timerDisplay.innerText = "";
     clearInterval(countdownInterval);
-    displayElement.innerText = "...WAITING FOR SYNCHRONIZATION...";
-    document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
-    actionBtn.innerText = "Receive";
-    isClearState = false;
-    logBtn.className = "hidden";
-    // REMOVED: logContainer.innerHTML = ""; <-- This was clearing your history!
+
+    let iterations = 0;
+    const interval = setInterval(() => {
+      displayElement.innerText = text.split("").map((c, i) => {
+        if (i < iterations) return text[i];
+        return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+      }).join("");
+
+      if (iterations >= text.length) {
+        clearInterval(interval);
+        isProcessing = false;
+        actionBtn.disabled = false;
+        actionBtn.innerText = "Clear";
+        isClearState = true;
+        currentPrescriptText = text;
+        logBtn.className = "visible";
+        startDeadline(text);
+      }
+      iterations += 0.5;
+    }, 15);
   }
-});
+
+  function calculateTime(text) {
+    // This looks for the value associated strictly with the DEADLINE phrase patterns
+    const minMatch = text.match(/WITHIN (\d+) MINUTES/);
+    const hourMatch = text.match(/WITHIN THE NEXT (\d+) HOURS/);
+    const degreeMatch = text.match(/BEFORE THE SUN SHIFTS (\d+) DEGREES/);
+    const stepMatch = text.match(/WITHIN (\d+) STEPS/);
+    const blockMatch = text.match(/WITHIN (\d+) BLOCKS/);
+
+    if (minMatch) return parseInt(minMatch[1]) * 60;
+    if (hourMatch) return parseInt(hourMatch[1]) * 3600;
+    if (degreeMatch) return parseInt(degreeMatch[1]) * 240; // 4 mins per degree
+    if (stepMatch) return parseInt(stepMatch[1]) * 2; // 2 secs per step
+    if (blockMatch) return parseInt(blockMatch[1]) * 30; // 30 secs per block
+    
+    return 60; // Default fallback
+  }
+
+  function startDeadline(text) {
+    let secs = calculateTime(text);
+
+    countdownInterval = setInterval(() => {
+      secs--;
+      timerDisplay.innerText = `[ TIME REMAINING: ${formatTime(secs)} ]`;
+      if (secs <= 0) {
+        clearInterval(countdownInterval);
+        document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
+        displayElement.innerHTML = "<span style='color: white; background: red; padding: 0 5px;'>!!! VIOLATION DETECTED !!!</span><br><br>THE WILL HAS BEEN IGNORED.";
+      }
+    }, 1000);
+  }
+
+  logBtn.addEventListener('click', () => {
+    const entry = document.createElement('div');
+    entry.className = "log-entry";
+    
+    let secs = calculateTime(currentPrescriptText);
+
+    const t = document.createElement('div');
+    t.innerText = currentPrescriptText;
+    
+    const tm = document.createElement('div');
+    tm.className = "log-timer";
+    tm.innerText = `REMAINING: ${formatTime(secs)}`;
+    
+    entry.append(t, tm);
+    logContainer.prepend(entry);
+    logBtn.className = "hidden";
+
+    const logInterval = setInterval(() => {
+      secs--;
+      tm.innerText = `REMAINING: ${formatTime(secs)}`;
+      if (secs <= 0) {
+        clearInterval(logInterval);
+        tm.innerText = "!!! VIOLATED !!!";
+        entry.classList.add("violated");
+      }
+    }, 1000);
+  });
+
+  actionBtn.addEventListener("click", () => {
+    if (isProcessing) return;
+    if (!isClearState) {
+      decodeText(generatePrescript());
+    } else {
+      timerDisplay.innerText = "";
+      clearInterval(countdownInterval);
+      displayElement.innerText = "...WAITING FOR SYNCHRONIZATION...";
+      document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
+      actionBtn.innerText = "Receive";
+      isClearState = false;
+      logBtn.className = "hidden";
+      logContainer.innerHTML = ""; 
+    }
+  });
 </script>
 </body>
 </html>
