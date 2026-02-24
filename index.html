@@ -52,16 +52,11 @@
 
     #prescript-text { 
       font-size: clamp(16px, 4.5vw, 22px); 
-      line-height: 1.5; min-height: 220px; 
+      line-height: 1.5; min-height: 250px; 
       text-shadow: 0 0 8px var(--current-theme); 
       word-break: break-word; overflow-wrap: break-word;
       display: flex; flex-direction: column; justify-content: center;
       margin-bottom: 20px;
-    }
-
-    .button-group {
-      display: flex; justify-content: center;
-      margin-top: 10px;
     }
 
     #action-btn {
@@ -69,8 +64,7 @@
       background: transparent; border: 1px solid var(--current-theme);
       color: var(--current-theme); font-family: inherit;
       font-size: 18px; cursor: pointer; text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: all 0.4s ease, opacity 0.5s ease;
+      letter-spacing: 2px; transition: all 0.4s ease;
     }
 
     #action-btn:hover:not(:disabled) {
@@ -88,7 +82,6 @@
     <img id="logo" src="index_logo.png" alt="INDEX">
     <div id="timer-display"></div>
     <div id="prescript-text">...WAITING FOR SYNCHRONIZATION...</div>
-    
     <div class="button-group">
       <button id="action-btn">Receive</button>
     </div>
@@ -96,34 +89,87 @@
 
 <script>
   const sub_dict = {
-    verbs: ["Nod to", "Tap", "Trace a line near", "Stand behind", "Mirror the posture of", "Whisper to", "Circle", "Point toward", "Adjust the collar of", "Sigh near", "Place a hand on", "Shift weight toward", "Ignore", "Bow to", "Wave at", "Wait beside", "Touch the shoulder of", "Hand a coin to", "Offer a seat to", "Hum to"],
-    details: ["the left side of", "the shadow of", "the reflection of", "the personal space of", "the path ahead of", "the right shoulder of", "the hand of", "the bag of", "the glasses of", "the pocket of", "the ear of", "the wrist of"],
-    traits: ["wearing denim", "holding a phone", "with tired eyes", "carrying a bag", "wearing white shoes", "with a red garment", "looking at the sky", "checking the time", "leaning against a wall", "walking briskly", "with messy hair", "wearing a scarf"],
-    triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "the wind shifts", "you feel a chill", "a phone rings", "a light flickers"],
-    subjects: ["the price of ink", "a forgotten debt", "the weight of the City", "a dream about water", "the scent of old paper", "a silent agreement", "the shape of a shadow"],
-    durations: ["for N seconds", "for N breaths", "until the target moves N steps", "for N minutes", "for N heartbeats"],
-    deadlines: ["within N minutes", "before the sun shifts N degrees", "within the next N hours", "within N steps", "within N blocks"]
+    verbs: ["Look at", "Walk past", "Stand near", "Sit across from", "Smile at", "Wave to", "Wait for", "Follow", "Cough near", "Point at", "Talk to", "Nod toward", "Lean toward", "Circle around", "Watch", "Mirror", "Whisper to", "Ignore", "Sigh near", "Hum to", "Shadow", "Walk backwards near", "Clap for", "Blink at", "Stare at", "Record", "Sketch", "Photograph", "Whistle at", "Shush", "Applaud", "Bow before", "Sidestep", "Crouch near", "Jump near", "Turn away from", "Gaze at", "Approach", "Signal to", "Wait beside", "Listen to"],
+    details: ["the left side of", "the bag of", "the shadow of", "the phone of", "the shoes of", "the jacket of", "the hair of", "the eyes of", "the reflection of", "the workspace of", "the path of", "the shoulder of", "the hat of", "the hand of", "the shopping cart of", "the umbrella of", "the glasses of", "the wristwatch of", "the belt of", "the scarf of", "the earrings of", "the mask of", "the footprint of", "the scent of", "the aura of", "the groceries of", "the backpack of", "the briefcase of", "the bicycle of", "the dog leash of", "the keys of", "the wallet of", "the water bottle of", "the newspaper of", "the tablet of", "the book cover of", "the pocket of", "the buttons of", "the collar of", "the laces of", "the ring of", "the tattoo of", "the necklace of", "the keychain of", "the headphones of", "the gloves of", "the sleeves of", "the zipper of", "the hem of", "the hood of", "the badge of"],
+    traits: ["wearing a hat", "holding a coffee", "wearing glasses", "using headphones", "wearing a mask", "carrying an umbrella", "wearing a watch", "wearing black clothes", "carrying a backpack", "looking at a map", "reading a book", "wearing a scarf", "wearing white sneakers", "holding a grocery bag", "wearing a suit", "wearing a hoodie", "carrying a briefcase", "holding a leash", "wearing denim", "looking at the sky", "checking the time", "carrying a skateboard", "wearing a yellow shirt", "holding a flower", "wearing a tie", "carrying a camera", "wearing boots", "holding a balloon", "wearing a dress", "carrying a parcel", "holding a cane", "wearing a badge", "carrying a gym bag", "holding a sandwich", "wearing red shoes", "carrying a laptop", "holding a tablet", "wearing a raincoat", "carrying a basket", "holding a coin", "wearing a ring", "carrying a yoga mat", "holding a ticket", "wearing a uniform", "carrying a folder", "holding a pen", "wearing a belt", "carrying a stool", "holding a map", "wearing gloves", "carrying a tool"],
+    triggers: ["a car drives by", "someone sneezes", "a dog barks", "the traffic light changes", "someone checks their phone", "a siren sounds", "the sun comes out", "it starts to rain", "a door opens", "someone laughs", "a phone rings", "a bird lands", "a bicycle passes", "someone drops something", "a bus stops", "a train whistles", "a child shouts", "a pigeon flies", "a leaf falls", "a light flickers", "a truck beeps", "a bell rings", "someone whistles", "a door slams", "a cat appears", "someone runs past", "a plane flies over", "a clock strikes", "a window opens", "a skater passes", "a runner exhales", "a baby cries", "someone coughs", "a shadow moves", "the wind blows", "a coin drops", "someone waves", "a car honks", "a gate creaks", "a scooter whirrs", "someone claps", "a matches strikes", "a spray can rattles", "a radio plays", "a voice calls", "a fan whirrs", "a camera flashes", "a sign flickers", "a engine stalls", "a crow caws", "a leaf rustles"],
+    subjects: ["the weather", "a late bus", "a loud noise", "a bright light", "a passing bird", "the current time", "a nearby shop", "a distant cloud", "the street sign", "a lost item", "a quiet song", "the price of bread", "a flickering light", "the color of the sky", "a forgotten dream", "the weight of air", "a hidden door", "the taste of water", "a stray thought", "the sound of steps", "a blurry face", "the city lights", "a closed shop", "a neon sign", "the morning fog", "a brick wall", "the river flow", "a park bench", "the subway map", "a broken tile", "the smell of rain", "a loose thread", "the distance home", "a passing face", "the echo of sound", "a locked gate", "the morning news", "a empty bottle", "the dust motes", "a paper crane", "the fading sun", "a silver coin", "the ticking clock", "a heavy bag", "the cold wind", "a warm breath", "the quiet alley", "a busy street", "the grey pavement", "a green leaf", "the blue ink"],
+    durations: ["for N seconds", "for N minutes", "for N hours", "for N days"],
+    deadlines: ["within N seconds", "within N minutes", "within N hours", "within N days", "before N seconds pass", "before N minutes pass", "before N hours pass", "before N days pass"]
   };
+
+  const synced_lyrics = [
+    { time: 0, text: "SLEEP FOR A TOTAL OF 800 HOURS PER DAY" },
+    { time: 3.5, text: "AND THEN DRINK A LITER OF MILK, WARM UP BEFORE YOU GO PLAY" },
+    { time: 7, text: "ONLY EAT, OR WRITE, OR PULL THE TRIGGER WITH YOUR RIGHT HAND" },
+    { time: 10.5, text: "ONLY THING THAT’S LEFT IS TO WORK ON FOLLOWING COMMANDS" },
+    { time: 14, text: "BY THE TIME YOU REALIZE, YOU’LL BE RESTRAINED TO A DESK" },
+    { time: 18, text: "AND WITH YOUR DREAMS ON THE FLOOR YOU COMPLY, EYES CHAINED TO THE TEST" },
+    { time: 22, text: "IN 30 MINUTES FIND A GROOM OR BRIDE, BONUS IF BRUNETTE" },
+    { time: 25.5, text: "IN 90 HOURS SPILL THEIR INSIDES, PAINT YOUR ROOM PICTURESQUE" },
+    { time: 32, text: "NOW IT’S TIME FOR ANOTHER VENDETTA" },
+    { time: 35.5, text: "GOING THROUGH THE SHELVES, PICKING OUT MY PREWRITTEN PERSONA" },
+    { time: 39, text: "CHILDREN OF THE CITY SEE ONLY THE NEON STARS" },
+    { time: 43, text: "REFLECTED UPON THE MURKY GUTTER SKY" },
+    { time: 47, text: "DON’T ASK ME WHY I DESPERATELY WISH TO BE INCLUDED IN THE CITY’S NIGHT" },
+    { time: 57, text: "IN 400,000 METERS, TURN RIGHT" },
+    { time: 60.5, text: "PICK UP A KNIFE AND STAB A FAMILIAR WARM BODY" },
+    { time: 64, text: "LEARNED TO FIGHT BEFORE I KNEW LOVE OR BITTERNESS OF COFFEE" },
+    { time: 68, text: "SNIPPY SCISSORS CUT DOWN THE STRINGS, I SET MYSELF FREE" },
+    { time: 71.5, text: "ONLY TO FIGURE OUT EVERYTHING I CHOSE WAS BY PROXY" },
+    { time: 75, text: "AS WE SUCKLED UPON THE 9MM PACIFIER" },
+    { time: 78.5, text: "SWALLOWING THE FACT THAT OTHER THAN TO EXPAND WE HAD NO PURPOSE" },
+    { time: 82, text: "AS MY EVERBURNING WILL TO STAY AFLOAT BACKFIRES" },
+    { time: 85.5, text: "I NOW KNOW I MUST BE COMFORTABLE BEING WHO I CONSIDERED WORTHLESS" },
+    { time: 93, text: "FOLLOW THE CITY’S RIBBON" },
+    { time: 97, text: "TO A HEART NOBODY SEEMS TO LISTEN" },
+    { time: 100, text: "IT TAKES MY HEART BEING BROKEN AND BROKEN AGAIN" },
+    { time: 104, text: "TO KNOW THAT I AM THE REASON WHY THE SUFFERINGS NEVER END" },
+    { time: 118, text: "NOW IT’S TIME FOR ANOTHER VENDETTA" },
+    { time: 125, text: "CHILDREN OF THE CITY SEE ONLY THE NEON STARS" },
+    { time: 129, text: "REFLECTED UPON THE MURKY GUTTER SKY" },
+    { time: 133, text: "DON’T ASK ME WHY I DESPERATELY WISH TO BE NOTICED BY THE CITY’S EYES" },
+    { time: 195, text: "DO NOT GO HOME UNTIL YOU FINISH READING THE VALUE OF E" },
+    { time: 198, text: "2.71 8281 8284 5904 5235 3602 8747 1352 6624 9775 7247 0936 9995 9574 9669 6762…" }
+  ];
 
   let isClearState = false;
   let isProcessing = false;
+  let passiveSyncActive = true;
   let countdownInterval;
-  const fullCharset = 'AaBbcdefghijklmnopqrstuvwxyzCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+  const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
 
   const displayElement = document.getElementById('prescript-text');
   const actionBtn = document.getElementById('action-btn');
   const timerDisplay = document.getElementById('timer-display');
 
-  function formatTime(secs) {
-    if (secs <= 0) return "00:00";
-    let m = Math.floor(secs / 60);
-    let s = secs % 60;
-    return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+  // BACKGROUND SYNC LISTENER
+  function runPassiveSync() {
+    const audio = document.getElementById('bgm'); 
+    if (!audio) {
+        requestAnimationFrame(runPassiveSync);
+        return;
+    }
+
+    if (passiveSyncActive && !isClearState && !isProcessing) {
+      const currentTime = audio.currentTime;
+      const currentLyric = [...synced_lyrics].reverse().find(l => currentTime >= l.time);
+
+      if (currentLyric) {
+         if (displayElement.innerText !== currentLyric.text) {
+            displayElement.innerText = currentLyric.text;
+            displayElement.style.opacity = "0.7";
+         }
+      } else {
+         displayElement.innerText = "...WAITING FOR SYNCHRONIZATION...";
+      }
+    }
+    requestAnimationFrame(runPassiveSync);
   }
 
   function generatePrescript() {
     const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-    const getN = () => Math.floor(Math.random() * 65) + 1;
+    const getN = () => Math.floor(Math.random() * 59) + 1;
     let s = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
     while (s.includes("N")) { s = s.replace("N", getN()); }
     return s.toUpperCase();
@@ -132,9 +178,9 @@
   function decodeText(text) {
     isProcessing = true;
     actionBtn.disabled = true;
+    displayElement.style.opacity = "1";
     timerDisplay.innerText = "";
-    clearInterval(countdownInterval);
-
+    
     let iterations = 0;
     const interval = setInterval(() => {
       displayElement.innerText = text.split("").map((c, i) => {
@@ -150,32 +196,30 @@
         isClearState = true;
         startDeadline(text);
       }
-      iterations += 0.5;
+      iterations += 0.8;
     }, 15);
   }
 
-  function calculateTime(text) {
-    const minMatch = text.match(/(\d+)\s+MINUTES/);
-    const hourMatch = text.match(/(\d+)\s+HOURS/);
-    const degreeMatch = text.match(/(\d+)\s+DEGREES/);
-    const stepMatch = text.match(/(\d+)\s+STEPS/);
-    const blockMatch = text.match(/(\d+)\s+BLOCKS/);
-
-    if (hourMatch) return parseInt(hourMatch[1]) * 3600;
-    if (minMatch) return parseInt(minMatch[1]) * 60;
-    if (degreeMatch) return parseInt(degreeMatch[1]) * 240; 
-    if (blockMatch) return parseInt(blockMatch[1]) * 30;
-    if (stepMatch) return parseInt(stepMatch[1]) * 3;
-    
-    return 60; 
-  }
-
   function startDeadline(text) {
-    let secs = calculateTime(text);
+    const matches = [...text.matchAll(/(\d+)\s+(SECONDS|MINUTES|HOURS|DAYS)/g)];
+    let secs = 60;
+    if (matches.length > 0) {
+      const lastMatch = matches[matches.length - 1];
+      const val = parseInt(lastMatch[1]);
+      const unit = lastMatch[2];
+      if (unit === "DAYS") secs = val * 86400;
+      else if (unit === "HOURS") secs = val * 3600;
+      else if (unit === "MINUTES") secs = val * 60;
+      else secs = val;
+    }
 
     countdownInterval = setInterval(() => {
       secs--;
-      timerDisplay.innerText = `[ TIME REMAINING: ${formatTime(secs)} ]`;
+      let h = Math.floor(secs / 3600);
+      let m = Math.floor((secs % 3600) / 60);
+      let s = secs % 60;
+      timerDisplay.innerText = `[ TIME REMAINING: ${h}:${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s} ]`;
+      
       if (secs <= 0) {
         clearInterval(countdownInterval);
         document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
@@ -187,16 +231,19 @@
   actionBtn.addEventListener("click", () => {
     if (isProcessing) return;
     if (!isClearState) {
+      passiveSyncActive = false; 
       decodeText(generatePrescript());
     } else {
       timerDisplay.innerText = "";
       clearInterval(countdownInterval);
-      displayElement.innerText = "...WAITING FOR SYNCHRONIZATION...";
       document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
       actionBtn.innerText = "Receive";
       isClearState = false;
+      passiveSyncActive = true; 
     }
   });
+
+  runPassiveSync();
 </script>
 </body>
 </html>
