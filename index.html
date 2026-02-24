@@ -19,12 +19,11 @@
       color: var(--current-theme);
       font-family: 'Pixelify Sans', sans-serif; 
       display: flex; flex-direction: column; 
-      justify-content: center; align-items: center; /* Centering everything */
+      justify-content: center; align-items: center; 
       overflow: hidden;
       transition: color 0.5s ease;
     }
 
-    /* CRT Scanline Effect */
     body::before {
       content: " "; display: block; position: fixed;
       top: 0; left: 0; bottom: 0; right: 0;
@@ -46,12 +45,13 @@
       text-shadow: 0 0 8px var(--current-theme); 
       display: flex; align-items: center; justify-content: center;
       margin-bottom: 30px;
+      word-break: break-word;
     }
 
     #action-btn {
       width: 200px; height: 60px;
       background: transparent; border: 1px solid var(--current-theme);
-      color: var(--current-theme); font-family: inherit;
+      color: var(--current-theme); font-family: 'Pixelify Sans', sans-serif;
       font-size: 18px; cursor: pointer; text-transform: uppercase;
       letter-spacing: 2px; transition: all 0.4s ease;
     }
@@ -64,47 +64,52 @@
     #action-btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
     #timer-display {
-      font-family: monospace; color: var(--index-red);
+      font-family: 'Pixelify Sans', monospace; 
+      color: var(--index-red);
       font-size: 1.2rem; margin-bottom: 15px; height: 1.5rem;
     }
   </style>
 </head>
 
 <body>
-  <audio id="bgm" loop>
-    <source src="Children_of_the_City.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="sfx-receive">
-    <source src="limbus_index_beeper.mp3" type="audio/mpeg">
-  </audio>
-  <audio id="sfx-clear">
-    <source src="indexbeep_notification.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="bgm" loop><source src="Children_of_the_City.mp3" type="audio/mpeg"></audio>
+  <audio id="sfx-receive"><source src="limbus_index_beeper.mp3" type="audio/mpeg"></audio>
+  <audio id="sfx-clear"><source src="indexbeep_notification.mp3" type="audio/mpeg"></audio>
 
   <div id="container">
     <div id="header" style="font-size: 11px; opacity: 0.5; letter-spacing: 4px; margin-bottom: 10px;">WILL OF THE CITY</div>
     <img id="logo" src="index_logo.png" alt="INDEX">
     <div id="timer-display"></div>
     <div id="prescript-text">...WAITING FOR SYNCHRONIZATION...</div>
-    
     <button id="action-btn">Receive</button>
   </div>
 
 <script>
   const sub_dict = {
-    verbs: ["Nod to", "Tap", "Trace a line near", "Stand behind", "Mirror the posture of", "Whisper to", "Circle", "Point toward", "Adjust the collar of", "Sigh near", "Place a hand on", "Shift weight toward", "Ignore", "Bow to", "Wave at", "Wait beside", "Touch the shoulder of", "Hand a coin to", "Offer a seat to", "Hum to"],
-    details: ["the left side of", "the shadow of", "the reflection of", "the personal space of", "the path ahead of", "the right shoulder of", "the hand of", "the bag of", "the glasses of", "the pocket of", "the ear of", "the wrist of"],
-    traits: ["wearing denim", "holding a phone", "with tired eyes", "carrying a bag", "wearing white shoes", "with a red garment", "looking at the sky", "checking the time", "leaning against a wall", "walking briskly", "with messy hair", "wearing a scarf"],
-    triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "the wind shifts", "you feel a chill", "a phone rings", "a light flickers"],
-    subjects: ["the price of ink", "a forgotten debt", "the weight of the City", "a dream about water", "the scent of old paper", "a silent agreement", "the shape of a shadow"],
-    durations: ["for N seconds", "for N breaths", "until the target moves N steps", "for N minutes", "for N heartbeats"],
-    deadlines: ["within N minutes", "before the sun shifts N degrees", "within the next N hours", "within N steps", "within N blocks"]
+    verbs: ["Nod to", "Tap", "Stand behind", "Wave at", "Smile at", "Point toward", "Walk past", "Sit near", "Look at", "Cough near", "Whisper to", "Hand a paper to", "Touch the shoulder of", "Check the watch of", "Bow to", "Hum to", "Sigh near", "Clap for", "Lean toward", "Ignore", "Wait for", "Whistle at", "Blink at", "Block the path of", "Circle", "Approach", "High-five", "Wink at", "Hold a door for", "Step over", "Lean against", "Gaze at", "Applaud", "Notice", "Greet"],
+    details: ["the left side of", "the right side of", "the shadow of", "the reflection of", "the back of", "the path of", "the personal space of", "the bag of", "the phone of", "the shoes of", "the jacket of", "the hat of", "the bicycle of", "the umbrella of", "the glasses of", "the coffee cup of", "the groceries of", "the wristwatch of", "the dog of", "the headphones of", "the notebook of", "the keys of", "the wallet of", "the chair of", "the table of"],
+    traits: ["wearing a blue shirt", "wearing glasses", "holding a phone", "carrying a backpack", "wearing sneakers", "with a red hat", "wearing a mask", "holding a coffee", "walking a dog", "looking at a map", "wearing a suit", "with messy hair", "holding an umbrella", "wearing a dress", "carrying a shopping bag", "with headphones on", "wearing a watch", "holding a book", "wearing a tie", "with a ponytail", "wearing denim jeans", "looking at the sky", "eating a snack", "sitting on a bench", "wearing a hoodie", "carrying a briefcase"],
+    triggers: ["a car horn honks", "a dog barks", "a phone rings", "someone sneezes", "a door closes", "a siren sounds", "the lights change", "a bird chirps", "someone laughs", "a bus stops", "a train passes", "it starts to rain", "a child yells", "someone drops something", "a bell rings", "the wind blows", "a cyclist passes", "a car starts", "music starts playing", "a store door opens", "the sun comes out", "a light flickers"],
+    subjects: ["the weather", "a lost key", "the time", "a secret", "a forgotten name", "the price of bread", "a recent dream", "the color blue", "a late train", "the next stop", "a broken window", "the daily news", "a favorite song", "the street lights", "a heavy bag", "the cold air", "a noisy car", "the taste of coffee", "a missed call", "the shape of clouds", "the city lights"],
+    durations: ["for n seconds", "for n minutes", "for n breaths", "for n blinks", "for n steps", "for n heartbeats", "until n cars pass", "until n people walk by"]
   };
+
+  const secrets = [
+    { text: "SLEEP FOR A TOTAL OF 800 HOURS PER DAY.", time: 800 * 3600 },
+    { text: "DRINK A LITER OF MILK AND WARM UP BEFORE YOU GO PLAY.", time: 600 },
+    { text: "ONLY EAT, OR WRITE, OR PULL THE TRIGGER WITH YOUR RIGHT HAND.", time: 3600 * 24 },
+    { text: "WITH YOUR DREAMS ON THE FLOOR, COMPLY WITH EYES CHAINED TO THE TEST.", time: 3600 },
+    { text: "FIND A GROOM OR BRIDE, BONUS IF BRUNETTE.", time: 30 * 60 },
+    { text: "SPILL THEIR INSIDES AND PAINT YOUR ROOM PICTURESQUE.", time: 90 * 3600 },
+    { text: "TURN RIGHT AFTER TRAVELING 400,000 METERS.", time: 3600 * 48 },
+    { text: "PICK UP A KNIFE AND STAB A FAMILIAR WARM BODY.", time: 300 },
+    { text: "DO NOT GO HOME UNTIL YOU FINISH READING THE VALUE OF E: 2.71828...", time: 99 * 3600 }
+  ];
 
   let isClearState = false;
   let isProcessing = false;
   let countdownInterval;
-  const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+  const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy0123456789!@#$%^&*';
 
   const displayElement = document.getElementById('prescript-text');
   const actionBtn = document.getElementById('action-btn');
@@ -115,79 +120,80 @@
   const sfxClear = document.getElementById('sfx-clear');
 
   function generatePrescript() {
+    // 5% chance for a secret from the song
+    if (Math.random() < 0.05) {
+      const secret = secrets[Math.floor(Math.random() * secrets.length)];
+      return { text: secret.text, time: secret.time };
+    }
+
     const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-    const getN = () => Math.floor(Math.random() * 65) + 1;
-    let s = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
-    while (s.includes("N")) { s = s.replace("N", getN()); }
-    return s.toUpperCase();
+    const getn = () => Math.floor(Math.random() * 65) + 1;
+    
+    let s = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of n steps from the target.`;
+    
+    while (s.includes("n")) { s = s.replace("n", getn()); }
+    
+    // Normal random time logic
+    const minSecs = 60;
+    const maxSecs = 99 * 3600;
+    let randomTime = Math.floor(Math.random() * (maxSecs - minSecs + 1)) + minSecs;
+
+    return { text: s.toUpperCase(), time: randomTime };
   }
 
-  function decodeText(text) {
+  function decodeText(data) {
     isProcessing = true;
     actionBtn.disabled = true;
-    
-    // Play Receive SFX: limbus_index_beeper.mp3
     sfxReceive.currentTime = 0;
-    sfxReceive.play().catch(e => console.log("Audio requires user interaction"));
+    sfxReceive.play().catch(e => {});
 
     let iterations = 0;
     const interval = setInterval(() => {
-      displayElement.innerText = text.split("").map((c, i) => {
-        if (i < iterations) return text[i];
+      displayElement.innerText = data.text.split("").map((c, i) => {
+        if (i < iterations) return data.text[i];
         return fullCharset[Math.floor(Math.random() * fullCharset.length)];
       }).join("");
 
-      if (iterations >= text.length) {
+      if (iterations >= data.text.length) {
         clearInterval(interval);
         isProcessing = false;
         actionBtn.disabled = false;
         actionBtn.innerText = "Clear";
         isClearState = true;
-        startDeadline(text);
+        startDeadline(data.time);
       }
       iterations += 0.5;
     }, 15);
   }
 
-  function startDeadline(text) {
-    const match = text.match(/\d+/);
-    let secs = match ? parseInt(match[0]) : 60;
-    if (text.includes("MINUTES")) secs *= 60;
-    else if (text.includes("HOURS")) secs *= 3600;
-
+  function startDeadline(secs) {
     countdownInterval = setInterval(() => {
       secs--;
       timerDisplay.innerText = `[ TIME REMAINING: ${formatTime(secs)} ]`;
       if (secs <= 0) {
         clearInterval(countdownInterval);
         document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-        displayElement.innerHTML = "<span style='color: white; background: red; padding: 0 10px;'>!!! VIOLATION !!!</span>";
+        displayElement.innerHTML = "<span style='color: white; background: red; padding: 0 10px;'>!!! VIOLATION DETECTED !!!</span>";
       }
     }, 1000);
   }
 
-  function formatTime(secs) {
-    let m = Math.floor(secs / 60);
-    let s = secs % 60;
-    return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+  function formatTime(totalSeconds) {
+    if (totalSeconds <= 0) return "00:00:00";
+    let h = Math.floor(totalSeconds / 3600);
+    let m = Math.floor((totalSeconds % 3600) / 60);
+    let s = totalSeconds % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   }
 
   actionBtn.addEventListener("click", () => {
-    // Start BGM on first click: Children_of_the_City.mp3
-    if (bgm.paused) {
-      bgm.volume = 0.5;
-      bgm.play();
-    }
-
+    if (bgm.paused) { bgm.volume = 0.4; bgm.play(); }
     if (isProcessing) return;
-
     if (!isClearState) {
       decodeText(generatePrescript());
     } else {
-      // Play Clear SFX: indexbeep_notification.mp3
       sfxClear.currentTime = 0;
       sfxClear.play();
-
       timerDisplay.innerText = "";
       clearInterval(countdownInterval);
       displayElement.innerText = "...WAITING FOR SYNCHRONIZATION...";
