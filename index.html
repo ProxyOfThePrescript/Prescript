@@ -57,7 +57,7 @@
       font-size: 18px; cursor: pointer; text-transform: uppercase;
       letter-spacing: 2px; transition: all 0.4s ease;
       box-shadow: 0 0 15px var(--index-blue);
-      font-style: normal; /* Ensure no italics */
+      font-style: normal;
     }
 
     #action-btn:hover:not(:disabled) {
@@ -161,7 +161,6 @@
         clearInterval(interval);
         isProcessing = false;
         actionBtn.disabled = false;
-        // The Visual is _CLEAR._ but the font is upright
         actionBtn.style.fontStyle = "normal";
         actionBtn.innerText = "_CLEAR._"; 
         isClearState = true;
@@ -214,7 +213,7 @@
 
         scrambleTicks++;
         if (scrambleTicks > 15) {
-          clearInterval(scrambleInlterval);
+          clearInterval(scrambleInterval); // Fixed the typo here
           isProcessing = false;
           actionBtn.disabled = false;
           
