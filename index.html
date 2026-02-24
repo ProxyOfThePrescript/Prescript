@@ -60,45 +60,25 @@
     }
 
     .button-group {
-      display: flex; gap: 15px; justify-content: center;
-      margin-top: 10px; flex-wrap: wrap;
+      display: flex; justify-content: center;
+      margin-top: 10px;
     }
 
-    #action-btn, #log-btn {
-      width: 160px; height: 50px;
+    #action-btn {
+      width: 180px; height: 50px;
       background: transparent; border: 1px solid var(--current-theme);
       color: var(--current-theme); font-family: inherit;
-      font-size: 16px; cursor: pointer; text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.4s ease, opacity 0.5s ease, transform 0.3s ease;
+      font-size: 18px; cursor: pointer; text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.4s ease, opacity 0.5s ease;
     }
 
-    #action-btn:hover:not(:disabled), #log-btn:hover {
+    #action-btn:hover:not(:disabled) {
       background: var(--current-theme); color: #020202;
       box-shadow: 0 0 15px var(--current-theme);
     }
 
     #action-btn:disabled { opacity: 0.2; cursor: not-allowed; }
-
-    .hidden { opacity: 0; pointer-events: none; visibility: hidden; transform: translateY(10px); }
-    .visible { opacity: 1; pointer-events: auto; visibility: visible; transform: translateY(0); }
-
-    #prescript-log {
-      margin-top: 40px; text-align: left; width: 100%;
-      border-top: 1px solid #333; padding-top: 20px; padding-bottom: 100px;
-    }
-
-    .log-entry {
-      margin-bottom: 25px; border-left: 2px solid var(--index-blue); 
-      padding-left: 15px; font-size: 13px; line-height: 1.4;
-    }
-
-    .log-timer {
-      color: var(--index-red); font-family: 'Pixelify Sans', sans-serif;
-      font-size: 14px; margin-top: 5px; font-weight: bold;
-    }
-
-    .violated { border-color: var(--index-red) !important; color: var(--index-red) !important; }
   </style>
 </head>
 
@@ -111,10 +91,7 @@
     
     <div class="button-group">
       <button id="action-btn">Receive</button>
-      <button id="log-btn" class="hidden">Log Prescript</button>
     </div>
-
-    <div id="prescript-log"></div>
   </div>
 
 <script>
@@ -130,15 +107,12 @@
 
   let isClearState = false;
   let isProcessing = false;
-  let currentPrescriptText = "";
   let countdownInterval;
   const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
 
   const displayElement = document.getElementById('prescript-text');
   const actionBtn = document.getElementById('action-btn');
-  const logBtn = document.getElementById('log-btn');
   const timerDisplay = document.getElementById('timer-display');
-  const logContainer = document.getElementById('prescript-log');
 
   function formatTime(secs) {
     if (secs <= 0) return "00:00";
@@ -158,7 +132,6 @@
   function decodeText(text) {
     isProcessing = true;
     actionBtn.disabled = true;
-    logBtn.className = "hidden";
     timerDisplay.innerText = "";
     clearInterval(countdownInterval);
 
@@ -175,8 +148,6 @@
         actionBtn.disabled = false;
         actionBtn.innerText = "Clear";
         isClearState = true;
-        currentPrescriptText = text;
-        logBtn.className = "visible";
         startDeadline(text);
       }
       iterations += 0.5;
@@ -184,20 +155,19 @@
   }
 
   function calculateTime(text) {
-    // This looks for the value associated strictly with the DEADLINE phrase patterns
-    const minMatch = text.match(/WITHIN (\d+) MINUTES/);
-    const hourMatch = text.match(/WITHIN THE NEXT (\d+) HOURS/);
-    const degreeMatch = text.match(/BEFORE THE SUN SHIFTS (\d+) DEGREES/);
-    const stepMatch = text.match(/WITHIN (\d+) STEPS/);
-    const blockMatch = text.match(/WITHIN (\d+) BLOCKS/);
+    const minMatch = text.match(/(\d+)\s+MINUTES/);
+    const hourMatch = text.match(/(\d+)\s+HOURS/);
+    const degreeMatch = text.match(/(\d+)\s+DEGREES/);
+    const stepMatch = text.match(/(\d+)\s+STEPS/);
+    const blockMatch = text.match(/(\d+)\s+BLOCKS/);
 
-    if (minMatch) return parseInt(minMatch[1]) * 60;
     if (hourMatch) return parseInt(hourMatch[1]) * 3600;
-    if (degreeMatch) return parseInt(degreeMatch[1]) * 240; // 4 mins per degree
-    if (stepMatch) return parseInt(stepMatch[1]) * 2; // 2 secs per step
-    if (blockMatch) return parseInt(blockMatch[1]) * 30; // 30 secs per block
+    if (minMatch) return parseInt(minMatch[1]) * 60;
+    if (degreeMatch) return parseInt(degreeMatch[1]) * 240; 
+    if (blockMatch) return parseInt(blockMatch[1]) * 30;
+    if (stepMatch) return parseInt(stepMatch[1]) * 3;
     
-    return 60; // Default fallback
+    return 60; 
   }
 
   function startDeadline(text) {
@@ -214,34 +184,6 @@
     }, 1000);
   }
 
-  logBtn.addEventListener('click', () => {
-    const entry = document.createElement('div');
-    entry.className = "log-entry";
-    
-    let secs = calculateTime(currentPrescriptText);
-
-    const t = document.createElement('div');
-    t.innerText = currentPrescriptText;
-    
-    const tm = document.createElement('div');
-    tm.className = "log-timer";
-    tm.innerText = `REMAINING: ${formatTime(secs)}`;
-    
-    entry.append(t, tm);
-    logContainer.prepend(entry);
-    logBtn.className = "hidden";
-
-    const logInterval = setInterval(() => {
-      secs--;
-      tm.innerText = `REMAINING: ${formatTime(secs)}`;
-      if (secs <= 0) {
-        clearInterval(logInterval);
-        tm.innerText = "!!! VIOLATED !!!";
-        entry.classList.add("violated");
-      }
-    }, 1000);
-  });
-
   actionBtn.addEventListener("click", () => {
     if (isProcessing) return;
     if (!isClearState) {
@@ -253,8 +195,6 @@
       document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
       actionBtn.innerText = "Receive";
       isClearState = false;
-      logBtn.className = "hidden";
-      logContainer.innerHTML = ""; 
     }
   });
 </script>
