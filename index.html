@@ -24,6 +24,7 @@
       transition: color 0.5s ease;
     }
 
+    /* CRT Scanline Effect Overlay */
     body::before {
       content: " "; display: block; position: fixed;
       top: 0; left: 0; bottom: 0; right: 0;
@@ -58,6 +59,7 @@
       letter-spacing: 2px; transition: all 0.4s ease;
       box-shadow: 0 0 15px var(--index-blue);
       font-style: normal;
+      display: inline-flex; align-items: center; justify-content: center;
     }
 
     #action-btn:hover:not(:disabled) {
@@ -104,6 +106,151 @@
     subjects: ["the weather", "a lost key", "the time", "a secret", "a forgotten name", "the price of bread", "a recent dream", "the color blue", "a late train", "the next stop", "a broken window", "the daily news", "a favorite song", "the street lights", "a heavy bag", "the cold air", "a noisy car", "the taste of coffee", "a missed call", "the shape of clouds", "the city lights"],
     durations: ["for N seconds", "for N minutes", "for N breaths", "for N blinks", "for N steps", "for N heartbeats", "until N cars pass", "until N people walk by"]
   };
+
+  const secrets = [
+    { text: "SLEEP FOR A TOTAL OF 800 HOURS PER DAY.", time: 800 * 3600 },
+    { text: "DRINK A LITER OF MILK AND WARM UP BEFORE YOU GO PLAY.", time: 600 },
+    { text: "ONLY EAT, OR WRITE, OR PULL THE TRIGGER WITH YOUR RIGHT HAND.", time: 3600 * 24 },
+    { text: "WITH YOUR DREAMS ON THE FLOOR, COMPLY WITH EYES CHAINED TO THE TEST.", time: 3600 },
+    { text: "FIND A GROOM OR BRIDE, BONUS IF BRUNETTE.", time: 30 * 60 },
+    { text: "SPILL THEIR INSIDES AND PAINT YOUR ROOM PICTURESQUE.", time: 90 * 3600 },
+    { text: "TURN RIGHT AFTER TRAVELING 400,000 METERS.", time: 3600 * 48 },
+    { text: "PICK UP A KNIFE AND STAB A FAMILIAR WARM BODY.", time: 300 },
+    { text: "DO NOT GO HOME UNTIL YOU FINISH READING THE VALUE OF E: 2.71828...", time: 99 * 3600 }
+  ];
+
+  let isClearState = false;
+  let isProcessing = false;
+  let countdownInterval;
+  const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy0123456789!@#$%^&*';
+
+  const displayElement = document.getElementById('prescript-text');
+  const actionBtn = document.getElementById('action-btn');
+  const timerDisplay = document.getElementById('timer-display');
+  
+  const bgm = document.getElementById('bgm');
+  const sfxReceive = document.getElementById('sfx-receive');
+  const sfxClear = document.getElementById('sfx-clear');
+
+  function generatePrescript() {
+    if (Math.random() < 0.05) {
+      const secret = secrets[Math.floor(Math.random() * secrets.length)];
+      return { text: secret.text, time: secret.time };
+    }
+    const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    const getN = () => Math.floor(Math.random() * 65) + 1;
+    let s = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
+    while (s.includes("N")) { s = s.replace("N", getN()); }
+    const minSecs = 60;
+    const maxSecs = 99 * 3600;
+    return { text: s.toUpperCase(), time: Math.floor(Math.random() * (maxSecs - minSecs + 1)) + minSecs };
+  }
+
+  function decodeText(data) {
+    isProcessing = true;
+    actionBtn.disabled = true;
+    sfxReceive.currentTime = 0;
+    sfxReceive.play().catch(e => {});
+
+    let iterations = 0;
+    const interval = setInterval(() => {
+      displayElement.innerText = data.text.split("").map((c, i) => {
+        if (i < iterations) return data.text[i];
+        return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+      }).join("");
+
+      if (iterations >= data.text.length) {
+        clearInterval(interval);
+        isProcessing = false;
+        actionBtn.disabled = false;
+        actionBtn.innerText = "CLEAR"; 
+        isClearState = true;
+        startDeadline(data.time);
+      }
+      iterations += 1;
+    }, 15);
+  }
+
+  function startDeadline(secs) {
+    countdownInterval = setInterval(() => {
+      secs--;
+      timerDisplay.innerText = `[ TIME REMAINING: ${formatTime(secs)} ]`;
+      if (secs <= 0) {
+        clearInterval(countdownInterval);
+        document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
+        actionBtn.classList.add('violated-btn');
+        displayElement.innerHTML = "<span style='color: white; background: red; padding: 0 10px;'>!!! VIOLATION DETECTED !!!</span>";
+      }
+    }, 1000);
+  }
+
+  function formatTime(totalSeconds) {
+    if (totalSeconds <= 0) return "00:00:00";
+    let h = Math.floor(totalSeconds / 3600);
+    let m = Math.floor((totalSeconds % 3600) / 60);
+    let s = totalSeconds % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }
+
+  actionBtn.addEventListener("click", () => {
+    if (bgm.paused) { bgm.volume = 0.4; bgm.play(); }
+    if (isProcessing) return;
+
+    if (!isClearState) {
+      decodeText(generatePrescript());
+    } else {
+      isProcessing = true;
+      actionBtn.disabled = true;
+      sfxClear.currentTime = 0;
+      sfxClear.play();
+
+      const finalWord = "_CLEAR._";
+      let scrambleTicks = 0;
+      
+      // 1. Wipe text and show 8-letter scramble
+      const scrambleInterval = setInterval(() => {
+        displayElement.innerText = Array(8).fill(0).map(() => 
+          fullCharset[Math.floor(Math.random() * fullCharset.length)]
+        ).join("");
+
+        scrambleTicks++;
+
+        // 2. Resolve to _CLEAR._
+        if (scrambleTicks > 20) {
+          clearInterval(scrambleInterval);
+          
+          let decodeIter = 0;
+          const decodeFinal = setInterval(() => {
+            displayElement.innerText = finalWord.split("").map((c, i) => {
+              if (i < decodeIter) return finalWord[i];
+              return fullCharset[Math.floor(Math.random() * fullCharset.length)];
+            }).join("");
+
+            if (decodeIter >= finalWord.length) {
+              clearInterval(decodeFinal);
+              
+              // 3. Pause before full reset
+              setTimeout(() => {
+                isProcessing = false;
+                actionBtn.disabled = false;
+                timerDisplay.innerText = "";
+                clearInterval(countdownInterval);
+                displayElement.innerText = "...WAITING FOR SYNCHRONIZATION...";
+                document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
+                actionBtn.classList.remove('violated-btn');
+                actionBtn.innerText = "Receive";
+                isClearState = false;
+              }, 1200); 
+            }
+            decodeIter++;
+          }, 50);
+        }
+      }, 40);
+    }
+  });
+</script>
+</body>
+</html>
 
   const secrets = [
     { text: "SLEEP FOR A TOTAL OF 800 HOURS PER DAY.", time: 800 * 3600 },
