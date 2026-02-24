@@ -7,98 +7,118 @@
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --index-blue: #a0eaff;
-      --index-red: #ff3b3b;
-      --current-theme: var(--index-blue);
-    }
+:root {
+  --index-blue: #a0eaff;
+  --index-red: #ff3b3b;
+  --current-theme: var(--index-blue);
+}
 
-    /* FIX 1: Allow scrolling and better mobile height */
-    html, body { 
-      margin: 0; 
-      min-height: 100%; 
-      background-color: #020202; 
-      color: var(--current-theme);
-      font-family: 'Pixelify Sans', sans-serif; 
-      display: flex; 
-      flex-direction: column;
-      align-items: center;
-      overflow-x: hidden; 
-      overflow-y: auto; /* Allows scrolling when log grows */
-      transition: color 0.5s ease;
-    }
+/* FIX: Allow scrolling and better mobile height */
+html, body { 
+  margin: 0; 
+  min-height: 100%; 
+  background-color: #020202; 
+  color: var(--current-theme);
+  font-family: 'Pixelify Sans', sans-serif; 
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden; 
+  overflow-y: auto; /* Allows you to scroll down to see the log */
+  transition: color 0.5s ease;
+}
 
-    body::before {
-      content: " "; display: block; position: fixed; /* Fixed so it stays while scrolling */
-      top: 0; left: 0; bottom: 0; right: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
-                  linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-      z-index: 100; background-size: 100% 4px, 4px 100%; pointer-events: none;
-    }
+/* FIX: Changed position to fixed so scanlines don't move when scrolling */
+body::before {
+  content: " "; display: block; position: fixed;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+  z-index: 100; background-size: 100% 4px, 4px 100%; pointer-events: none;
+}
 
-    #container {
-      text-align: center; 
-      padding: 20px; 
-      width: 90%; 
-      max-width: 600px;
-      position: relative; 
-      z-index: 10;
-      margin-top: 5vh;
-    }
+#container {
+  text-align: center; 
+  padding: 20px; 
+  width: 90%; 
+  max-width: 600px;
+  position: relative; 
+  z-index: 10;
+  margin-top: 5vh;
+}
 
-    #logo {
-      width: 100%;
-      max-width: 200px; 
-      height: auto; 
-      margin-bottom: 20px;
-      opacity: 0.8;
-    }
-      
-    /* FIX 2: Responsive font size */
-    #prescript-text { 
-      font-size: clamp(16px, 5vw, 24px); 
-      line-height: 1.4; 
-      min-height: 150px; 
-      text-shadow: 0 0 8px var(--current-theme); 
-      font-weight: 500;
-      margin-bottom: 20px;
-    }
+#header { 
+  font-size: 12px; letter-spacing: 3px; margin-bottom: 20px; opacity: 0.6; 
+  text-shadow: 0 0 5px var(--current-theme); 
+}
 
-    #action-btn {
-      padding: 12px 35px;
-      background: transparent;
-      border: 1px solid var(--current-theme);
-      color: var(--current-theme);
-      font-family: inherit;
-      font-size: 18px;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: all 0.3s ease;
-    }
+#logo {
+  width: 100%;
+  max-width: 200px; 
+  height: auto; 
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+  
+/* FIX: Responsive font size so it fits mobile screens */
+#prescript-text { 
+  font-size: clamp(16px, 4.5vw, 24px); 
+  line-height: 1.5; 
+  min-height: 150px; 
+  text-shadow: 0 0 8px var(--current-theme); 
+  font-weight: 500;
+  display: flex; flex-direction: column; justify-content: center;
+  margin-bottom: 20px;
+}
 
-    /* FIX 3: Better Log Styling */
-    #prescript-log {
-      width: 100%;
-      margin-top: 30px; 
-      text-align: left; 
-      font-size: 14px; 
-      border-top: 1px solid #333; 
-      padding-top: 20px;
-      padding-bottom: 50px; /* Space at bottom */
-    }
+#action-btn {
+  padding: 12px 35px;
+  background: transparent;
+  border: 1px solid var(--current-theme);
+  color: var(--current-theme);
+  font-family: inherit;
+  font-size: 18px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
 
-    .log-entry {
-      margin-bottom: 15px; 
-      border-left: 2px solid var(--index-blue); 
-      padding-left: 10px; 
-      animation: fadeIn 0.5s ease;
-    }
+#action-btn:disabled { opacity: 0.2; cursor: not-allowed; }
 
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+#action-btn:hover:not(:disabled) {
+  background: var(--current-theme);
+  color: #020202;
+  box-shadow: 0 0 20px var(--current-theme);
+}
 
-    .secret-mode { animation: screenFlicker 0.08s infinite; }
-    @keyframes screenFlicker { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
+/* FIX: Log styling for visibility and readability */
+#prescript-log {
+  margin-top: 40px; 
+  text-align: left; 
+  font-size: 14px; 
+  border-top: 1px solid #333; 
+  padding-top: 20px;
+  padding-bottom: 80px; /* Extra space at the bottom */
+}
+
+.log-entry {
+  margin-bottom: 20px; 
+  border-left: 2px solid var(--index-blue); 
+  padding-left: 15px; 
+  opacity: 0.9;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 0.9; transform: translateY(0); }
+}
+
+/* Glitch effects (Keep these for Secret Mode) */
+.secret-mode { animation: screenFlicker 0.08s infinite; }
+@keyframes screenFlicker { 0% { opacity: 1; } 50% { opacity: 0.85; } 100% { opacity: 1; } }
+
   </style>
 </head>
 
