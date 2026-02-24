@@ -6,83 +6,111 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 
-<style>
-  :root {
-    --index-blue: #a0eaff;
-    --index-red: #ff3b3b;
-    --current-theme: var(--index-blue);
-  }
+  <style>
+    :root {
+      --index-blue: #a0eaff;
+      --index-red: #ff3b3b;
+      --current-theme: var(--index-blue);
+    }
 
-  html, body { 
-    margin: 0; min-height: 100%; 
-    background-color: #020202; 
-    color: var(--current-theme);
-    font-family: 'Pixelify Sans', sans-serif; 
-    display: flex; flex-direction: column; align-items: center;
-    overflow-x: hidden; overflow-y: auto;
-    transition: color 0.5s ease;
-  }
+    html, body { 
+      margin: 0; min-height: 100%; 
+      background-color: #020202; 
+      color: var(--current-theme);
+      font-family: 'Pixelify Sans', sans-serif; 
+      display: flex; flex-direction: column; align-items: center;
+      overflow-x: hidden; overflow-y: auto;
+      transition: color 0.5s ease;
+    }
 
-  /* Fixed background to prevent jumpiness on mobile scroll */
-  body::before {
-    content: " "; display: block; position: fixed;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-    z-index: 100; background-size: 100% 4px, 4px 100%; pointer-events: none;
-  }
+    /* Fixed background scanlines */
+    body::before {
+      content: " "; display: block; position: fixed;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                  linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+      z-index: 100; background-size: 100% 4px, 4px 100%; pointer-events: none;
+    }
 
-  #container {
-    text-align: center; padding: 20px; width: 90%; max-width: 600px;
-    position: relative; z-index: 10; margin-top: 20px;
-  }
+    #container {
+      text-align: center; padding: 20px; width: 90%; max-width: 600px;
+      position: relative; z-index: 10; margin-top: 20px;
+    }
 
-  #prescript-text { 
-    /* FIX: Prevents text from jumping/widening during scramble */
-    font-size: clamp(16px, 4.5vw, 22px); 
-    line-height: 1.4; min-height: 180px; 
-    text-shadow: 0 0 8px var(--current-theme); 
-    word-break: break-word; overflow-wrap: break-word;
-    display: flex; flex-direction: column; justify-content: center;
-  }
+    #logo {
+      width: 100%; max-width: 220px; height: auto; 
+      margin-bottom: 10px; opacity: 0.8;
+    }
 
-  #action-btn {
-    margin-top: 20px; padding: 12px 35px;
-    background: transparent; border: 1px solid var(--current-theme);
-    color: var(--current-theme); font-family: inherit;
-    font-size: 18px; cursor: pointer; text-transform: uppercase;
-  }
+    #prescript-text { 
+      font-size: clamp(16px, 4.5vw, 22px); 
+      line-height: 1.5; min-height: 220px; 
+      text-shadow: 0 0 8px var(--current-theme); 
+      word-break: break-word; overflow-wrap: break-word;
+      display: flex; flex-direction: column; justify-content: center;
+      margin-bottom: 20px;
+    }
 
-  /* FIX: Ensure the log is visible and scrollable */
-  #prescript-log {
-    margin-top: 40px; text-align: left; 
-    border-top: 1px solid #333; padding-top: 20px;
-    width: 100%; padding-bottom: 100px;
-  }
+    /* Button Group and Styling */
+    .button-group {
+      display: flex; gap: 15px; justify-content: center;
+      margin-top: 10px; flex-wrap: wrap;
+    }
 
-  .log-entry {
-    margin-bottom: 25px; border-left: 2px solid var(--index-blue); 
-    padding-left: 15px; font-size: 13px; line-height: 1.4;
-  }
+    #action-btn, #log-btn {
+      width: 160px; height: 50px;
+      background: transparent; border: 1px solid var(--current-theme);
+      color: var(--current-theme); font-family: inherit;
+      font-size: 16px; cursor: pointer; text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.4s ease, opacity 0.5s ease, transform 0.3s ease;
+    }
 
-  .log-timer {
-    color: var(--index-red); font-family: monospace;
-    font-size: 14px; margin-top: 5px; font-weight: bold;
-  }
-</style>
-  
+    #action-btn:hover:not(:disabled), #log-btn:hover {
+      background: var(--current-theme); color: #020202;
+      box-shadow: 0 0 15px var(--current-theme);
+    }
+
+    #action-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+    /* Fade Classes */
+    .hidden { opacity: 0; pointer-events: none; visibility: hidden; transform: translateY(10px); }
+    .visible { opacity: 1; pointer-events: auto; visibility: visible; transform: translateY(0); }
+
+    /* Log Section Styling */
+    #prescript-log {
+      margin-top: 40px; text-align: left; width: 100%;
+      border-top: 1px solid #333; padding-top: 20px; padding-bottom: 100px;
+    }
+
+    .log-entry {
+      margin-bottom: 25px; border-left: 2px solid var(--index-blue); 
+      padding-left: 15px; font-size: 13px; line-height: 1.4;
+      transition: all 0.5s ease;
+    }
+
+    .log-timer {
+      color: var(--index-red); font-family: monospace;
+      font-size: 14px; margin-top: 5px; font-weight: bold;
+    }
+
+    .violated { border-color: var(--index-red) !important; color: var(--index-red) !important; }
+
+    @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+    .pulsing { animation: pulse 2s infinite; }
+  </style>
 </head>
 
 <body>
   <div id="container">
-    <div id="header" style="opacity: 0.6; font-size: 12px; margin-bottom: 10px;">THE WILL OF THE CITY</div>
+    <div id="header" style="font-size: 12px; opacity: 0.6; letter-spacing: 3px; margin-bottom: 10px;">THE WILL OF THE CITY</div>
     <img id="logo" src="index_logo.png" alt="INDEX">
-    <div id="timer-display" style="font-family: monospace; color: var(--index-red); font-size: 1.2rem; margin-bottom: 15px;"></div>
+    <div id="timer-display" style="font-family: monospace; color: var(--index-red); font-size: 1.2rem; min-height: 1.5rem; margin-bottom: 10px;"></div>
     <div id="prescript-text">...WAITING FOR SYNCHRONIZATION...</div>
     
-    <div style="display: flex; gap: 10px; justify-content: center;">
-        <button id="action-btn">Receive</button>
-        <button id="log-btn" style="display: none; background: none; border: 1px solid var(--current-theme); color: var(--current-theme); font-family: inherit; cursor: pointer; padding: 5px 15px;">Log Prescript</button>
+    <div class="button-group">
+      <button id="action-btn">Receive</button>
+      <button id="log-btn" class="hidden">Log Prescript</button>
     </div>
 
     <div id="prescript-log"></div>
@@ -90,51 +118,54 @@
 
 <script>
   const sub_dict = {
-    // FIX 4: Cleaned up strings to prevent "of of" or "for for" issues
-    verbs: ["Nod to", "Tap", "Trace a line near", "Stand behind", "Mirror the posture of", "Whisper to", "Circle", "Point toward", "Adjust the collar of", "Sigh near", "Place a hand on", "Shift weight toward", "Ignore", "Bow to", "Wave at", "Wait beside", "Touch the shoulder of", "Hand a coin to", "Offer a seat to", "Hum to", "Check the watch of", "Step into the shadow of", "Inhale the scent of", "Adjust the glasses of", "Brush the sleeve of", "Count the heartbeats of", "Exhale toward", "Pivot away from", "Observe the reflection of"],
-    details: ["the left side of", "the shadow of", "the reflection of", "the personal space of", "the path ahead of", "the right shoulder of", "the hand of", "the bag of", "the glasses of", "the pocket of", "the hair of", "the sleeve of", "the wrist of", "the ear of", "the hem of the coat of", "the watch-face of", "the dominant hand of", "the thumb-nail of", "the lapel of"],
-    traits: ["wearing denim", "holding a phone", "with tired eyes", "carrying a bag", "wearing white shoes", "with a red garment", "looking at the sky", "checking the time", "leaning against a wall", "walking briskly", "with messy hair", "wearing a scarf", "holding a drink", "wearing spectacles", "carrying a book", "wearing a hat", "holding an umbrella", "with a backpack", "looking lost", "wearing gloves", "holding a key", "in a uniform", "wearing a ring", "with a mask", "wearing a watch", "with headphones", "holding a coin", "looking at a wristwatch", "holding a newspaper"],
-    triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "the wind shifts", "you feel a chill", "a phone rings", "someone coughs", "a light flickers", "you hear footsteps", "the temperature drops", "you smell ozone", "you smell coffee", "a dog barks", "someone calls a name", "a light turns green", "you see a red sign", "a leaf falls", "a bell rings", "the air feels damp", "you see a yellow object", "the crowd thins", "a coin hits the ground", "a siren blares"],
-    subjects: ["the price of ink", "a forgotten debt", "the weight of the City", "a dream about water", "the scent of old paper", "a silent agreement", "the shape of a shadow", "a missed opportunity", "the color of the sky", "a secret wish", "the taste of iron", "the path not taken", "a cold breeze", "the sound of rain", "a lost key", "the roots of a tree", "a drop of ink", "the concept of time", "the geometry of the district", "the silence between breaths"],
-    durations: ["for N seconds", "for N breaths", "until the target moves N steps", "for N minutes", "for N heartbeats", "until N shadows pass", "for a count of N"],
-    deadlines: ["within N minutes", "before the sun shifts N degrees", "within the next N hours", "before the next N bells", "within N steps", "within N blocks"]
+    verbs: ["Nod to", "Tap", "Trace a line near", "Stand behind", "Mirror the posture of", "Whisper to", "Circle", "Point toward", "Adjust the collar of", "Sigh near", "Place a hand on", "Shift weight toward", "Ignore", "Bow to", "Wave at", "Wait beside", "Touch the shoulder of", "Hand a coin to", "Offer a seat to", "Hum to"],
+    details: ["the left side of", "the shadow of", "the reflection of", "the personal space of", "the path ahead of", "the right shoulder of", "the hand of", "the bag of", "the glasses of", "the pocket of", "the ear of", "the wrist of"],
+    traits: ["wearing denim", "holding a phone", "with tired eyes", "carrying a bag", "wearing white shoes", "with a red garment", "looking at the sky", "checking the time", "leaning against a wall", "walking briskly", "with messy hair", "wearing a scarf"],
+    triggers: ["a car horn sounds", "a bird flies past", "a door latches", "someone laughs", "a white vehicle passes", "the wind shifts", "you feel a chill", "a phone rings", "a light flickers"],
+    subjects: ["the price of ink", "a forgotten debt", "the weight of the City", "a dream about water", "the scent of old paper", "a silent agreement", "the shape of a shadow"],
+    durations: ["for N seconds", "for N breaths", "until the target moves N steps", "for N minutes", "for N heartbeats"],
+    deadlines: ["within N minutes", "before the sun shifts N degrees", "within the next N hours", "within N steps", "within N blocks"]
   };
 
   let isClearState = false;
   let isProcessing = false;
   let currentPrescriptText = "";
   let countdownInterval;
+  const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
 
   const displayElement = document.getElementById('prescript-text');
   const actionBtn = document.getElementById('action-btn');
   const logBtn = document.getElementById('log-btn');
   const timerDisplay = document.getElementById('timer-display');
   const logContainer = document.getElementById('prescript-log');
-  const fullCharset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
 
-function generatePrescript() {
-  const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  const getN = () => Math.floor(Math.random() * 75) + 1;
+  function formatTime(secs) {
+    if (secs <= 0) return "00:00";
+    let m = Math.floor(secs / 60);
+    let s = secs % 60;
+    return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+  }
 
-  
-  let finalStr = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
-  
-  while (finalStr.includes("N")) { finalStr = finalStr.replace("N", getN()); }
-  return finalStr.toUpperCase();
-}
-
+  function generatePrescript() {
+    const getRand = (arr) => arr[Math.floor(Math.random() * arr.length)];
+    const getN = () => Math.floor(Math.random() * 65) + 1;
+    // Logical sentence structure fix
+    let s = `${getRand(sub_dict.verbs)} ${getRand(sub_dict.details)} a person ${getRand(sub_dict.traits)} ${getRand(sub_dict.durations)}, ${getRand(sub_dict.deadlines)}, exactly after ${getRand(sub_dict.triggers)}, regarding ${getRand(sub_dict.subjects)}, at a distance of N steps from the target.`;
+    while (s.includes("N")) { s = s.replace("N", getN()); }
+    return s.toUpperCase();
+  }
 
   function decodeText(text) {
     isProcessing = true;
     actionBtn.disabled = true;
-    logBtn.style.display = "none";
+    logBtn.className = "hidden";
     timerDisplay.innerText = "";
     clearInterval(countdownInterval);
 
     let iterations = 0;
     const interval = setInterval(() => {
-      displayElement.innerText = text.split("").map((char, index) => {
-        if (index < iterations) return text[index];
+      displayElement.innerText = text.split("").map((c, i) => {
+        if (i < iterations) return text[i];
         return fullCharset[Math.floor(Math.random() * fullCharset.length)];
       }).join("");
 
@@ -145,91 +176,76 @@ function generatePrescript() {
         actionBtn.innerText = "Clear";
         isClearState = true;
         currentPrescriptText = text;
+        logBtn.className = "visible";
         startDeadline(text);
-        logBtn.style.display = "inline-block";
       }
       iterations += 0.5;
-    }, 10);
+    }, 15);
   }
 
   function startDeadline(text) {
     const match = text.match(/\d+/);
-    let totalSeconds = match ? parseInt(match[0]) : 60;
-    if (text.includes("MINUTES")) totalSeconds *= 60;
-    else if (text.includes("HOURS")) totalSeconds *= 3600;
+    let secs = match ? parseInt(match[0]) : 60;
+    if (text.includes("MINUTES")) secs *= 60;
+    else if (text.includes("HOURS")) secs *= 3600;
 
     countdownInterval = setInterval(() => {
-      totalSeconds--;
-      timerDisplay.innerText = `[ TIME REMAINING: ${formatTime(totalSeconds)} ]`;
-      if (totalSeconds <= 0) {
+      secs--;
+      timerDisplay.innerText = `[ TIME REMAINING: ${formatTime(secs)} ]`;
+      if (secs <= 0) {
         clearInterval(countdownInterval);
-        triggerViolation();
+        document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
+        displayElement.innerHTML = "<span style='color: white; background: red; padding: 0 5px;'>!!! VIOLATION DETECTED !!!</span><br><br>THE WILL HAS BEEN IGNORED.";
       }
     }, 1000);
   }
 
-  function formatTime(secs) {
-    if (secs <= 0) return "00:00";
-    let h = Math.floor(secs / 3600);
-    let m = Math.floor((secs % 3600) / 60);
-    let s = secs % 60;
-    return `${h > 0 ? h + ':' : ''}${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
-  }
-
   logBtn.addEventListener('click', () => {
-  const entry = document.createElement('div');
-  entry.className = "log-entry";
+    const entry = document.createElement('div');
+    entry.className = "log-entry";
+    
+    const match = currentPrescriptText.match(/\d+/);
+    let secs = match ? parseInt(match[0]) : 60;
+    if (currentPrescriptText.includes("MINUTES")) secs *= 60;
+    else if (currentPrescriptText.includes("HOURS")) secs *= 3600;
 
-  // Calculate time logic
-  const match = currentPrescriptText.match(/\d+/);
-  let secs = match ? parseInt(match[0]) : 60;
-  if (currentPrescriptText.includes("MINUTES")) secs *= 60;
-  else if (currentPrescriptText.includes("HOURS")) secs *= 3600;
+    const t = document.createElement('div');
+    t.innerText = currentPrescriptText;
+    
+    const tm = document.createElement('div');
+    tm.className = "log-timer";
+    tm.innerText = `REMAINING: ${formatTime(secs)}`;
+    
+    entry.append(t, tm);
+    logContainer.prepend(entry);
+    logBtn.className = "hidden";
 
-  const logText = document.createElement('div');
-  logText.innerText = currentPrescriptText;
-  
-  const logTimer = document.createElement('div');
-  logTimer.className = "log-timer";
-  // FIX: Set initial text immediately so it's not empty
-  logTimer.innerText = `REMAINING: ${formatTime(secs)}`;
-  
-  entry.appendChild(logText);
-  entry.appendChild(logTimer);
-  logContainer.prepend(entry);
-
-  const logInterval = setInterval(() => {
-    secs--;
-    logTimer.innerText = `REMAINING: ${formatTime(secs)}`;
-    if (secs <= 0) {
-      clearInterval(logInterval);
-      logTimer.innerText = "!!! VIOLATED !!!";
-      entry.style.color = "var(--index-red)";
-      entry.style.borderColor = "var(--index-red)";
-    }
-  }, 1000);
-  
-  logBtn.style.display = "none";
-});
-
-
-  function triggerViolation() {
-    document.documentElement.style.setProperty('--current-theme', 'var(--index-red)');
-    displayElement.innerHTML = "<span style='color: white;'> !!! VIOLATION DETECTED !!! </span><br><br>THE WILL HAS BEEN IGNORED.";
-  }
+    const logInterval = setInterval(() => {
+      secs--;
+      tm.innerText = `REMAINING: ${formatTime(secs)}`;
+      if (secs <= 0) {
+        clearInterval(logInterval);
+        tm.innerText = "!!! VIOLATED !!!";
+        entry.classList.add("violated");
+      }
+    }, 1000);
+  });
 
   actionBtn.addEventListener("click", () => {
     if (isProcessing) return;
     if (!isClearState) {
       decodeText(generatePrescript());
     } else {
+      // Clear main display
       timerDisplay.innerText = "";
       clearInterval(countdownInterval);
       displayElement.innerText = "...WAITING FOR SYNCHRONIZATION...";
       document.documentElement.style.setProperty('--current-theme', 'var(--index-blue)');
       actionBtn.innerText = "Receive";
       isClearState = false;
-      logBtn.style.display = "none";
+      logBtn.className = "hidden";
+      // Clear the Log list as well
+      logContainer.innerHTML = "";
     }
   });
 </script>
